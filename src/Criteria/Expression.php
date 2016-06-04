@@ -6,14 +6,17 @@ class Expression
 {
     /**
      * $value.
+     *
      * @var
      */
     protected $value;
 
     /**
      * __construct.
+     *
      * @method __construct
-     * @param  mixed      $value
+     *
+     * @param mixed $value
      */
     public function __construct($value)
     {
@@ -22,7 +25,9 @@ class Expression
 
     /**
      * getValue.
+     *
      * @method getValue
+     *
      * @return mixed
      */
     public function getValue()
@@ -32,7 +37,9 @@ class Expression
 
     /**
      * __toString.
+     *
      * @method __toString
+     *
      * @return string
      */
     public function __toString()

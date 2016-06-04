@@ -6,18 +6,21 @@ class Item
 {
     /**
      * $type.
+     *
      * @var string
      */
     public $type;
 
     /**
      * $method.
+     *
      * @var string
      */
     public $method;
 
     /**
      * $parameters.
+     *
      * @var mixed
      */
     public $parameters;

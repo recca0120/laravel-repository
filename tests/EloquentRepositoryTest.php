@@ -224,8 +224,8 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repositoryUsers = $repository->findBy($criteria);
 
         $modelUsers = User::join('user_roles', function ($query) {
-                return $query->on('users.id', '=', 'user_roles.user_id');
-            })
+            return $query->on('users.id', '=', 'user_roles.user_id');
+        })
             ->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());

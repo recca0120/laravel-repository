@@ -11,9 +11,12 @@ class EloquentFilter extends Filter
 {
     /**
      * applyCriteria.
+     *
      * @method applyCriteria
-     * @param  mixed        $model
-     * @param  \Recca0120\Repository\Criteria\Item        $criteriaItem  
+     *
+     * @param mixed                               $model
+     * @param \Recca0120\Repository\Criteria\Item $criteriaItem
+     *
      * @return mixed
      */
     protected function applyCriteria($model, $criteriaItem)
