@@ -1,0 +1,32 @@
+{
+    "name": "recca0120/repository",
+    "description": "Repository for Laravel 5",
+    "keywords": ["laravel", "repository"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "recca0120",
+            "email": "recca0120@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "^5.2",
+        "illuminate/database": "^5.2",
+        "illuminate/pagination": "^5.2"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "~0.9.2",
+        "nesbot/carbon": "~1.20",
+        "phpunit/phpunit": "~4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Recca0120\\Repository\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
