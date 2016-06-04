@@ -6,7 +6,7 @@ use Mockery as m;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\EloquentRepository;
 
-class RepositoryTest extends PHPUnit_Framework_TestCase
+class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
 {
     use Laravel;
 
@@ -37,7 +37,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
 
         $faker = FakerFactory::create();
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             User::create([
                 'name'     => sprintf('%03d', $i + 1),
                 'email'    => sprintf('%03d@test.com', $i + 1),
@@ -118,7 +118,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_find_by_criteria()
+    public function test_find_by_criteria()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -135,7 +135,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_find_by_criteria_where()
+    public function test_find_by_criteria_where()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -148,7 +148,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_find_by_criteria_where_closure()
+    public function test_find_by_criteria_where_closure()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -164,7 +164,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_find_by_criteria_or_where()
+    public function test_find_by_criteria_or_where()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -179,7 +179,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_find_by_criteria_or_where_closure()
+    public function test_find_by_criteria_or_where_closure()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -197,7 +197,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_criteria_where_has()
+    public function test_criteria_where_has()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -214,7 +214,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_criteria_join()
+    public function test_criteria_join()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -224,14 +224,14 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $repositoryUsers = $repository->findBy($criteria);
 
         $modelUsers = User::join('user_roles', function ($query) {
-            return $query->on('users.id', '=', 'user_roles.user_id');
-        })
+                return $query->on('users.id', '=', 'user_roles.user_id');
+            })
             ->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_criteria_order_by()
+    public function test_criteria_order_by()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -244,7 +244,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_criteria_select()
+    public function test_criteria_select()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -257,7 +257,7 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_criteria_experssion()
+    public function test_criteria_experssion()
     {
         $repository = new EloquentRepository(new User());
         $criteria = (new Criteria())
@@ -270,12 +270,52 @@ class RepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
 
-    public function test_eloquent_repository_criteria_paginated()
+    public function test_criteria_paginated()
     {
         $repository = new EloquentRepository(new User());
         $repositoryUsers = $repository->paginatedAll(15);
 
         $modelUsers = User::paginate(15);
+
+        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+    }
+
+    public function test_criteria_with()
+    {
+        $repository = new EloquentRepository(new User());
+        $criteria = (new Criteria())
+            ->with('roles');
+        $repositoryUsers = $repository->findBy($criteria);
+
+        $modelUsers = User::with('roles')->get();
+
+        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+    }
+
+    public function test_find_by_array()
+    {
+        $repository = new EloquentRepository(new User());
+        $repositoryUsers = $repository->findBy([
+            ['name', '=', '0002'],
+            ['email', '=', '0002@test.com'],
+        ]);
+
+        $modelUsers = User::where('name', '0002')
+            ->where('email', '0002@test.com')->get();
+
+        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+    }
+
+    public function test_find_by_array_key()
+    {
+        $repository = new EloquentRepository(new User());
+        $repositoryUsers = $repository->findBy([
+            'name'  => '0002',
+            'email' => '0002@test.com',
+        ]);
+
+        $modelUsers = User::where('name', '0002')
+            ->where('email', '0002@test.com')->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }

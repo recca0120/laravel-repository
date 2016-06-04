@@ -2,11 +2,9 @@
 
 namespace Recca0120\Repository;
 
-use Closure;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Expression as QueryExpression;
 use Recca0120\Repository\Contracts\EloquentRepository as EloquentRepositoryContract;
-use Recca0120\Repository\Criteria\Expression as CriteriaExpression;
+use Recca0120\Repository\Filters\EloquentFilter;
 
 class EloquentRepository implements EloquentRepositoryContract
 {
@@ -24,7 +22,7 @@ class EloquentRepository implements EloquentRepositoryContract
 
     public function findBy($criteria, $limit = null, $offset = null)
     {
-        $model = $this->applyCriteria($this->cloneModel(), $criteria);
+        $model = $this->matching($criteria);
 
         if (is_null($limit) === false) {
             $model = $model->take($limit);
@@ -44,14 +42,14 @@ class EloquentRepository implements EloquentRepositoryContract
 
     public function paginatedBy($criteria, $perPage = null)
     {
-        $model = $this->applyCriteria($this->cloneModel(), $criteria);
+        $model = $this->matching($criteria);
 
         return $model->paginate($perPage);
     }
 
     public function findOneBy($criteria)
     {
-        $model = $this->applyCriteria($this->cloneModel(), $criteria);
+        $model = $this->matching($criteria);
 
         return $model->first();
     }
@@ -85,50 +83,8 @@ class EloquentRepository implements EloquentRepositoryContract
         return clone $this->model;
     }
 
-    protected function applyCriteria($model, $criteria)
+    public function matching($criteria)
     {
-        if (empty($criteria) === true) {
-            return $model;
-        }
-
-        $bindings = $criteria->getBindings();
-        foreach ($bindings as $key => $parameters) {
-            if (count($parameters) === 0) {
-                continue;
-            }
-            $method = 'applyCriteria'.ucfirst($key);
-            if (method_exists($this, $method)) {
-                $model = call_user_func_array([$this, $method], [$model, $parameters]);
-            } else {
-                $model = $this->doApplyCriteria($model, $parameters);
-            }
-        }
-
-        return $model;
-    }
-
-    protected function doApplyCriteria($model, $bindings)
-    {
-        foreach ($bindings as $binding) {
-            $method = $binding['method'];
-            $parameters = array_map(function ($parameter) use ($method) {
-                if ($parameter instanceof Closure) {
-                    $criteria = call_user_func($parameter, new Criteria());
-
-                    return function ($query) use ($criteria) {
-                        return $this->applyCriteria($query, $criteria);
-                    };
-                }
-
-                if ($parameter instanceof CriteriaExpression) {
-                    return new QueryExpression($parameter->getValue());
-                }
-
-                return $parameter;
-            }, $binding['parameters']);
-            $model = call_user_func_array([$model, $method], $parameters);
-        }
-
-        return $model;
+        return (new EloquentFilter())->apply($this->cloneModel(), $criteria);
     }
 }

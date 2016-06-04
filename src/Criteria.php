@@ -2,55 +2,60 @@
 
 namespace Recca0120\Repository;
 
+use Recca0120\Repository\Criteria\Collection;
 use Recca0120\Repository\Criteria\Expression;
+use Recca0120\Repository\Criteria\Item;
 
-class Criteria
+class Criteria extends Collection
 {
-    protected $bindings = [
-        'select'  => [],
-        'where'   => [],
-        'join'    => [],
-        'having'  => [],
-        'order'   => [],
-        'union'   => [],
-        'groupBy' => [],
-        'on'      => [],
+    protected $types = [
+        'select',
+        'where',
+        'join',
+        'having',
+        'order',
+        'union',
+        'groupBy',
+        'on',
+        'with',
     ];
-
-    protected function addBinding($type, $method, $parameters)
-    {
-        $this->bindings[$type][] = [
-            'method'     => strtolower($method),
-            'parameters' => $parameters,
-        ];
-
-        return $this;
-    }
-
-    public function getBindings()
-    {
-        return $this->bindings;
-    }
 
     public function __call($method, $parameters)
     {
-        if (preg_match('/'.implode('|', array_keys($this->bindings)).'/i', $method, $match) !== false) {
-            $this->addBinding($match[0], $method, $parameters);
+        if (preg_match('/'.implode('|', $this->types).'/i', $method, $match) !== false) {
+            $this->push(new Item($match[0], $method, $parameters));
         }
 
         return $this;
     }
 
+    /**
+     * alias raw.
+     *
+     * @param mixed $value
+     *
+     * @return \Recca0120\Repository\Criteria\Expression
+     */
     public static function expr($value)
     {
         return static::raw($value);
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return \Recca0120\Repository\Criteria\Expression
+     */
     public static function raw($value)
     {
         return new Expression($value);
     }
 
+    /**
+     * Creates an instance of the class.
+     *
+     * @return Criteria
+     */
     public static function create()
     {
         return new static();
