@@ -6,16 +6,16 @@ use Recca0120\Repository\Criteria;
 
 abstract class Filter
 {
-    /**
-     *
-     */
     abstract protected function applyCriteria($model, $criteriaItem);
 
     /**
      * aookt.
+     *
      * @method apply
-     * @param  mixed $model
-     * @param  mixed $criteria
+     *
+     * @param mixed $model
+     * @param mixed $criteria
+     *
      * @return $mixed
      */
     public function apply($model, $criteria)

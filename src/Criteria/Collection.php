@@ -8,15 +8,19 @@ class Collection
 {
     /**
      * $items.
+     *
      * @var array
      */
     protected $items = [];
 
     /**
      * each.
+     *
      * @method each
-     * @param  Closure $callable 
-     * @return self            
+     *
+     * @param Closure $callable
+     *
+     * @return self
      */
     public function each(Closure $callable)
     {
@@ -29,9 +33,12 @@ class Collection
 
     /**
      * push.
+     *
      * @method push
-     * @param  Item   $item 
-     * @return self       
+     *
+     * @param Item $item
+     *
+     * @return self
      */
     public function push(Item $item)
     {
