@@ -8,8 +8,20 @@ use Recca0120\Repository\Matchers\EloquentMatcher;
 
 class EloquentRepository implements EloquentRepositoryContract
 {
+    /**
+     * $model
+     *
+     * @var \Illuminate\Database\Eloquent\Model
+     */
     protected $model;
 
+    /**
+     * __construct
+     *
+     * @method __construct
+     *
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     */
     public function __construct(Model $model)
     {
         $this->model = $model;

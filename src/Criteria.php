@@ -9,6 +9,11 @@ use Recca0120\Repository\Criteria\Expression;
 
 class Criteria extends Collection
 {
+    /**
+     * $types
+     *
+     * @var array
+     */
     protected $types = [
         'select',
         'where',
