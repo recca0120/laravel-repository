@@ -9,14 +9,14 @@ use Recca0120\Repository\Matchers\EloquentMatcher;
 class EloquentRepository implements EloquentRepositoryContract
 {
     /**
-     * $model
+     * $model.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $model;
 
     /**
-     * __construct
+     * __construct.
      *
      * @method __construct
      *
@@ -59,6 +59,7 @@ class EloquentRepository implements EloquentRepositoryContract
      * @method findBy
      *
      * @param mixed $criteria
+     * @param array $orderBy
      * @param int   $limit
      * @param int   $offset
      *
@@ -205,9 +206,11 @@ class EloquentRepository implements EloquentRepositoryContract
      *
      * @method newInstance
      *
+     * @param array $data
+     *
      * @return \Illuminate\Database\Eloquent
      */
-    public function newInstance($data)
+    public function newInstance($data = [])
     {
         return $this->cloneModel()
             ->forceFill($data);
