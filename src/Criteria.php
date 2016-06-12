@@ -10,7 +10,7 @@ use Recca0120\Repository\Criteria\Expression;
 class Criteria extends Collection
 {
     /**
-     * $types
+     * $types.
      *
      * @var array
      */
@@ -24,6 +24,8 @@ class Criteria extends Collection
         'groupBy',
         'on',
         'with',
+        'take',
+        'skip',
     ];
 
     /**
