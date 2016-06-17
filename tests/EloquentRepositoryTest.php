@@ -158,8 +158,8 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repositoryUsers = $repository->findBy($criteria);
 
         $modelUsers = User::where(function ($query) {
-                return $query->where('name', '0001');
-            })->get();
+            return $query->where('name', '0001');
+        })->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
@@ -190,9 +190,9 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repositoryUsers = $repository->findBy($criteria);
 
         $modelUsers = User::where(function ($query) {
-                return $query->where('name', '0001')
+            return $query->where('name', '0001')
                     ->orWhere('name', '0002');
-            })->get();
+        })->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
     }
@@ -207,8 +207,8 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repositoryUsers = $repository->findBy($criteria);
 
         $modelUsers = User::whereHas('roles', function ($query) {
-                return $query->where('id', '=', 1);
-            })
+            return $query->where('id', '=', 1);
+        })
             ->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
@@ -224,8 +224,8 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repositoryUsers = $repository->findBy($criteria);
 
         $modelUsers = User::join('user_roles', function ($query) {
-                return $query->on('users.id', '=', 'user_roles.user_id');
-            })
+            return $query->on('users.id', '=', 'user_roles.user_id');
+        })
             ->get();
 
         $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());

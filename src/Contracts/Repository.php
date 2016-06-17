@@ -61,18 +61,76 @@ interface Repository
 
     /**
      * paginatedAll.
+     *
      * @method paginatedAll
-     * @param  int       $perPage
+     *
+     * @param int $perPage
+     *
      * @return |illuminate\Pagination\AbstractPaginator
      */
     public function paginatedAll($perPage = null);
 
     /**
      * paginatedBy.
+     *
      * @method paginatedBy
-     * @param  mixed      $criteria
-     * @param  int      $perPage
+     *
+     * @param mixed $criteria
+     * @param int   $perPage
+     *
      * @return |illuminate\Pagination\AbstractPaginator
      */
     public function paginatedBy($criteria, $perPage = null);
+
+    /**
+     * create.
+     *
+     * @method create
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function create($data);
+
+    /**
+     * update.
+     *
+     * @method update
+     *
+     * @param array $data
+     * @param int   $id
+     *
+     * @return mixed
+     */
+    public function update($data, $id);
+
+    /**
+     * delete.
+     *
+     * @method delete
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete($id);
+
+    /**
+     * cloneModel.
+     *
+     * @method cloneModel
+     *
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function cloneModel();
+
+    /**
+     * newInstance.
+     *
+     * @method newInstance
+     *
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function newInstance($data);
 }
