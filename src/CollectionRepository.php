@@ -2,15 +2,18 @@
 
 namespace Recca0120\Repository;
 
-use Illuminate\Database\Eloquent\Model;
-use Recca0120\Repository\Matchers\EloquentMatcher;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Fluent;
+use Recca0120\Repository\Matchers\CollectionMatcher;
 
-class EloquentRepository extends AbstractRepository
+class CollectionRepository extends AbstractRepository
 {
     /**
      * $model.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \Illuminate\Support\Collection
      */
     protected $model;
 
@@ -19,11 +22,11 @@ class EloquentRepository extends AbstractRepository
      *
      * @method __construct
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param \Illuminate\Support\Collection $model
      */
-    public function __construct(Model $model)
+    public function __construct(Collection $model)
     {
-        $this->model = $model;
+        $this->model = $model->load();
     }
 
     /**
@@ -37,7 +40,7 @@ class EloquentRepository extends AbstractRepository
      */
     public function matching($criteria)
     {
-        return (new EloquentMatcher())->apply($this->cloneModel(), $criteria);
+        return (new CollectionMatcher())->apply($this->cloneModel(), $criteria);
     }
 
     /**
@@ -51,7 +54,7 @@ class EloquentRepository extends AbstractRepository
      */
     public function find($id)
     {
-        return $this->cloneModel()->find($id);
+        return $this->cloneModel()->where('id', $id)->first();
     }
 
     /**
@@ -65,7 +68,6 @@ class EloquentRepository extends AbstractRepository
      */
     public function create($data)
     {
-        return $this->cloneModel()->create($data);
     }
 
     /**
@@ -80,12 +82,6 @@ class EloquentRepository extends AbstractRepository
      */
     public function update($data, $id)
     {
-        $model = $this->find($id)
-            ->fill($data);
-
-        $model->save();
-
-        return $model;
     }
 
     /**
@@ -99,7 +95,6 @@ class EloquentRepository extends AbstractRepository
      */
     public function delete($id)
     {
-        return $this->find($id)->delete();
     }
 
     /**
@@ -109,12 +104,11 @@ class EloquentRepository extends AbstractRepository
      *
      * @param array $data
      *
-     * @return \Illuminate\Database\Eloquent
+     * @return \Illuminate\Support\Fluent
      */
     public function newInstance($data = [])
     {
-        return $this->cloneModel()
-            ->forceFill($data);
+        return new Fluent($data);
     }
 
     /**
@@ -141,7 +135,7 @@ class EloquentRepository extends AbstractRepository
             $model = $model->skip($offset);
         }
 
-        return $model->get();
+        return $model;
     }
 
     /**
@@ -158,8 +152,15 @@ class EloquentRepository extends AbstractRepository
      */
     public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
     {
-        $model = $this->matching($criteria);
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        $perPage = $perPage ?: 15;
+        $items = $this->findBy($criteria);
+        $total = $items->count();
+        $items = $items->forPage($page, $perPage);
 
-        return $model->paginate($perPage, ['*'], $pageName, $page);
+        return new LengthAwarePaginator($items, $total, $perPage, $page, [
+            'path'     => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
     }
 }

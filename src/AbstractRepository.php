@@ -15,20 +15,6 @@ abstract class AbstractRepository implements RepositoryContract
     protected $model;
 
     /**
-     * find.
-     *
-     * @method find
-     *
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function find($id)
-    {
-        return $this->cloneModel()->find($id);
-    }
-
-    /**
      * findAll.
      *
      * @method findAll
@@ -38,33 +24,6 @@ abstract class AbstractRepository implements RepositoryContract
     public function findAll()
     {
         return $this->findBy([]);
-    }
-
-    /**
-     * findBy.
-     *
-     * @method findBy
-     *
-     * @param mixed $criteria
-     * @param array $orderBy
-     * @param int   $limit
-     * @param int   $offset
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function findBy($criteria, $limit = null, $offset = null)
-    {
-        $model = $this->matching($criteria);
-
-        if (is_null($limit) === false) {
-            $model = $model->take($limit);
-        }
-
-        if (is_null($offset) === false) {
-            $model = $model->skip($offset);
-        }
-
-        return $model->get();
     }
 
     /**
@@ -92,26 +51,9 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return |illuminate\Pagination\AbstractPaginator
      */
-    public function paginatedAll($perPage = null)
+    public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
     {
-        return $this->paginatedBy([]);
-    }
-
-    /**
-     * paginatedBy.
-     *
-     * @method paginatedBy
-     *
-     * @param mixed $criteria
-     * @param int   $perPage
-     *
-     * @return |illuminate\Pagination\AbstractPaginator
-     */
-    public function paginatedBy($criteria, $perPage = null)
-    {
-        $model = $this->matching($criteria);
-
-        return $model->paginate($perPage);
+        return $this->paginatedBy([], $perPage = null, $pageName = 'page', $page = null);
     }
 
     /**
@@ -125,60 +67,4 @@ abstract class AbstractRepository implements RepositoryContract
     {
         return clone $this->model;
     }
-
-    /**
-     * findOneBy.
-     *
-     * @method findOneBy
-     *
-     * @param mixed $criteria
-     *
-     * @return mixed
-     */
-    abstract public function matching($criteria);
-
-    /**
-     * create.
-     *
-     * @method create
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
-    abstract public function create($data);
-
-    /**
-     * update.
-     *
-     * @method update
-     *
-     * @param array $data
-     * @param int   $id
-     *
-     * @return mixed
-     */
-    abstract public function update($data, $id);
-
-    /**
-     * delete.
-     *
-     * @method delete
-     *
-     * @param int $id
-     *
-     * @return bool
-     */
-    abstract public function delete($id);
-
-    /**
-     * newInstance.
-     *
-     * @method newInstance
-     *
-     * @param array $data
-     *
-     * @return mixed
-     */
-    abstract public function newInstance($data = []);
 }

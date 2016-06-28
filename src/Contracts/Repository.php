@@ -68,7 +68,7 @@ interface Repository
      *
      * @return |illuminate\Pagination\AbstractPaginator
      */
-    public function paginatedAll($perPage = null);
+    public function paginatedAll($perPage = null, $pageName = 'page', $page = null);
 
     /**
      * paginatedBy.
@@ -80,7 +80,7 @@ interface Repository
      *
      * @return |illuminate\Pagination\AbstractPaginator
      */
-    public function paginatedBy($criteria, $perPage = null);
+    public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null);
 
     /**
      * create.
