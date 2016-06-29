@@ -26,7 +26,7 @@ class CollectionRepository extends AbstractRepository
      */
     public function __construct(Collection $model)
     {
-        $this->model = $model->load();
+        $this->model = $model->make();
     }
 
     /**
