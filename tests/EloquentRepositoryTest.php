@@ -208,4 +208,18 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository = new EloquentRepository($model);
         $repository->findBy($criteria);
     }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function test_call_undefined_criteria()
+    {
+        $criteria = new Criteria();
+        $criteria->test();
+    }
+
+    public function test_echo_criteria_expression()
+    {
+        echo Criteria::expr('test');
+    }
 }

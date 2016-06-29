@@ -72,7 +72,7 @@ class Criteria extends Collection
      */
     public function __call($method, $parameters)
     {
-        if (preg_match('/'.implode('|', $this->types).'/i', $method, $match) !== false) {
+        if (preg_match('/'.implode('|', $this->types).'/i', $method, $match) != false) {
             $this->push(new Action($match[0], $method, $parameters));
 
             return $this;
