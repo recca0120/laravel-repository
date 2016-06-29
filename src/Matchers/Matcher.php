@@ -14,7 +14,7 @@ abstract class Matcher
      * @method apply
      *
      * @param mixed $model
-     * @param mixed $criteria
+     * @param mixed $items
      *
      * @return $mixed
      */
@@ -25,12 +25,8 @@ abstract class Matcher
         }
 
         $criteria = (is_array($criteria) === false) ? [$criteria] : $criteria;
-
         foreach ($criteria as $key => $value) {
             $this->castToCriteria($value, $key)->each(function ($action) use (&$model) {
-                if (count($action->parameters) === 0) {
-                    return;
-                }
                 $method = sprintf('applyCriteria%s', ucfirst($action->method));
                 $method = method_exists($this, $method) ? $method : 'applyCriteria';
                 $model = call_user_func_array([$this, $method], [$model, $action]);

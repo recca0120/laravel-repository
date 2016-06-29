@@ -21,9 +21,9 @@ class EloquentMatcher extends Matcher
      */
     protected function applyCriteria($model, $action)
     {
-        if (empty($action->parameters) === true) {
-            return $model;
-        }
+        // if (empty($action->parameters) === true) {
+        //     return $model;
+        // }
 
         return call_user_func_array([$model, $action->method], array_map(function ($parameter) {
             if ($parameter instanceof Closure) {

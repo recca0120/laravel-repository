@@ -72,12 +72,12 @@ class Criteria extends Collection
      */
     public function __call($method, $parameters)
     {
-        if (preg_match('/'.implode('|', $this->types).'/i', $method, $match) !== false) {
+        if (preg_match('/'.implode('|', $this->types).'/i', $method, $match) != false) {
             $this->push(new Action($match[0], $method, $parameters));
 
             return $this;
         }
 
-        throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+        throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
     }
 }

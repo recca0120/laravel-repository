@@ -1,393 +1,225 @@
 <?php
 
-use Faker\Factory as FakerFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Expression;
 use Mockery as m;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\EloquentRepository;
 
 class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
 {
-    use Laravel;
-
-    public function setUp()
-    {
-        $app = $this->createApplication();
-        $db = $this->createDatabase();
-        Schema::create('users', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email');
-            $table->string('password', 60);
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('roles', function ($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('description');
-            $table->timestamps();
-        });
-
-        Schema::create('user_roles', function ($table) {
-            $table->integer('user_id');
-            $table->integer('role_id');
-        });
-
-        $faker = FakerFactory::create();
-
-        for ($i = 0; $i < 3; $i++) {
-            User::create([
-                'name'     => sprintf('%03d', $i + 1),
-                'email'    => sprintf('%03d@test.com', $i + 1),
-                'password' => $faker->text,
-            ]);
-        }
-
-        Role::create([
-            'name'        => 'superuser',
-            'description' => 'superuser',
-        ]);
-
-        Role::create([
-            'name'        => 'administrator',
-            'description' => 'administrator',
-        ]);
-
-        User::find(1)->roles()->sync([1]);
-    }
-
     public function tearDown()
     {
         m::close();
-        Schema::drop('users');
     }
 
     public function test_repository_create()
     {
-        $repository = new EloquentRepository(new User());
-        $repositoryUser = $repository->create([
-            'name'     => 'test9999',
-            'email'    => 'test9999@test.com',
-            'password' => str_random(30),
-        ]);
+        $data = ['a' => 'b'];
+        $model = m::mock(Model::class)
+            ->shouldReceive('create')->with($data)->andReturnSelf()
+            ->mock();
 
-        $modelUser = User::where('name', '=', 'test9999')->first();
-
-        $this->assertSame($repositoryUser->id, $modelUser->id);
-    }
-
-    public function test_repository_find()
-    {
-        $repository = new EloquentRepository(new User());
-        $repositoryUser = $repository->find(1);
-
-        $modelUser = User::find(1);
-
-        $this->assertSame($repositoryUser->id, $modelUser->id);
+        $repository = new EloquentRepository($model);
+        $result = $repository->create($data);
+        $this->assertSame($result, $model);
     }
 
     public function test_repository_update()
     {
-        $repository = new EloquentRepository(new User());
-        $repositoryUser = $repository->update([
-            'password' => 'test_update',
-        ], 2);
+        $id = 1;
+        $data = ['a' => 'b'];
+        $model = m::mock(Model::class)
+            ->shouldReceive('find')->with($id)->andReturnSelf()
+            ->shouldReceive('fill')->with($data)->andReturnSelf()
+            ->shouldReceive('save')
+            ->mock();
 
-        $modelUser = User::find(2);
-
-        $this->assertSame($repositoryUser->id, $modelUser->id);
-        $this->assertSame($modelUser->password, 'test_update');
+        $repository = new EloquentRepository($model);
+        $result = $repository->update($data, $id);
+        $this->assertSame($result, $model);
     }
 
     public function test_repository_delete()
     {
-        $counter = User::count();
-        $repository = new EloquentRepository(new User());
+        $id = 1;
+        $model = m::mock(Model::class)
+            ->shouldReceive('find')->with($id)->andReturnSelf()
+            ->shouldReceive('delete')->andReturn(true)
+            ->mock();
 
-        $this->assertTrue($repository->delete(1));
-        $this->assertSame(User::count(), $counter - 1);
+        $repository = new EloquentRepository($model);
+        $this->assertTrue($repository->delete($id));
+    }
+
+    public function test_repository_new_instance()
+    {
+        $model = m::mock(Model::class)
+            ->shouldReceive('forceFill')
+            ->mock();
+        $repository = new EloquentRepository($model);
+        $repository->newInstance();
+    }
+
+    public function test_repository_find_by()
+    {
+        $data = [
+            'a' => 'b',
+        ];
+        $model = m::mock(Model::class)
+            ->shouldReceive('get')->andReturn($data)
+            ->shouldReceive('take')->with(1)->andReturnSelf()
+            ->shouldReceive('skip')->with(2)->andReturnSelf()
+            ->mock();
+
+        $repository = new EloquentRepository($model);
+        $this->assertSame($repository->findBy([], 1, 2), $data);
     }
 
     public function test_repository_find_all()
     {
-        $repository = new EloquentRepository(new User());
-        $repositoryUsers = $repository->findAll();
-        $modelUsers = User::all();
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $data = [
+            'a' => 'b',
+        ];
+        $model = m::mock(Model::class)
+            ->shouldReceive('get')->andReturn($data)
+            ->mock();
+
+        $repository = new EloquentRepository($model);
+        $this->assertSame($repository->findAll(), $data);
     }
 
-    public function test_find_by_criteria()
+    public function test_repository_paginated_by()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->where('name', '0001')
-            ->having('email', '=', '0001@test.com')
-            ->groupBy('name');
-        $repositoryUsers = $repository->findBy($criteria);
+        $data = [
+            'a' => 'b',
+        ];
+        $model = m::mock(Model::class)
+            ->shouldReceive('paginate')->andReturn($data)
+            ->mock();
 
-        $modelUsers = User::where('name', 'like', '0001')
-            ->where('email', '0001@test.com')
-            ->groupBy('name')
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $repository = new EloquentRepository($model);
+        $this->assertSame($repository->paginatedBy([], 1, 'page', null), $data);
     }
 
-    public function test_find_by_criteria_where()
+    public function test_repository_paginated_all()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->where('name', '0001');
-        $repositoryUsers = $repository->findBy($criteria);
+        $data = [
+            'a' => 'b',
+        ];
+        $model = m::mock(Model::class)
+            ->shouldReceive('paginate')->andReturn($data)
+            ->mock();
 
-        $modelUsers = User::where('name', '0001')
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $repository = new EloquentRepository($model);
+        $this->assertSame($repository->paginatedAll(1, 'page', null), $data);
     }
 
-    public function test_find_by_criteria_where_closure()
+    public function test_repository_find_one_by()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
+        $data = [
+            'a' => 'b',
+        ];
+        $model = m::mock(Model::class)
+            ->shouldReceive('first')->andReturn($data)
+            ->mock();
+
+        $repository = new EloquentRepository($model);
+        $this->assertSame($repository->findOneBy([]), $data);
+    }
+
+    public function test_repository_find_by_criteria()
+    {
+        $model = m::mock(Model::class)
+            ->shouldReceive('where')->with('id', '=', '1')->andReturnSelf()
+            ->shouldReceive('where')->with(m::type(Closure::class))->andReturnSelf()
+            ->shouldReceive('orWhere')->with('id', '=', '3')->andReturnSelf()
+            ->shouldReceive('join')->with('table', m::type(Closure::class))->andReturnSelf()
+            ->shouldReceive('select')->with('id')->andReturnSelf()
+            ->shouldReceive('orderBy')->with('id', 'desc')->andReturnSelf()
+            ->shouldReceive('groupBy')->with('id')->andReturnSelf()
+            ->shouldReceive('having')->with('id', '=', m::type(Expression::class))->andReturnSelf()
+            ->shouldReceive('with')->with('table')->andReturnSelf()
+            ->shouldReceive('get')
+            ->mock();
+
+        $criteria = Criteria::create()
+            ->select('id')
+            ->where('id', '=', '1')
             ->where(function ($criteria) {
-                return $criteria->where('name', '0001');
-            });
-        $repositoryUsers = $repository->findBy($criteria);
+                return $criteria
+                    ->where('id', '=', '2');
+            })
+            ->orWhere('id', '=', '3')
+            ->join('table', function ($criteria) {
+                return $criteria->on('m.id', '=', 't.id');
+            })
+            ->orderBy('id', 'desc')
+            ->groupBy('id')
+            ->having('id', '=', Criteria::expr('1'))
+            ->with('table');
 
-        $modelUsers = User::where(function ($query) {
-            return $query->where('name', '0001');
-        })->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $repository = new EloquentRepository($model);
+        $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_or_where()
+    public function test_repository_find_by_multiple_criteria()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->where('name', '0001')
-            ->orWhere('name', '0002');
-        $repositoryUsers = $repository->findBy($criteria);
+        $model = m::mock(Model::class)
+            ->shouldReceive('where')->with('id', '=', '1')->andReturnSelf()
+            ->shouldReceive('where')->with(m::type(Closure::class))->andReturnSelf()
+            ->shouldReceive('orWhere')->with('id', '=', '3')->andReturnSelf()
+            ->shouldReceive('get')
+            ->mock();
 
-        $modelUsers = User::where('name', '0001')
-            ->orWhere('name', '0002')
-            ->get();
+        $criteria = [
+            Criteria::create()
+                ->where('id', '=', '1'),
+            Criteria::create()
+                ->where(function ($criteria) {
+                    return $criteria
+                        ->where('id', '=', '2');
+                }),
+            Criteria::create()
+                ->orWhere('id', '=', '3'),
+        ];
 
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $repository = new EloquentRepository($model);
+        $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_or_where_closure()
+    public function test_repository_find_by_array()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->where(function ($criteria) {
-                return $criteria->where('name', '0001')
-                    ->orWhere('name', '0002');
-            });
-        $repositoryUsers = $repository->findBy($criteria);
+        $model = m::mock(Model::class)
+            ->shouldReceive('where')->with('name', '=', '0001')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('email', '=', '0001@test.com')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('name', '0002')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('email', '0002@test.com')->once()->andReturnSelf()
+            ->shouldReceive('get')->once()
+            ->mock();
 
-        $modelUsers = User::where(function ($query) {
-            return $query->where('name', '0001')
-                    ->orWhere('name', '0002');
-        })->get();
+        $criteria = [
+            ['name', '=', '0001'],
+            ['email', '=', '0001@test.com'],
+            'name'  => '0002',
+            'email' => '0002@test.com',
+        ];
 
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $repository = new EloquentRepository($model);
+        $repository->findBy($criteria);
     }
 
-    public function test_criteria_where_has()
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function test_call_undefined_criteria()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->whereHas('roles', function ($criteria) {
-                return $criteria->where('id', '=', 1);
-            });
-        $repositoryUsers = $repository->findBy($criteria);
-
-        $modelUsers = User::whereHas('roles', function ($query) {
-            return $query->where('id', '=', 1);
-        })
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        $criteria = new Criteria();
+        $criteria->test();
     }
 
-    public function test_criteria_join()
+    public function test_echo_criteria_expression()
     {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->join('user_roles', function ($criteria) {
-                return $criteria->on('users.id', '=', 'user_roles.user_id');
-            });
-        $repositoryUsers = $repository->findBy($criteria);
-
-        $modelUsers = User::join('user_roles', function ($query) {
-            return $query->on('users.id', '=', 'user_roles.user_id');
-        })
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
+        echo Criteria::expr('test');
     }
-
-    public function test_criteria_order_by()
-    {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->orderBy('name', 'desc');
-        $repositoryUsers = $repository->findBy($criteria);
-
-        $modelUsers = User::orderBy('name', 'desc')
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_criteria_select()
-    {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->select('name');
-        $repositoryUsers = $repository->findBy($criteria);
-
-        $modelUsers = User::select('name')
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_criteria_experssion()
-    {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->select(Criteria::expr('REPLACE(name, "0001", "0003")'));
-        $repositoryUsers = $repository->findBy($criteria);
-
-        $modelUsers = User::select(DB::raw('REPLACE(name, "0001", "0003")'))
-            ->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_criteria_paginated()
-    {
-        $repository = new EloquentRepository(new User());
-        $repositoryUsers = $repository->paginatedAll(15);
-
-        $modelUsers = User::paginate(15);
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_criteria_with()
-    {
-        $repository = new EloquentRepository(new User());
-        $criteria = (new Criteria())
-            ->with('roles');
-        $repositoryUsers = $repository->findBy($criteria);
-
-        $modelUsers = User::with('roles')->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_find_by_array()
-    {
-        $repository = new EloquentRepository(new User());
-        $repositoryUsers = $repository->findBy([
-            ['name', '=', '0002'],
-            ['email', '=', '0002@test.com'],
-        ]);
-
-        $modelUsers = User::where('name', '0002')
-            ->where('email', '0002@test.com')->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_find_by_array_key()
-    {
-        $repository = new EloquentRepository(new User());
-        $repositoryUsers = $repository->findBy([
-                'name'  => '0002',
-                'email' => '0002@test.com',
-            ]);
-
-        $modelUsers = User::where('name', '0002')
-            ->where('email', '0002@test.com')->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_custom_criteria()
-    {
-        $repository = new EloquentRepository(new User());
-        $repositoryUsers = $repository->findBy(new CustomCriteria());
-
-        $modelUsers = User::where('name', '0002')->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-
-    public function test_multiple_criteria()
-    {
-        $repository = new EloquentRepository(new User());
-        $repositoryUsers = $repository->findBy([
-            new CustomCriteria(),
-            (new Criteria())->orderBy('name', 'desc'),
-        ]);
-
-        $modelUsers = User::where('name', '0002')
-            ->orderBy('name', 'desc')->get();
-
-        $this->assertSame($repositoryUsers->toArray(), $modelUsers->toArray());
-    }
-}
-
-class CustomCriteria extends Criteria
-{
-    public function __construct()
-    {
-        $this->where('name', '0002');
-    }
-}
-
-class User extends Model
-{
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    public function roles()
-    {
-        return $this->belongsToMany(
-            Role::class,
-            'user_roles',
-            'role_id',
-            'user_id'
-        );
-    }
-}
-
-class Role extends Model
-{
-    protected $fillable = [
-        'name', 'description',
-    ];
-
-    public function users()
-    {
-        return $this->belongsToMany(
-            self::class,
-            'user_roles',
-            'user_id',
-            'role_id'
-        );
-    }
-}
-
-function dump()
-{
-    call_user_func_array('var_dump', func_get_args());
 }
