@@ -114,7 +114,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository = new CollectionRepository($collection);
         $repository->paginatedAll(1, 'page', null);
     }
-    //
+
     public function test_repository_find_one_by()
     {
         $collection = m::mock(Collection::class)
@@ -195,13 +195,4 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository = new CollectionRepository($collection);
         $repository->findBy($criteria);
     }
-    //
-    // /**
-    //  * @expectedException BadMethodCallException
-    //  */
-    // public function test_call_undefined_criteria()
-    // {
-    //     $criteria = new Criteria();
-    //     $criteria->test();
-    // }
 }
