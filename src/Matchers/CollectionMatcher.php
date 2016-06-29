@@ -3,7 +3,6 @@
 namespace Recca0120\Repository\Matchers;
 
 use Closure;
-use Illuminate\Database\Query\Expression as QueryExpression;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\Criteria\Expression as CriteriaExpression;
 
@@ -21,25 +20,22 @@ class CollectionMatcher extends Matcher
      */
     protected function applyCriteria($model, $action)
     {
-        if (empty($action->parameters) === true) {
-            return $model;
-        }
-
-        return call_user_func_array([$model, $action->method], array_map(function ($parameter) {
-            if ($parameter instanceof Closure) {
-                $criteria = call_user_func($parameter, new Criteria());
-
-                return function ($query) use ($criteria) {
-                    return $this->apply($query, $criteria);
-                };
-            }
-
-            if ($parameter instanceof CriteriaExpression) {
-                return new QueryExpression($parameter->getValue());
-            }
-
-            return $parameter;
-        }, $action->parameters));
+        return $model;
+        // return call_user_func_array([$model, $action->method], array_map(function ($parameter) {
+        //     if ($parameter instanceof Closure) {
+        //         $criteria = call_user_func($parameter, new Criteria());
+        //
+        //         return function ($query) use ($criteria) {
+        //             return $this->apply($query, $criteria);
+        //         };
+        //     }
+        //
+        //     if ($parameter instanceof CriteriaExpression) {
+        //         return $parameter->getValue();
+        //     }
+        //
+        //     return $parameter;
+        // }, $action->parameters));
     }
 
     protected function applyCriteriaWhere($model, $action)
@@ -47,6 +43,9 @@ class CollectionMatcher extends Matcher
         if (count($action->parameters) === 3) {
             return $model->filter(function ($item) use ($action) {
                 list($key, $op, $value) = $action->parameters;
+                if ($value instanceof CriteriaExpression) {
+                    return $value->getValue();
+                }
                 switch ($op) {
                     case '>':
                         return $item[$key] > $value;
