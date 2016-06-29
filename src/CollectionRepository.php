@@ -26,7 +26,9 @@ class CollectionRepository extends AbstractRepository
      */
     public function __construct(Collection $model)
     {
-        $this->model = $model->make();
+        $this->model = $model->make()->map(function ($item) {
+            return (is_object($item) === false && is_array($item) === true) ? new Fluent($item) : $item;
+        });
     }
 
     /**
