@@ -16,6 +16,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('where')->andReturnSelf()
             ->shouldReceive('first')->andReturnSelf()
             ->mock();
@@ -30,6 +31,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
 
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->mock();
 
         $repository = new CollectionRepository($collection);
@@ -42,6 +44,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $data = ['a' => 'b'];
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->mock();
 
         $repository = new CollectionRepository($collection);
@@ -53,6 +56,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $id = 1;
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->mock();
 
         $repository = new CollectionRepository($collection);
@@ -63,6 +67,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->mock();
 
         $repository = new CollectionRepository($collection);
@@ -73,6 +78,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('take')->with(1)->andReturnSelf()
             ->shouldReceive('skip')->with(2)->andReturnSelf()
             ->mock();
@@ -85,6 +91,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->mock();
 
         $repository = new CollectionRepository($collection);
@@ -95,6 +102,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('count')->andReturn(0)
             ->shouldReceive('forPage')->andReturn([])
             ->mock();
@@ -107,6 +115,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('count')->andReturn(0)
             ->shouldReceive('forPage')->andReturn([])
             ->mock();
@@ -119,6 +128,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('first')->andReturn('a')
             ->mock();
 
@@ -130,6 +140,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('filter')->andReturnUsing(function ($closure) {
                 $item = [
                     'id' => '1',
@@ -149,6 +160,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('where')->andReturnSelf()
             ->mock();
 
@@ -164,6 +176,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('filter')->andReturnSelf()->once()
             ->shouldReceive('where')->andReturnSelf()->once()
             ->mock();
@@ -183,6 +196,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = m::mock(Collection::class)
             ->shouldReceive('make')->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
             ->shouldReceive('filter')->andReturnSelf()->once()
             ->shouldReceive('where')->andReturnSelf()->once()
             ->mock();
