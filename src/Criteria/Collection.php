@@ -4,7 +4,7 @@ namespace Recca0120\Repository\Criteria;
 
 use Closure;
 
-class Collection
+abstract class Collection
 {
     /**
      * $items.

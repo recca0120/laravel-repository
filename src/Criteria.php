@@ -78,6 +78,6 @@ class Criteria extends Collection
             return $this;
         }
 
-        throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+        throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
     }
 }

@@ -28,7 +28,7 @@ class Action
     public function __construct($type, $method, $parameters = [])
     {
         $this->type = $type;
-        $this->method = strtolower($method);
+        $this->method = $method;
         $this->parameters = $parameters;
     }
 }
