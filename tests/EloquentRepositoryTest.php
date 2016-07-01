@@ -209,6 +209,39 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
+    public function test_repository_find_by_criteria_and_array()
+    {
+        $model = m::mock(Model::class)
+            ->shouldReceive('where')->with('id', '=', '1')->andReturnSelf()
+            ->shouldReceive('where')->with(m::type(Closure::class))->andReturnSelf()
+            ->shouldReceive('orWhere')->with('id', '=', '3')->andReturnSelf()
+            ->shouldReceive('where')->with('name', '=', '0001')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('email', '=', '0001@test.com')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('name', '0002')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('email', '0002@test.com')->once()->andReturnSelf()
+            ->shouldReceive('get')->once()
+            ->mock();
+
+        $criteria = [
+            Criteria::create()
+                ->where('id', '=', '1'),
+            Criteria::create()
+                ->where(function ($criteria) {
+                    return $criteria
+                        ->where('id', '=', '2');
+                }),
+            Criteria::create()
+                ->orWhere('id', '=', '3'),
+            ['name', '=', '0001'],
+            ['email', '=', '0001@test.com'],
+            'name'  => '0002',
+            'email' => '0002@test.com',
+        ];
+
+        $repository = new EloquentRepository($model);
+        $repository->findBy($criteria);
+    }
+
     /**
      * @expectedException BadMethodCallException
      */
@@ -220,6 +253,6 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function test_echo_criteria_expression()
     {
-        echo Criteria::expr('test');
+        Criteria::expr('test');
     }
 }

@@ -3,7 +3,7 @@
 namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
-use Recca0120\Repository\Matchers\EloquentMatcher;
+use Recca0120\Repository\Tranforms\Eloquent as EloquentTranform;
 
 class EloquentRepository extends AbstractRepository
 {
@@ -15,6 +15,13 @@ class EloquentRepository extends AbstractRepository
     protected $model;
 
     /**
+     * $converter.
+     *
+     * @var string
+     */
+    protected $transform = EloquentTranform::class;
+
+    /**
      * __construct.
      *
      * @method __construct
@@ -24,20 +31,6 @@ class EloquentRepository extends AbstractRepository
     public function __construct(Model $model)
     {
         $this->model = $model;
-    }
-
-    /**
-     * matching.
-     *
-     * @method matching
-     *
-     * @param mixed $criteria
-     *
-     * @return mixed
-     */
-    public function matching($criteria)
-    {
-        return (new EloquentMatcher())->apply($this->cloneModel(), $criteria);
     }
 
     /**

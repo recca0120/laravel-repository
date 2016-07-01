@@ -1,5 +1,6 @@
 <?php
 
+return;
 use Illuminate\Support\Collection;
 use Mockery as m;
 use Recca0120\Repository\CollectionRepository;

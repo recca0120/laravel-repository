@@ -6,7 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
-use Recca0120\Repository\Matchers\CollectionMatcher;
+use Recca0120\Repository\Tranforms\Collection as CollectionTranform;
 
 class CollectionRepository extends AbstractRepository
 {
@@ -16,6 +16,13 @@ class CollectionRepository extends AbstractRepository
      * @var \Illuminate\Support\Collection
      */
     protected $model;
+
+    /**
+     * $converter.
+     *
+     * @var string
+     */
+    protected $transform = CollectionTranform::class;
 
     /**
      * __construct.
@@ -29,20 +36,6 @@ class CollectionRepository extends AbstractRepository
         $this->model = $model->make()->map(function ($item) {
             return (is_object($item) === false && is_array($item) === true) ? new Fluent($item) : $item;
         });
-    }
-
-    /**
-     * matching.
-     *
-     * @method matching
-     *
-     * @param mixed $criteria
-     *
-     * @return mixed
-     */
-    public function matching($criteria)
-    {
-        return (new CollectionMatcher())->apply($this->cloneModel(), $criteria);
     }
 
     /**
