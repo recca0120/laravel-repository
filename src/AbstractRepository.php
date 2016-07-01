@@ -15,6 +15,13 @@ abstract class AbstractRepository implements RepositoryContract
     protected $model;
 
     /**
+     * $transform.
+     *
+     * @var string
+     */
+    protected $transform;
+
+    /**
      * findAll.
      *
      * @method findAll
@@ -66,5 +73,33 @@ abstract class AbstractRepository implements RepositoryContract
     public function cloneModel()
     {
         return clone $this->model;
+    }
+
+    /**
+     * matching.
+     *
+     * @method matching
+     *
+     * @param mixed $criteria
+     *
+     * @return \Illuminate\Database\Eloquent\Model | \Illuminate\Support\Collection
+     */
+    public function matching($criteria)
+    {
+        $model = $this->cloneModel();
+        $class = $this->transform;
+        $transform = new $class();
+
+        $items = is_array($criteria) ? $criteria : [$criteria];
+        foreach ($items as $key => $value) {
+            if (($value instanceof Criteria) === true) {
+                $model = $transform->apply($model, $value);
+            } else {
+                $value = is_array($value) ? $value : [$key, $value];
+                $model = $transform->apply($model, new Criteria([$value]));
+            }
+        }
+
+        return $model;
     }
 }
