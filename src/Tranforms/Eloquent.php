@@ -9,6 +9,15 @@ use Recca0120\Repository\Criteria\Expression as CriteriaExpression;
 
 class Eloquent extends Tranform
 {
+    /**
+     * transformParameters.
+     *
+     * @method transformParameters
+     *
+     * @param array $parameters
+     *
+     * @return array
+     */
     protected function transformParameters($parameters)
     {
         return array_map(function ($parameter) {

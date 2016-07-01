@@ -3,16 +3,18 @@
 namespace Recca0120\Repository\Criteria;
 
 use BadMethodCallException;
-use Closure;
+use Recca0120\Repository\Traits\Collection as CollectionTrait;
 
 abstract class Collection
 {
+    use CollectionTrait;
+
     /**
-     * $types.
+     * $allowTypes.
      *
      * @var array
      */
-    protected $types = [
+    protected $allowTypes = [
         'select',
         'where',
         'join',
@@ -25,31 +27,6 @@ abstract class Collection
         'take',
         'skip',
     ];
-
-    /**
-     * $items.
-     *
-     * @var array
-     */
-    protected $items = [];
-
-    /**
-     * each.
-     *
-     * @method each
-     *
-     * @param Closure $callable
-     *
-     * @return self
-     */
-    public function each(Closure $callable)
-    {
-        foreach ($this->items as $item) {
-            $callable($item);
-        }
-
-        return $this;
-    }
 
     /**
      * push.
@@ -79,7 +56,7 @@ abstract class Collection
      */
     public function __call($method, $parameters)
     {
-        if (preg_match('/'.implode('|', $this->types).'/i', $method, $match) != false) {
+        if (preg_match('/'.implode('|', $this->allowTypes).'/i', $method, $match) != false) {
             $this->push(new Action($match[0], $method, $parameters));
 
             return $this;

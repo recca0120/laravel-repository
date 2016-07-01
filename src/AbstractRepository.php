@@ -60,7 +60,7 @@ abstract class AbstractRepository implements RepositoryContract
      */
     public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
     {
-        return $this->paginatedBy([], $perPage = null, $pageName = 'page', $page = null);
+        return $this->paginatedBy([], $perPage, $pageName, $page);
     }
 
     /**
@@ -88,18 +88,18 @@ abstract class AbstractRepository implements RepositoryContract
     {
         $model = $this->cloneModel();
         $class = $this->transform;
-        $transform = new $class();
+        $transform = new $class($this->cloneModel());
 
         $items = is_array($criteria) ? $criteria : [$criteria];
         foreach ($items as $key => $value) {
             if (($value instanceof Criteria) === true) {
-                $model = $transform->apply($model, $value);
+                $model = $transform->push($value);
             } else {
                 $value = is_array($value) ? $value : [$key, $value];
-                $model = $transform->apply($model, new Criteria([$value]));
+                $model = $transform->push(new Criteria([$value]));
             }
         }
 
-        return $model;
+        return $transform->apply();
     }
 }
