@@ -135,7 +135,12 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $model = m::mock(Model::class)
             ->shouldReceive('where')->with('id', '=', 1)->once()->andReturnSelf()
             ->shouldReceive('orWhere')->with('id', '=', 1)->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnSelf()
+            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+                $tranform = $closure(m::self());
+
+                return m::self();
+            })
+            ->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf()
             ->shouldReceive('get')->once()
             ->mock();
 
@@ -143,7 +148,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
             ->where('id', '=', 1)
             ->orWhere('id', '=', 1)
             ->where(function (Criteria $criteria) {
-                return $criteria->where('id', '=', '1');
+                return $criteria->where('id', '=', 'closure');
             });
 
         $repository = new EloquentRepository($model);
@@ -155,7 +160,12 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $model = m::mock(Model::class)
             ->shouldReceive('having')->with('id', '=', 1)->once()->andReturnSelf()
             ->shouldReceive('orHaving')->with('id', '=', 1)->once()->andReturnSelf()
-            ->shouldReceive('having')->with(m::type(Closure::class))->once()->andReturnSelf()
+            ->shouldReceive('having')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+                $tranform = $closure(m::self());
+
+                return m::self();
+            })
+            ->shouldReceive('having')->with('id', '=', 'closure')->once()->andReturnSelf()
             ->shouldReceive('get')->once()
             ->mock();
 
@@ -163,7 +173,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
             ->having('id', '=', 1)
             ->orHaving('id', '=', 1)
             ->having(function (Criteria $criteria) {
-                return $criteria->having('id', '=', '1');
+                return $criteria->having('id', '=', 'closure');
             });
 
         $repository = new EloquentRepository($model);

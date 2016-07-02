@@ -91,6 +91,7 @@ abstract class AbstractRepository implements RepositoryContract
         $transform = new $class($this->cloneModel());
 
         $items = is_array($criteria) ? $criteria : [$criteria];
+
         foreach ($items as $key => $value) {
             if (($value instanceof Criteria) === true) {
                 $model = $transform->push($value);
