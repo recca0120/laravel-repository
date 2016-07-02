@@ -3,28 +3,104 @@
 namespace Recca0120\Repository\Tranforms;
 
 use Recca0120\Repository\Criteria;
+use Recca0120\Repository\Traits\Collection as CollectionTrait;
 
 abstract class Tranform
 {
-    public function apply($model, Criteria $criteria)
+    use CollectionTrait;
+
+    /**
+     * $model.
+     *
+     * @var mixed
+     */
+    protected $model;
+
+    /**
+     * __construct.
+     *
+     * @method __construct
+     *
+     * @param mixed $model
+     */
+    public function __construct($model)
     {
-        $criteria->each(function ($action) use (&$model) {
-            $method = (method_exists($this, $action->method) === true) ?
-                $this->method : 'default';
-            $model = call_user_func_array([$this, $method], [
-                $model,
-                $this->transformParameters($action->parameters),
-                $action,
-            ]);
-        });
+        $this->model = $model;
+    }
+
+    /**
+     * push.
+     *
+     * @method push
+     *
+     * @param  \Recca0120\Repository\Criteria $criteria
+     *
+     * @return self
+     */
+    public function push(Criteria $criteria)
+    {
+        $this->items[] = $criteria;
+
+        return $this;
+    }
+
+    /**
+     * apply.
+     *
+     * @method apply
+     *
+     * @return mixed $model
+     */
+    public function apply()
+    {
+        $model = clone $this->model;
+        $allowTypes = [];
+        foreach ($this->items as $criteria) {
+            foreach ($criteria->all() as $action) {
+                $allowTypes[$action->type][] = [
+                    'method'     => $action->method,
+                    'parameters' => $this->transformParameters($action->parameters),
+                ];
+            }
+        }
+
+        foreach ($allowTypes as $type => $actions) {
+            $method = (method_exists($this, $type) === true) ?
+                $type : 'default';
+
+            $model = call_user_func_array([$this, $method], [$model, $actions]);
+        }
 
         return $model;
     }
 
-    public function default($model, $parameters, $action)
+    /**
+     * default apply.
+     *
+     * @method default
+     *
+     * @param mixed $model
+     * @param array $actions
+     *
+     * @return mixed
+     */
+    public function default($model, $actions)
     {
-        return call_user_func_array([$model, $action->method], $parameters);
+        foreach ($actions as $action) {
+            $model = call_user_func_array([$model, $action['method']], $action['parameters']);
+        }
+
+        return $model;
     }
 
+    /**
+     * transformParameters.
+     *
+     * @method transformParameters
+     *
+     * @param array $parameters
+     *
+     * @return array
+     */
     abstract protected function transformParameters($parameters);
 }
