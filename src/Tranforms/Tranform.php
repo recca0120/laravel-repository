@@ -33,7 +33,7 @@ abstract class Tranform
      *
      * @method push
      *
-     * @param  \Recca0120\Repository\Criteria $criteria
+     * @param \Recca0120\Repository\Criteria $criteria
      *
      * @return self
      */
@@ -66,7 +66,7 @@ abstract class Tranform
 
         foreach ($allowTypes as $type => $actions) {
             $method = (method_exists($this, $type) === true) ?
-                $type : 'default';
+                $type : 'defaults';
 
             $model = call_user_func_array([$this, $method], [$model, $actions]);
         }
@@ -75,16 +75,16 @@ abstract class Tranform
     }
 
     /**
-     * default apply.
+     * defaults apply.
      *
-     * @method default
+     * @method defaults
      *
      * @param mixed $model
      * @param array $actions
      *
      * @return mixed
      */
-    public function default($model, $actions)
+    public function defaults($model, $actions)
     {
         foreach ($actions as $action) {
             $model = call_user_func_array([$model, $action['method']], $action['parameters']);
