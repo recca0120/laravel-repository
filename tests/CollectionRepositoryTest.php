@@ -164,6 +164,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository = new CollectionRepository($collection);
         $repository->findBy($criteria);
     }
+
     //
     // public function test_find_by_criteria_group_by()
     // {
@@ -198,7 +199,6 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
                     ['id' => 5, 'name' => 'Mark', 'age' => '25'],
                     ['id' => 1, 'name' => 'Pascal', 'age' => '15'],
                 ], array_values($data));
-
             })
             ->mock();
 
