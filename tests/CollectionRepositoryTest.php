@@ -284,15 +284,11 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $collection = $this->getCollectionMock()
             ->shouldReceive('filter')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('id', 1)->once()->andReturnSelf()
             ->shouldReceive('filter')->once()->andReturnSelf()
             ->mock();
 
         $criteria = [
             ['id', '=', 1],
-            new Criteria([
-                ['id', 1],
-            ]),
             Criteria::create()
                 ->where('id', '=', 2),
         ];

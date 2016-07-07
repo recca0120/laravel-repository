@@ -31,19 +31,19 @@ class Collection extends Tranform
                         }
                         switch ($op) {
                             case '>':
-                            return $item[$key] > $value;
+                                return $item[$key] > $value;
                             break;
                             case '>=':
-                            return $item[$key] >= $value;
+                                return $item[$key] >= $value;
                             break;
                             case '<':
-                            return $item[$key] > $value;
+                                return $item[$key] > $value;
                             break;
                             case '<=':
-                            return $item[$key] >= $value;
+                                return $item[$key] >= $value;
                             break;
                             case '=':
-                            return $item[$key] == $value;
+                                return $item[$key] == $value;
                             break;
                         }
                     });
