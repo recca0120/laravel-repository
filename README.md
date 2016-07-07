@@ -69,7 +69,7 @@ class Post extends Model
 
 namespace App\Repositories\Contracts;
 
-interface UserRepository
+interface PostRepository
 {
 
 }
