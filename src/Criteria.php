@@ -4,24 +4,10 @@ namespace Recca0120\Repository;
 
 use Recca0120\Repository\Criteria\Collection;
 use Recca0120\Repository\Criteria\Expression;
+use ReflectionClass;
 
 class Criteria extends Collection
 {
-    /**
-     * __construct.
-     *
-     * @method __construct
-     *
-     * @param array $wheres
-     */
-    public function __construct(array $wheres = [])
-    {
-        foreach ($wheres as $key => $value) {
-            $where = (is_array($value) === true) ? $value : [$key, $value];
-            call_user_func_array([$this, 'where'], $where);
-        }
-    }
-
     /**
      * alias raw.
      *
@@ -49,8 +35,25 @@ class Criteria extends Collection
      *
      * @return Criteria
      */
-    public static function create(array $wheres = [])
+    public static function create()
     {
-        return new static($wheres);
+        $args = func_get_args();
+
+        switch (count($args)) {
+            case 0:
+                return new static();
+            case 1:
+                return new static($args[0]);
+            case 2:
+                return new static($args[0], $args[1]);
+            case 3:
+                return new static($args[0], $args[1], $args[2]);
+            case 4:
+                return new static($args[0], $args[1], $args[2], $args[3]);
+            default:
+                $reflectionClass = new ReflectionClass(static::class);
+
+                return $reflectionClass->newInstanceArgs(func_get_args());
+        }
     }
 }

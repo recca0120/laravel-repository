@@ -97,7 +97,8 @@ abstract class AbstractRepository implements RepositoryContract
                 $model = $transform->push($value);
             } else {
                 $value = is_array($value) ? $value : [$key, $value];
-                $model = $transform->push(new Criteria([$value]));
+                $criteria = call_user_func_array([Criteria::create(), 'where'], $value);
+                $model = $transform->push($criteria);
             }
         }
 

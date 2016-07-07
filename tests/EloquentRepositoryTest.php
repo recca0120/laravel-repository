@@ -293,16 +293,12 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $model = m::mock(Model::class)
             ->shouldReceive('where')->with('id', '=', 1)->once()->andReturnSelf()
-            ->shouldReceive('where')->with('id', 1)->once()->andReturnSelf()
             ->shouldReceive('where')->with('id', '=', 2)->once()->andReturnSelf()
             ->shouldReceive('get')->once()
             ->mock();
 
         $criteria = [
             ['id', '=', 1],
-            new Criteria([
-                ['id', 1],
-            ]),
             Criteria::create()
                 ->where('id', '=', 2),
         ];
@@ -323,5 +319,28 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_echo_criteria_expression()
     {
         (string) Criteria::expr('test');
+    }
+
+    public function test_custom_criteria()
+    {
+        $model = m::mock(Model::class)
+            ->shouldReceive('where')->with('id', '=', 1)->once()->andReturnSelf()
+            ->shouldReceive('where')->with('id', '=', 2)->once()->andReturnSelf()
+            ->shouldReceive('get')->once()
+            ->mock();
+
+        $repository = new EloquentRepository($model);
+        $repository->findBy([
+            CustomCriteria::create(1, 2, 3, 4, 5, 6, 7),
+            (new CustomCriteria(2)),
+        ]);
+    }
+}
+
+class CustomCriteria extends Criteria
+{
+    public function __construct($id)
+    {
+        $this->where('id', '=', $id);
     }
 }
