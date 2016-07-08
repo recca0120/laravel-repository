@@ -331,9 +331,18 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
 
         $repository = new EloquentRepository($model);
         $repository->findBy([
-            CustomCriteria::create(1, 2, 3, 4, 5, 6, 7),
+            CustomCriteria::create(1),
             (new CustomCriteria(2)),
         ]);
+    }
+
+    public function test_criteria_arguments()
+    {
+        CustomCriteria::create(1);
+        CustomCriteria::create(1, 2);
+        CustomCriteria::create(1, 2, 3);
+        CustomCriteria::create(1, 2, 3, 4);
+        CustomCriteria::create(1, 2, 3, 4, 5);
     }
 }
 
