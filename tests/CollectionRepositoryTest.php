@@ -12,296 +12,652 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function test_new_instance()
+    protected function mockCollection()
     {
-        $collection = $this->getCollectionMock();
+        return m::mock(Collection::class)
+            ->shouldReceive('make')->once()->andReturnSelf()
+            ->shouldReceive('map')->andReturnSelf()
+            ->mock();
+    }
 
-        $repository = new CollectionRepository($collection);
+    public function testNewInstance()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
         $repository->newInstance();
     }
 
-    public function test_create()
+    public function testCreate()
     {
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
 
-        $repository = new CollectionRepository($collection);
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        // $model->shouldReceive('create')->with($data)->once()->andReturnSelf();
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
         $repository->create($data);
-        $result = $repository->create($data);
-        // $this->assertSame($result, $model);
+        // $this->assertSame($model, $repository->create($data));
     }
 
-    public function test_find()
+    public function testFind()
     {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
         $id = 1;
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock()
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model
             ->shouldReceive('where')->with('id', $id)->andReturnSelf()
-            ->shouldReceive('first')
-            ->mock();
+            ->shouldReceive('first')->andReturnSelf();
 
-        $repository = new CollectionRepository($collection);
-        $result = $repository->find($id);
-        // $this->assertSame($result, $model);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($model, $repository->find($id));
     }
 
-    public function test_update()
+    public function testUpdate()
     {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
         $id = 1;
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock();
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
 
-        $repository = new CollectionRepository($collection);
-        $result = $repository->update($data, $id);
-        // $this->assertSame($result, $model);
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $repository->update($data, $id);
+        // $this->assertSame($model, $repository->update($data, $id));
     }
 
-    public function test_delete()
+    public function testDelete()
     {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
         $id = 1;
-        $collection = $this->getCollectionMock();
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
 
-        $repository = new CollectionRepository($collection);
-        $result = $repository->delete($id);
-        // $this->assertTrue($result);
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $repository->delete($id);
+        // $this->assertTrue($repository->delete($id));
     }
 
-    public function test_find_by()
+    public function testFindBy()
     {
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('take')->with(1)->once()->andReturnSelf()
-            ->shouldReceive('skip')->with(2)->once()->andReturnSelf()
-            ->shouldReceive('toArray')->once()->andReturn($data)
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
 
-        $repository = new CollectionRepository($collection);
-        $this->assertSame($repository->findBy([], 1, 2)->toArray(), $data);
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model
+            ->shouldReceive('take')->with(10)->once()->andReturnSelf()
+            ->shouldReceive('skip')->with(5)->once()->andReturnSelf()
+            ->shouldReceive('toArray')->once()->andReturn($data);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->findBy([], 10, 5)->toArray());
     }
 
-    public function test_find_all()
+    public function testFindAll()
     {
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('toArray')->once()->andReturn($data)
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
 
-        $repository = new CollectionRepository($collection);
-        $this->assertSame($repository->findAll()->toArray(), $data);
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('toArray')->once()->andReturn($data);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->findAll()->toArray());
     }
 
-    public function test_paginated_by()
+    public function testPaginatedBy()
     {
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock()
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model
             ->shouldReceive('count')->once()->andReturn(10)
             ->shouldReceive('forPage')->once()->andReturnSelf()
-            ->shouldReceive('all')->once()->andReturn($data)
-            ->mock();
+            ->shouldReceive('all')->once()->andReturn($data);
 
-        $repository = new CollectionRepository($collection);
-        $this->assertSame($repository->paginatedBy([], 1, 'page', 1)->items(), $data);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->paginatedBy([], 1, 'page', 1)->items());
     }
 
-    public function test_paginated_all()
+    public function testPaginatedAll()
     {
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock()
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model
             ->shouldReceive('count')->once()->andReturn(10)
             ->shouldReceive('forPage')->once()->andReturnSelf()
-            ->shouldReceive('all')->once()->andReturn($data)
-            ->mock();
+            ->shouldReceive('all')->once()->andReturn($data);
 
-        $repository = new CollectionRepository($collection);
-        $this->assertSame($repository->paginatedAll(1, 'page', 1)->items(), $data);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->paginatedAll(1, 'page', 1)->items());
     }
 
-    public function test_find_one_by()
+    public function testFindOneBy()
     {
-        $data = ['a' => 'b'];
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('first')->andReturn($data)
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
 
-        $repository = new CollectionRepository($collection);
-        $this->assertSame($repository->findOneBy([]), $data);
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('first')->once()->andReturn($data);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->findOneBy([]));
     }
 
-    public function test_find_by_criteria_where()
+    public function testFindByCriteriaWhere()
     {
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('filter')->with(m::type(Closure::class))->once()->andReturnSelf()
-            // ->shouldReceive('orWhere')->with('id', '=', 1)->once()->andReturnSelf()
-            // ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnSelf()
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = Criteria::create()
-            ->where('id', '=', 1);
-            // ->orWhere('id', '=', 1)
+            ->where('foo', '=', 'bar');
+            // ->orWhere('buzz', '=', 'fuzz')
             // ->where(function (Criteria $criteria) {
-            //     return $criteria->where('id', '=', '1');
+            //     return $criteria->where('id', '=', 'closure');
             // });
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('filter')->with(m::type(Closure::class))->once()->andReturnSelf();
+
         $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_having()
+    public function testFindByCriteriaHaving()
     {
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('filter')->with(m::type(Closure::class))->once()->andReturnSelf()
-            // ->shouldReceive('orWhere')->with('id', '=', 1)->once()->andReturnSelf()
-            // ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnSelf()
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = Criteria::create()
-            ->having('id', '=', 1);
-            // ->orHaving('id', '=', 1)
-            // ->having(function (Criteria $criteria) {
-            //     return $criteria->having('id', '=', '1');
-            // })
+            ->having('foo', '=', 'bar');
+            // ->orWhere('buzz', '=', 'fuzz')
+            // ->where(function (Criteria $criteria) {
+            //     return $criteria->where('id', '=', 'closure');
+            // });
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('filter')->with(m::type(Closure::class))->once()->andReturnSelf();
+
         $repository->findBy($criteria);
     }
 
-    //
-    // public function test_find_by_criteria_group_by()
+    // public function testFindByCriteriaGroupBy()
     // {
-    //     $model = m::mock(Model::class)
-    //         ->shouldReceive('groupBy')->with('id')->once()->andReturnSelf()
-    //         ->shouldReceive('get')->once()
-    //         ->mock();
+    //     /*
+    //     |------------------------------------------------------------
+    //     | Set
+    //     |------------------------------------------------------------
+    //     */
+    //
+    //     $model = m::mock(Model::class);
+    //     $repository = new EloquentRepository($model);
+    //
+    //     /*
+    //     |------------------------------------------------------------
+    //     | Expectation
+    //     |------------------------------------------------------------
+    //     */
     //
     //     $criteria = Criteria::create()
     //         ->groupBy('id');
     //
-    //     $repository = new EloquentRepository($model);
+    //     /*
+    //     |------------------------------------------------------------
+    //     | Assertion
+    //     |------------------------------------------------------------
+    //     */
+    //
+    //     $model
+    //         ->shouldReceive('groupBy')->with('id')->once()->andReturnSelf()
+    //         ->shouldReceive('get')->once();
     //     $repository->findBy($criteria);
     // }
 
-    public function test_find_by_criteria_order_by()
+    public function testFindByCriteriaOrderBy()
     {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
         $data = [
             ['id' => 1, 'name' => 'Pascal', 'age' => '15'],
             ['id' => 5, 'name' => 'Mark', 'age' => '25'],
             ['id' => 3, 'name' => 'Hugo', 'age' => '55'],
             ['id' => 2, 'name' => 'Angus', 'age' => '25'],
         ];
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
 
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('sort')->with(m::type(Closure::class))->once()->andReturnUsing(function ($callback) use (&$data) {
-                uasort($data, $callback);
-
-                $this->assertEquals([
-                    ['id' => 3, 'name' => 'Hugo', 'age' => '55'],
-                    ['id' => 2, 'name' => 'Angus', 'age' => '25'],
-                    ['id' => 5, 'name' => 'Mark', 'age' => '25'],
-                    ['id' => 1, 'name' => 'Pascal', 'age' => '15'],
-                ], array_values($data));
-            })
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = Criteria::create()
             ->orderBy('age', 'desc')
             ->orderBy('id', 'asc');
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('sort')->with(m::type(Closure::class))->once()->andReturnUsing(function ($callback) use (&$data) {
+            uasort($data, $callback);
+
+            $this->assertEquals([
+                ['id' => 3, 'name' => 'Hugo', 'age' => '55'],
+                ['id' => 2, 'name' => 'Angus', 'age' => '25'],
+                ['id' => 5, 'name' => 'Mark', 'age' => '25'],
+                ['id' => 1, 'name' => 'Pascal', 'age' => '15'],
+            ], array_values($data));
+        });
         $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_with()
+    public function testFindByCriteriaWith()
     {
-        $collection = $this->getCollectionMock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = Criteria::create()
             ->with('table')
             ->with('table2', function (Criteria $criteria) {
-                return $criteria->where('id', '=', '1');
+                return $criteria->where('id', '=', 'closure');
             });
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
         $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_join()
+    public function testFindByCriteriaJoin()
     {
-        $collection = $this->getCollectionMock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = Criteria::create()
             ->join('table2', function (Criteria $criteria) {
                 return $criteria->on('table1.id', '=', 'table2.id');
             });
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
         $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_select()
+    public function testFindByCriteriaSelect()
     {
-        $collection = $this->getCollectionMock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = Criteria::create()
             ->select('id');
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
         $repository->findBy($criteria);
     }
 
-    // public function test_find_by_criteria_select_expression()
+    // public function testFindByCriteriaSelectExpression()
     // {
-    //     $model = m::mock(Model::class)
-    //         ->shouldReceive('select')->with(m::type(Expression::class))->once()->andReturnSelf()
-    //         ->shouldReceive('get')->once()
-    //         ->mock();
+    //     /*
+    //     |------------------------------------------------------------
+    //     | Set
+    //     |------------------------------------------------------------
+    //     */
+    //
+    //     $model = m::mock(Model::class);
+    //     $repository = new EloquentRepository($model);
+    //
+    //     /*
+    //     |------------------------------------------------------------
+    //     | Expectation
+    //     |------------------------------------------------------------
+    //     */
     //
     //     $criteria = Criteria::create()
     //         ->select(Criteria::expr('id'));
     //
-    //     $repository = new EloquentRepository($model);
+    //     /*
+    //     |------------------------------------------------------------
+    //     | Assertion
+    //     |------------------------------------------------------------
+    //     */
+    //
+    //     $model
+    //         ->shouldReceive('select')->with(m::type(Expression::class))->once()->andReturnSelf()
+    //         ->shouldReceive('get')->once();
     //     $repository->findBy($criteria);
     // }
-    //
-    public function test_find_by_array()
+
+    public function testFindByArray()
     {
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('filter')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('id', 1)->once()->andReturnSelf()
-            ->shouldReceive('where')->with('id', 2)->once()->andReturnSelf()
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = [
-            ['id', '=', 1],
-            ['id', 1],
-            'id' => 2,
+            ['foo', '=', 'bar'],
+            ['fuzz', 'buzz'],
+            'hello' => 'world',
         ];
 
-        $repository = new CollectionRepository($collection);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $model
+            ->shouldReceive('filter')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('fuzz', 'buzz')->once()->andReturnSelf()
+            ->shouldReceive('where')->with('hello', 'world')->once()->andReturnSelf();
         $repository->findBy($criteria);
     }
 
-    public function test_find_by_criteria_and_array()
+    public function testFindByCriteriaAndArray()
     {
-        $collection = $this->getCollectionMock()
-            ->shouldReceive('filter')->once()->andReturnSelf()
-            ->shouldReceive('filter')->once()->andReturnSelf()
-            ->mock();
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = $this->mockCollection();
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
 
         $criteria = [
-            ['id', '=', 1],
+            ['foo', '=', 'bar'],
             Criteria::create()
-                ->where('id', '=', 2),
+                ->where('fuzz', '=', 'buzz'),
         ];
 
-        $repository = new CollectionRepository($collection);
-        $repository->findBy($criteria);
-    }
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
 
-    protected function getCollectionMock()
-    {
-        return m::mock(Collection::class)
-            ->shouldReceive('make')->once()->andReturnSelf()
-            ->shouldReceive('map')->andReturnSelf()
-            ->mock();
+        $model
+            ->shouldReceive('filter')->once()->andReturnSelf()
+            ->shouldReceive('filter')->once()->andReturnSelf();
+        $repository->findBy($criteria);
     }
 }
