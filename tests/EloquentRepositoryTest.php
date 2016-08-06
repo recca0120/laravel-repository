@@ -59,7 +59,10 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model->shouldReceive('create')->with($data)->once()->andReturnSelf();
+        $model
+            ->shouldReceive('forceFill')->with([])->once()->andReturnSelf()
+            ->shouldReceive('fill')->with($data)->once()->andReturnSelf()
+            ->shouldReceive('save')->once(true);
 
         /*
         |------------------------------------------------------------
@@ -68,6 +71,38 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $this->assertSame($model, $repository->create($data));
+    }
+
+    public function testCreateForceFill()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model
+            ->shouldReceive('forceFill')->with([])->once()->andReturnSelf()
+            ->shouldReceive('forceFill')->with($data)->once()->andReturnSelf()
+            ->shouldReceive('save')->once(true);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($model, $repository->create($data, true));
     }
 
     public function testFind()
@@ -130,6 +165,39 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $this->assertSame($model, $repository->update($data, $id));
+    }
+
+    public function testUpdateForceFill()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $id = 1;
+        $data = ['foo' => 'bar'];
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model
+            ->shouldReceive('find')->with($id)->once()->andReturnSelf()
+            ->shouldReceive('forceFill')->with($data)->once()->andReturnSelf()
+            ->shouldReceive('save')->once();
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($model, $repository->update($data, $id, true));
     }
 
     public function testDelete()

@@ -53,12 +53,17 @@ class EloquentRepository extends AbstractRepository
      * @method create
      *
      * @param array $data
+     * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function create($data)
+    public function create($data, $forceFill = false)
     {
-        return $this->cloneModel()->create($data);
+        $model = $this->newInstance();
+        $model = ($forceFill === false) ? $model->fill($data) : $model->forceFill($data);
+        $model->save();
+
+        return $model;
     }
 
     /**
@@ -68,14 +73,14 @@ class EloquentRepository extends AbstractRepository
      *
      * @param array $data
      * @param int   $id
+     * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function update($data, $id)
+    public function update($data, $id, $forceFill = false)
     {
-        $model = $this->find($id)
-            ->fill($data);
-
+        $model = $this->find($id);
+        $model = ($forceFill === false) ? $model->fill($data) : $model->forceFill($data);
         $model->save();
 
         return $model;

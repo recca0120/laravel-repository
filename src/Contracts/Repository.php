@@ -88,10 +88,11 @@ interface Repository
      * @method create
      *
      * @param array $data
+     * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function create($data);
+    public function create($data, $forceFill = false);
 
     /**
      * update.
@@ -100,10 +101,11 @@ interface Repository
      *
      * @param array $data
      * @param int   $id
+     * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function update($data, $id);
+    public function update($data, $id, $forceFill = false);
 
     /**
      * delete.
