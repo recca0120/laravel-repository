@@ -44,7 +44,10 @@ class EloquentRepository extends AbstractRepository
      */
     public function find($id)
     {
-        return $this->cloneModel()->find($id);
+        $model = $this->cloneModel();
+        $model = ($model instanceof Model) ? $model : $model->getModel();
+
+        return $model->find($id);
     }
 
     /**
@@ -111,8 +114,10 @@ class EloquentRepository extends AbstractRepository
      */
     public function newInstance($data = [])
     {
-        return $this->cloneModel()
-            ->forceFill($data);
+        $model = $this->cloneModel();
+        $model = ($model instanceof Model) ? $model : $model->getModel();
+
+        return $model->forceFill($data);
     }
 
     /**
