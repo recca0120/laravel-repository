@@ -38,7 +38,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @method findOneBy
      *
-     * @param mixed $criteria
+     * @param \Recca0120\Repository\Criteria | array $criteria
      *
      * @return mixed
      */
@@ -80,7 +80,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @method matching
      *
-     * @param mixed $criteria
+     * @param \Recca0120\Repository\Criteria | array $criteria
      *
      * @return \Illuminate\Database\Eloquent\Model | \Illuminate\Support\Collection
      */
@@ -103,5 +103,33 @@ abstract class AbstractRepository implements RepositoryContract
         }
 
         return $transform->apply();
+    }
+
+    /**
+     * count.
+     *
+     * @method count
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->countBy([]);
+    }
+
+    /**
+     * countBy.
+     *
+     * @method countBy
+     *
+     * @param \Recca0120\Repository\Criteria | array $criteria
+     *
+     * @return int
+     */
+    public function countBy($criteria)
+    {
+        $model = $this->matching($criteria);
+
+        return $model->count();
     }
 }

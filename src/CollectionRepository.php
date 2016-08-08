@@ -113,7 +113,7 @@ class CollectionRepository extends AbstractRepository
      *
      * @method findBy
      *
-     * @param mixed $criteria
+     * @param \Recca0120\Repository\Criteria | array $criteria
      * @param array $orderBy
      * @param int   $limit
      * @param int   $offset

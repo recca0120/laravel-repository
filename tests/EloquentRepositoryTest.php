@@ -350,6 +350,80 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->paginatedAll(1, 'page', 1));
     }
 
+    public function testCount()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $excepted = 10;
+        $model->shouldReceive('count')->once()->andReturn($excepted);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($repository->count(), $excepted);
+    }
+
+    public function testCountBy()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $criteria = Criteria::create()
+            ->where('foo', '=', 'bar')
+            ->orWhere('buzz', '=', 'fuzz')
+            ->where(function (Criteria $criteria) {
+                return $criteria->where('id', '=', 'closure');
+            });
+
+        $excepted = 10;
+        $model
+            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
+            ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
+            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+                $tranform = $closure(m::self());
+
+                return m::self();
+            })
+            ->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf()
+            ->shouldReceive('count')->once()->andReturn($excepted);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($repository->countBy($criteria), $excepted);
+    }
+
     public function testFindOneBy()
     {
         /*
