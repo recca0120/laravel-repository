@@ -35,10 +35,14 @@ Instead, you may of course manually update your require block and run `composer 
 - findOneBy($criteria)
 - paginatedAll($perPage = null, $pageName = 'page', $page = null)
 - paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
-- create($data)
-- update($data, $id)
+- count
+- countBy($criteria)
+- matching($criteria)
+- create($data, $forceFill = false)
+- update($data, $id, $forceFill = false)
 - delete($id)
 - newInstance($data)
+
 
 ## Usage
 
@@ -146,6 +150,12 @@ Find all results in Repository with pagination
 $posts = $this->repository->paginatedAll();
 ```
 
+Count results in Repository
+
+```php
+$posts = $this->repository->count();
+```
+
 Create new entry in Repository
 
 ```php
@@ -170,6 +180,12 @@ New instance
 $post = $this->repository->newInstance([
     'author' => 'author'
 ]);
+```
+
+Return Model With Conditions
+
+```
+$model = $this->repository->matching(Criteria::create()->where('title', '=', 'title'));
 ```
 
 Find result by id
@@ -219,6 +235,8 @@ $criteria[] = Criteria::create()
 $this->repository->findBy($criteria);
 // $this->repository->findOneBy($criteria);
 // $this->repository->paginatedBy($criteria);
+// $this->repository->countBy($criteria);
+// $this->repository->matching($criteria);
 ```
 
 ##### With
@@ -235,6 +253,8 @@ $criteria = Criteria::create()
 $this->repository->findBy($criteria);
 // $this->repository->findOneBy($criteria);
 // $this->repository->paginatedBy($criteria);
+// $this->repository->countBy($criteria);
+// $this->repository->matching($criteria);
 ```
 
 #### Join
@@ -251,6 +271,8 @@ $criteria = Criteria::create()
 $this->repository->findBy($criteria);
 // $this->repository->findOneBy($criteria);
 // $this->repository->paginatedBy($criteria);
+// $this->repository->countBy($criteria);
+// $this->repository->matching($criteria);
 ```
 
 #### Expression
@@ -265,6 +287,8 @@ $criteria = Criteria::create()
 $this->repository->findBy($criteria);
 // $this->repository->findOneBy($criteria);
 // $this->repository->paginatedBy($criteria);
+// $this->repository->countBy($criteria);
+// $this->repository->matching($criteria);
 ```
 
 ## Find results by array

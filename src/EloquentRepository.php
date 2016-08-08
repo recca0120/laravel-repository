@@ -126,9 +126,9 @@ class EloquentRepository extends AbstractRepository
      * @method findBy
      *
      * @param \Recca0120\Repository\Criteria | array $criteria
-     * @param array $orderBy
-     * @param int   $limit
-     * @param int   $offset
+     * @param array                                  $orderBy
+     * @param int                                    $limit
+     * @param int                                    $offset
      *
      * @return \Illuminate\Support\Collection
      */
