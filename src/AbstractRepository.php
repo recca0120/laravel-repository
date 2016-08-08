@@ -88,7 +88,7 @@ abstract class AbstractRepository implements RepositoryContract
     {
         $model = $this->cloneModel();
         $class = $this->transform;
-        $transform = new $class($this->cloneModel());
+        $transform = new $class($model);
 
         $items = is_array($criteria) ? $criteria : [$criteria];
 

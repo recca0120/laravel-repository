@@ -53,7 +53,6 @@ abstract class Tranform
      */
     public function apply()
     {
-        $model = clone $this->model;
         $allowTypes = [];
         foreach ($this->items as $criteria) {
             foreach ($criteria->all() as $action) {
@@ -68,10 +67,10 @@ abstract class Tranform
             $method = (method_exists($this, $type) === true) ?
                 $type : 'defaults';
 
-            $model = call_user_func_array([$this, $method], [$model, $actions]);
+            $this->model = call_user_func_array([$this, $method], [$this->model, $actions]);
         }
 
-        return $model;
+        return $this->model;
     }
 
     /**
