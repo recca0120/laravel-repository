@@ -38,7 +38,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @method findOneBy
      *
-     * @param \Recca0120\Repository\Criteria | array $criteria
+     * @param \Recca0120\Repository\Criteria|array $criteria
      *
      * @return mixed
      */
@@ -56,7 +56,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @param int $perPage
      *
-     * @return |illuminate\Pagination\AbstractPaginator
+     * @return \illuminate\Pagination\AbstractPaginator
      */
     public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
     {
@@ -80,9 +80,9 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @method matching
      *
-     * @param \Recca0120\Repository\Criteria | array $criteria
+     * @param \Recca0120\Repository\Criteria|array $criteria
      *
-     * @return \Illuminate\Database\Eloquent\Model | \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
     public function matching($criteria)
     {
@@ -122,7 +122,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @method countBy
      *
-     * @param \Recca0120\Repository\Criteria | array $criteria
+     * @param \Recca0120\Repository\Criteria|array $criteria
      *
      * @return int
      */

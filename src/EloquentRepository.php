@@ -125,10 +125,10 @@ class EloquentRepository extends AbstractRepository
      *
      * @method findBy
      *
-     * @param \Recca0120\Repository\Criteria | array $criteria
-     * @param array                                  $orderBy
-     * @param int                                    $limit
-     * @param int                                    $offset
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     * @param array                                $orderBy
+     * @param int                                  $limit
+     * @param int                                  $offset
      *
      * @return \Illuminate\Support\Collection
      */
@@ -157,7 +157,7 @@ class EloquentRepository extends AbstractRepository
      * @param int    $pageName
      * @param int    $page
      *
-     * @return |illuminate\Pagination\AbstractPaginator
+     * @return \illuminate\Pagination\AbstractPaginator
      */
     public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
     {
