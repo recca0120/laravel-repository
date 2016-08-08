@@ -29,9 +29,9 @@ interface Repository
      *
      * @method findBy
      *
-     * @param mixed $criteria
-     * @param int   $limit
-     * @param int   $offset
+     * @param \Recca0120\Repository\Criteria | array $criteria
+     * @param int                                    $limit
+     * @param int                                    $offset
      *
      * @return @return \Illuminate\Support\Collection
      */
@@ -42,7 +42,7 @@ interface Repository
      *
      * @method findOneBy
      *
-     * @param mixed $criteria
+     * @param \Recca0120\Repository\Criteria | array $criteria
      *
      * @return mixed
      */
@@ -53,7 +53,7 @@ interface Repository
      *
      * @method findOneBy
      *
-     * @param mixed $criteria
+     * @param \Recca0120\Repository\Criteria | array $criteria
      *
      * @return mixed
      */
@@ -75,8 +75,8 @@ interface Repository
      *
      * @method paginatedBy
      *
-     * @param mixed $criteria
-     * @param int   $perPage
+     * @param \Recca0120\Repository\Criteria | array $criteria
+     * @param int                                    $perPage
      *
      * @return |illuminate\Pagination\AbstractPaginator
      */
