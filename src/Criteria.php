@@ -56,4 +56,21 @@ class Criteria extends Collection
                 return $reflectionClass->newInstanceArgs(func_get_args());
         }
     }
+
+    /**
+     * __callStatic.
+     *
+     * @method __callStatic
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return static
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        $criteria = new static();
+
+        return call_user_func_array([$criteria, $method], $parameters);
+    }
 }

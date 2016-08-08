@@ -26,6 +26,7 @@ abstract class Collection
         'with',
         'take',
         'skip',
+        'has',
     ];
 
     /**
