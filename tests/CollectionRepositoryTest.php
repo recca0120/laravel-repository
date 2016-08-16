@@ -20,7 +20,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
             ->mock();
     }
 
-    public function testNewInstance()
+    public function test_new_instance()
     {
         /*
         |------------------------------------------------------------
@@ -46,7 +46,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->newInstance();
     }
 
-    public function testCreate()
+    public function test_create()
     {
         /*
         |------------------------------------------------------------
@@ -76,7 +76,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         // $this->assertSame($model, $repository->create($data));
     }
 
-    public function testFind()
+    public function test_find()
     {
         /*
         |------------------------------------------------------------
@@ -107,7 +107,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $repository->find($id));
     }
 
-    public function testUpdate()
+    public function test_update()
     {
         /*
         |------------------------------------------------------------
@@ -136,7 +136,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         // $this->assertSame($model, $repository->update($data, $id));
     }
 
-    public function testDelete()
+    public function test_delete()
     {
         /*
         |------------------------------------------------------------
@@ -164,7 +164,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         // $this->assertTrue($repository->delete($id));
     }
 
-    public function testFindBy()
+    public function test_find_by()
     {
         /*
         |------------------------------------------------------------
@@ -196,7 +196,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->findBy([], 10, 5)->toArray());
     }
 
-    public function testFindAll()
+    public function test_find_all()
     {
         /*
         |------------------------------------------------------------
@@ -225,7 +225,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->findAll()->toArray());
     }
 
-    public function testPaginatedBy()
+    public function test_paginated_by()
     {
         /*
         |------------------------------------------------------------
@@ -257,7 +257,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->paginatedBy([], 1, 'page', 1)->items());
     }
 
-    public function testPaginatedAll()
+    public function test_paginated_all()
     {
         /*
         |------------------------------------------------------------
@@ -289,7 +289,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->paginatedAll(1, 'page', 1)->items());
     }
 
-    public function testFindOneBy()
+    public function test_find_one_by()
     {
         /*
         |------------------------------------------------------------
@@ -318,7 +318,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->findOneBy([]));
     }
 
-    public function testFindByCriteriaWhere()
+    public function test_find_by_criteria_where()
     {
         /*
         |------------------------------------------------------------
@@ -353,7 +353,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaHaving()
+    public function test_find_by_criteria_having()
     {
         /*
         |------------------------------------------------------------
@@ -388,7 +388,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    // public function testFindByCriteriaGroupBy()
+    // public function test_find_by_criteria_group_by()
     // {
     //     /*
     //     |------------------------------------------------------------
@@ -420,7 +420,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     //     $repository->findBy($criteria);
     // }
 
-    public function testFindByCriteriaOrderBy()
+    public function test_find_by_criteria_order_by()
     {
         /*
         |------------------------------------------------------------
@@ -466,7 +466,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaWith()
+    public function test_find_by_criteria_with()
     {
         /*
         |------------------------------------------------------------
@@ -498,7 +498,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaJoin()
+    public function test_find_by_criteria_join()
     {
         /*
         |------------------------------------------------------------
@@ -529,7 +529,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaSelect()
+    public function test_find_by_criteria_select()
     {
         /*
         |------------------------------------------------------------
@@ -558,7 +558,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    // public function testFindByCriteriaSelectExpression()
+    // public function test_find_by_criteria_select_expression()
     // {
     //     /*
     //     |------------------------------------------------------------
@@ -590,7 +590,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
     //     $repository->findBy($criteria);
     // }
 
-    public function testFindByArray()
+    public function test_find_by_array()
     {
         /*
         |------------------------------------------------------------
@@ -626,7 +626,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaAndArray()
+    public function test_find_by_criteria_and_array()
     {
         /*
         |------------------------------------------------------------

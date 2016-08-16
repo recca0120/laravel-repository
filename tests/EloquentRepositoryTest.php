@@ -13,7 +13,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function testNewInstance()
+    public function test_new_instance()
     {
         /*
         |------------------------------------------------------------
@@ -41,7 +41,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->newInstance();
     }
 
-    public function testCreate()
+    public function test_create()
     {
         /*
         |------------------------------------------------------------
@@ -73,7 +73,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $repository->create($data));
     }
 
-    public function testCreateForceFill()
+    public function test_create_force_fill()
     {
         /*
         |------------------------------------------------------------
@@ -105,7 +105,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $repository->create($data, true));
     }
 
-    public function testFind()
+    public function test_find()
     {
         /*
         |------------------------------------------------------------
@@ -134,7 +134,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $repository->find($id));
     }
 
-    public function testUpdate()
+    public function test_update()
     {
         /*
         |------------------------------------------------------------
@@ -167,7 +167,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $repository->update($data, $id));
     }
 
-    public function testUpdateForceFill()
+    public function test_update_force_fill()
     {
         /*
         |------------------------------------------------------------
@@ -200,7 +200,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $repository->update($data, $id, true));
     }
 
-    public function testDelete()
+    public function test_delete()
     {
         /*
         |------------------------------------------------------------
@@ -231,7 +231,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($repository->delete($id));
     }
 
-    public function testFindBy()
+    public function test_find_by()
     {
         /*
         |------------------------------------------------------------
@@ -263,7 +263,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->findBy([], 10, 5));
     }
 
-    public function testFindAll()
+    public function test_find_all()
     {
         /*
         |------------------------------------------------------------
@@ -292,7 +292,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->findAll());
     }
 
-    public function testPaginatedBy()
+    public function test_paginated_by()
     {
         /*
         |------------------------------------------------------------
@@ -321,7 +321,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->paginatedBy([], 1, 'page', 1));
     }
 
-    public function testPaginatedAll()
+    public function test_paginated_all()
     {
         /*
         |------------------------------------------------------------
@@ -350,7 +350,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->paginatedAll(1, 'page', 1));
     }
 
-    public function testCount()
+    public function test_count()
     {
         /*
         |------------------------------------------------------------
@@ -379,7 +379,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repository->count(), $excepted);
     }
 
-    public function testCountBy()
+    public function test_count_by()
     {
         /*
         |------------------------------------------------------------
@@ -424,7 +424,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repository->countBy($criteria), $excepted);
     }
 
-    public function testFindOneBy()
+    public function test_find_one_by()
     {
         /*
         |------------------------------------------------------------
@@ -453,7 +453,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->findOneBy([]));
     }
 
-    public function testFindByCriteriaWhere()
+    public function test_find_by_criteria_where()
     {
         /*
         |------------------------------------------------------------
@@ -497,7 +497,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaHaving()
+    public function test_find_by_criteria_having()
     {
         /*
         |------------------------------------------------------------
@@ -541,7 +541,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaGroupBy()
+    public function test_find_by_criteria_group_by()
     {
         /*
         |------------------------------------------------------------
@@ -573,7 +573,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaOrderBy()
+    public function test_find_by_criteria_order_by()
     {
         /*
         |------------------------------------------------------------
@@ -605,7 +605,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaWith()
+    public function test_find_by_criteria_with()
     {
         /*
         |------------------------------------------------------------
@@ -641,7 +641,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaJoin()
+    public function test_find_by_criteria_join()
     {
         /*
         |------------------------------------------------------------
@@ -675,7 +675,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaSelect()
+    public function test_find_by_criteria_select()
     {
         /*
         |------------------------------------------------------------
@@ -707,7 +707,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaSelectExpression()
+    public function test_find_by_criteria_select_expression()
     {
         /*
         |------------------------------------------------------------
@@ -739,7 +739,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByArray()
+    public function test_find_by_array()
     {
         /*
         |------------------------------------------------------------
@@ -776,7 +776,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $repository->findBy($criteria);
     }
 
-    public function testFindByCriteriaAndArray()
+    public function test_find_by_criteria_and_array()
     {
         /*
         |------------------------------------------------------------
@@ -815,7 +815,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException BadMethodCallException
      */
-    public function testCallUndefinedCriteria()
+    public function test_call_undefined_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -840,7 +840,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $criteria->test();
     }
 
-    public function testEchoCriteriaExpression()
+    public function test_echo_criteria_expression()
     {
         /*
         |------------------------------------------------------------
@@ -863,7 +863,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_string((string) Criteria::expr('test')));
     }
 
-    public function testCustomCriteria()
+    public function test_custom_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -897,7 +897,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
     }
 
-    public function testCriteriaArguments()
+    public function test_criteria_arguments()
     {
         /*
         |------------------------------------------------------------

@@ -3,11 +3,15 @@
 namespace Recca0120\Repository\Tranforms;
 
 use Recca0120\Repository\Criteria;
-use Recca0120\Repository\Traits\Collection as CollectionTrait;
 
 abstract class Tranform
 {
-    use CollectionTrait;
+    /**
+     * $items.
+     *
+     * @var array
+     */
+    protected $items = [];
 
     /**
      * $model.

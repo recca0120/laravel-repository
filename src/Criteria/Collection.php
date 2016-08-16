@@ -3,11 +3,15 @@
 namespace Recca0120\Repository\Criteria;
 
 use BadMethodCallException;
-use Recca0120\Repository\Traits\Collection as CollectionTrait;
 
 abstract class Collection
 {
-    use CollectionTrait;
+    /**
+     * $items.
+     *
+     * @var array
+     */
+    protected $items = [];
 
     /**
      * $allowTypes.
@@ -43,6 +47,18 @@ abstract class Collection
         array_push($this->items, $item);
 
         return $this;
+    }
+
+    /**
+     * all.
+     *
+     * @method all
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->items;
     }
 
     /**
