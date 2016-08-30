@@ -37,6 +37,7 @@ Instead, you may of course manually update your require block and run `composer 
 - paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
 - count
 - countBy($criteria)
+- chunkBy($criteria, $count, callable $callable)
 - matching($criteria)
 - create($data, $forceFill = false)
 - update($data, $id, $forceFill = false)

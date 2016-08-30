@@ -350,6 +350,38 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->paginatedAll(1, 'page', 1));
     }
 
+    public function test_chunk_by()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+        $callable = function () {
+        };
+        $count = 100;
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('chunk')->with($count, $callable)->once()->andReturn(true);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame(true, $repository->chunkBy([], $count, $callable));
+    }
+
     public function test_count()
     {
         /*

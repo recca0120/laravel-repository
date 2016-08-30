@@ -132,4 +132,22 @@ abstract class AbstractRepository implements RepositoryContract
 
         return $model->count();
     }
+
+    /**
+     * chunkBy.
+     *
+     * @method chunkBy
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     * @param int                                  $count
+     * @param callable                             $callback
+     *
+     * @return bool
+     */
+    public function chunkBy($criteria, $count, callable $callback)
+    {
+        $model = $this->matching($criteria);
+
+        return $model->chunk($count, $callback);
+    }
 }
