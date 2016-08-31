@@ -25,26 +25,22 @@ class Collection extends Tranform
             if (in_array($method, ['where', 'having'], true) === true) {
                 if (count($parameters) === 3) {
                     $model = $model->filter(function () use ($parameters) {
-                        list($key, $op, $value) = $parameters;
+                        list($key, $operator, $value) = $parameters;
                         if ($value instanceof CriteriaExpression) {
                             return $value->getValue();
                         }
-                        switch ($op) {
-                            case '>':
-                                return $item[$key] > $value;
-                            break;
-                            case '>=':
-                                return $item[$key] >= $value;
-                            break;
-                            case '<':
-                                return $item[$key] > $value;
-                            break;
-                            case '<=':
-                                return $item[$key] >= $value;
-                            break;
+                        $retrieved = $item[$key];
+                        switch ($operator) {
                             case '=':
-                                return $item[$key] == $value;
-                            break;
+                            case '==':  return $retrieved == $value;
+                            case '!=':
+                            case '<>':  return $retrieved != $value;
+                            case '<':   return $retrieved < $value;
+                            case '>':   return $retrieved > $value;
+                            case '<=':  return $retrieved <= $value;
+                            case '>=':  return $retrieved >= $value;
+                            case '===': return $retrieved === $value;
+                            case '!==': return $retrieved !== $value;
                         }
                     });
                 } else {
