@@ -1,8 +1,8 @@
 <?php
 
 use Symfony\CS\Config\Config;
-use Symfony\CS\Finder\DefaultFinder;
 use Symfony\CS\FixerInterface;
+use Symfony\CS\Finder\DefaultFinder;
 
 $fixers = [
     'blankline_after_open_tag',
@@ -68,11 +68,6 @@ $fixers = [
     'unused_use',
     'visibility',
     'whitespacy_lines',
-    // custom
-    'align_double_arrow',
-    'new_with_braces',
-    'ordered_use',
-    '-psr0',
 ];
 
 return Config::create()

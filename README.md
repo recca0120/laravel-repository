@@ -1,9 +1,11 @@
 # Repository Design Pattern for Laravel
 
-[![Latest Stable Version](https://poser.pugx.org/recca0120/repository/v/stable)](https://packagist.org/packages/recca0120/repository)
-[![Total Downloads](https://poser.pugx.org/recca0120/repository/downloads)](https://packagist.org/packages/recca0120/repository)
-[![Latest Unstable Version](https://poser.pugx.org/recca0120/repository/v/unstable)](https://packagist.org/packages/recca0120/repository)
-[![License](https://poser.pugx.org/recca0120/repository/license)](https://packagist.org/packages/recca0120/repository)
+[![StyleCI](https://styleci.io/repos/60332194/shield?style=flat)](https://styleci.io/repos/60332194)
+[![Build Status](https://travis-ci.org/recca0120/laravel-repository.svg)](https://travis-ci.org/recca0120/laravel-repository)
+[![Total Downloads](https://poser.pugx.org/recca0120/repository/d/total.svg)](https://packagist.org/packages/recca0120/repository)
+[![Latest Stable Version](https://poser.pugx.org/recca0120/repository/v/stable.svg)](https://packagist.org/packages/recca0120/repository)
+[![Latest Unstable Version](https://poser.pugx.org/recca0120/repository/v/unstable.svg)](https://packagist.org/packages/recca0120/repository)
+[![License](https://poser.pugx.org/recca0120/repository/license.svg)](https://packagist.org/packages/recca0120/repository)
 [![Monthly Downloads](https://poser.pugx.org/recca0120/repository/d/monthly)](https://packagist.org/packages/recca0120/repository)
 [![Daily Downloads](https://poser.pugx.org/recca0120/repository/d/daily)](https://packagist.org/packages/recca0120/repository)
 

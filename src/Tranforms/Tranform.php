@@ -61,7 +61,7 @@ abstract class Tranform
         foreach ($this->items as $criteria) {
             foreach ($criteria->all() as $action) {
                 $allowTypes[$action->type][] = [
-                    'method'     => $action->method,
+                    'method' => $action->method,
                     'parameters' => $this->transformParameters($action->parameters),
                 ];
             }

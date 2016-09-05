@@ -156,7 +156,7 @@ class CollectionRepository extends AbstractRepository
         $items = $items->forPage($page, $perPage);
 
         return new LengthAwarePaginator($items, $total, $perPage, $page, [
-            'path'     => Paginator::resolveCurrentPath(),
+            'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
     }
