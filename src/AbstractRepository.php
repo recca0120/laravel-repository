@@ -7,6 +7,8 @@ use Recca0120\Repository\Contracts\Repository as RepositoryContract;
 
 abstract class AbstractRepository implements RepositoryContract
 {
+    use DeprecatedMethod;
+
     /**
      * $model.
      *
@@ -22,48 +24,6 @@ abstract class AbstractRepository implements RepositoryContract
     protected $transform;
 
     /**
-     * findAll.
-     *
-     * @method findAll
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function findAll()
-    {
-        return $this->findBy([]);
-    }
-
-    /**
-     * findOneBy.
-     *
-     * @method findOneBy
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return mixed
-     */
-    public function findOneBy($criteria)
-    {
-        $model = $this->matching($criteria);
-
-        return $model->first();
-    }
-
-    /**
-     * paginatedAll.
-     *
-     * @method paginatedAll
-     *
-     * @param int $perPage
-     *
-     * @return \illuminate\Pagination\AbstractPaginator
-     */
-    public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
-    {
-        return $this->paginatedBy([], $perPage, $pageName, $page);
-    }
-
-    /**
      * cloneModel.
      *
      * @method cloneModel
@@ -76,33 +36,21 @@ abstract class AbstractRepository implements RepositoryContract
     }
 
     /**
-     * matching.
+     * match.
      *
-     * @method matching
+     * @method match
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
      *
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
-    public function matching($criteria)
+    public function match($criteria)
     {
         $model = $this->cloneModel();
         $class = $this->transform;
         $transform = new $class($model);
 
-        $items = is_array($criteria) ? $criteria : [$criteria];
-
-        foreach ($items as $key => $value) {
-            if (($value instanceof Criteria) === true) {
-                $model = $transform->push($value);
-            } else {
-                $value = is_array($value) ? $value : [$key, $value];
-                $criteria = call_user_func_array([Criteria::create(), 'where'], $value);
-                $model = $transform->push($criteria);
-            }
-        }
-
-        return $transform->apply();
+        return $transform->push($criteria)->apply();
     }
 
     /**
@@ -110,33 +58,21 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @method count
      *
-     * @return int
-     */
-    public function count()
-    {
-        return $this->countBy([]);
-    }
-
-    /**
-     * countBy.
-     *
-     * @method countBy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
      *
      * @return int
      */
-    public function countBy($criteria)
+    public function count($criteria = [])
     {
-        $model = $this->matching($criteria);
+        $model = $this->match($criteria);
 
         return $model->count();
     }
 
     /**
-     * chunkBy.
+     * chunk.
      *
-     * @method chunkBy
+     * @method chunk
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param int                                  $count
@@ -144,9 +80,9 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @return bool
      */
-    public function chunkBy($criteria, $count, callable $callback)
+    public function chunk($criteria, $count, callable $callback)
     {
-        $model = $this->matching($criteria);
+        $model = $this->match($criteria);
 
         return $model->chunk($count, $callback);
     }

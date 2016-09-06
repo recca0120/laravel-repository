@@ -95,23 +95,39 @@ class CollectionRepository extends AbstractRepository
     }
 
     /**
-     * newInstance.
+     * factory.
      *
-     * @method newInstance
+     * @method factory
      *
      * @param array $data
      *
      * @return \Illuminate\Support\Fluent
      */
-    public function newInstance($data = [])
+    public function factory($data = [])
     {
         return new Fluent($data);
     }
 
     /**
-     * findBy.
+     * first.
      *
-     * @method findBy
+     * @method first
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return mixed
+     */
+    public function first($criteria = [], $columns = ['*'])
+    {
+        $model = $this->match($criteria);
+
+        return $model->first();
+    }
+
+    /**
+     * get.
+     *
+     * @method get
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param array                                $orderBy
@@ -120,9 +136,9 @@ class CollectionRepository extends AbstractRepository
      *
      * @return \Illuminate\Support\Collection
      */
-    public function findBy($criteria, $limit = null, $offset = null)
+    public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null)
     {
-        $model = $this->matching($criteria);
+        $model = $this->match($criteria);
 
         if (is_null($limit) === false) {
             $model = $model->take($limit);
@@ -136,9 +152,9 @@ class CollectionRepository extends AbstractRepository
     }
 
     /**
-     * paginatedBy.
+     * paginate.
      *
-     * @method paginatedBy
+     * @method paginate
      *
      * @param mixed  $criteria
      * @param string $perPage
@@ -147,11 +163,11 @@ class CollectionRepository extends AbstractRepository
      *
      * @return \illuminate\Pagination\AbstractPaginator
      */
-    public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
+    public function paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null)
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
         $perPage = $perPage ?: 15;
-        $items = $this->findBy($criteria);
+        $items = $this->get($criteria);
         $total = $items->count();
         $items = $items->forPage($page, $perPage);
 

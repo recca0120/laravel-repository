@@ -62,7 +62,7 @@ class EloquentRepository extends AbstractRepository
      */
     public function create($data, $forceFill = false)
     {
-        $model = $this->newInstance();
+        $model = $this->factory();
         $model = ($forceFill === false) ? $model->fill($data) : $model->forceFill($data);
         $model->save();
 
@@ -104,15 +104,15 @@ class EloquentRepository extends AbstractRepository
     }
 
     /**
-     * newInstance.
+     * factory.
      *
-     * @method newInstance
+     * @method factory
      *
      * @param array $data
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function newInstance($data = [])
+    public function factory($data = [])
     {
         $model = $this->cloneModel();
         $model = ($model instanceof Model) ? $model : $model->getModel();
@@ -121,9 +121,25 @@ class EloquentRepository extends AbstractRepository
     }
 
     /**
-     * findBy.
+     * first.
      *
-     * @method findBy
+     * @method first
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return mixed
+     */
+    public function first($criteria = [], $columns = ['*'])
+    {
+        $model = $this->match($criteria);
+
+        return $model->first($columns);
+    }
+
+    /**
+     * get.
+     *
+     * @method get
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param array                                $orderBy
@@ -132,9 +148,9 @@ class EloquentRepository extends AbstractRepository
      *
      * @return \Illuminate\Support\Collection
      */
-    public function findBy($criteria, $limit = null, $offset = null)
+    public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null)
     {
-        $model = $this->matching($criteria);
+        $model = $this->match($criteria);
 
         if (is_null($limit) === false) {
             $model = $model->take($limit);
@@ -144,13 +160,13 @@ class EloquentRepository extends AbstractRepository
             $model = $model->skip($offset);
         }
 
-        return $model->get();
+        return $model->get($columns);
     }
 
     /**
-     * paginatedBy.
+     * paginate.
      *
-     * @method paginatedBy
+     * @method paginate
      *
      * @param mixed  $criteria
      * @param string $perPage
@@ -159,10 +175,10 @@ class EloquentRepository extends AbstractRepository
      *
      * @return \illuminate\Pagination\AbstractPaginator
      */
-    public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
+    public function paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null)
     {
-        $model = $this->matching($criteria);
+        $model = $this->match($criteria);
 
-        return $model->paginate($perPage, ['*'], $pageName, $page);
+        return $model->paginate($perPage, $columns, $pageName, $page);
     }
 }

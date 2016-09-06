@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Expression;
 use Mockery as m;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\EloquentRepository;
@@ -13,7 +12,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function test_new_instance()
+    public function test_factory()
     {
         /*
         |------------------------------------------------------------
@@ -38,7 +37,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $repository->newInstance();
+        $repository->factory();
     }
 
     public function test_create()
@@ -231,7 +230,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($repository->delete($id));
     }
 
-    public function test_find_by()
+    public function test_get_by_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -260,39 +259,10 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->findBy([], 10, 5));
+        $this->assertSame($data, $repository->get([], ['*'], 10, 5));
     }
 
-    public function test_find_all()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('get')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $this->assertSame($data, $repository->findAll());
-    }
-
-    public function test_paginated_by()
+    public function test_paginate_by_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -318,39 +288,10 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->paginatedBy([], 1, 'page', 1));
+        $this->assertSame($data, $repository->paginate([], ['*'], 1, 'page', 1));
     }
 
-    public function test_paginated_all()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('paginate')->with(1, ['*'], 'page', 1)->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $this->assertSame($data, $repository->paginatedAll(1, 'page', 1));
-    }
-
-    public function test_chunk_by()
+    public function test_chunk_by_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -379,39 +320,10 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame(true, $repository->chunkBy([], $count, $callable));
+        $this->assertSame(true, $repository->chunk([], $count, $callable));
     }
 
-    public function test_count()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $excepted = 10;
-        $model->shouldReceive('count')->once()->andReturn($excepted);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $this->assertSame($repository->count(), $excepted);
-    }
-
-    public function test_count_by()
+    public function test_count_by_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -453,10 +365,10 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($repository->countBy($criteria), $excepted);
+        $this->assertSame($repository->count($criteria), $excepted);
     }
 
-    public function test_find_one_by()
+    public function test_first_by_criteria()
     {
         /*
         |------------------------------------------------------------
@@ -482,365 +394,43 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->findOneBy([]));
+        $this->assertSame($data, $repository->first([]));
     }
 
-    public function test_find_by_criteria_where()
+    public function test_custom_criteria()
     {
         /*
         |------------------------------------------------------------
         | Set
         |------------------------------------------------------------
         */
-
         $model = m::mock(Model::class);
         $repository = new EloquentRepository($model);
-
         /*
         |------------------------------------------------------------
         | Expectation
         |------------------------------------------------------------
         */
-
-        $criteria = Criteria::create()
-            ->where('foo', '=', 'bar')
-            ->orWhere('buzz', '=', 'fuzz')
-            ->where(function (Criteria $criteria) {
-                return $criteria->where('id', '=', 'closure');
-            });
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
-                $tranform = $closure(m::self());
-
-                return m::self();
-            })
-            ->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_having()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->having('foo', '=', 'bar')
-            ->orHaving('buzz', '=', 'fuzz')
-            ->having(function (Criteria $criteria) {
-                return $criteria->having('id', '=', 'closure');
-            });
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('having')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('orHaving')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('having')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
-                $tranform = $closure(m::self());
-
-                return m::self();
-            })
-            ->shouldReceive('having')->with('id', '=', 'closure')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_group_by()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->groupBy('id');
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('groupBy')->with('id')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_order_by()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->orderBy('id');
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('orderBy')->with('id')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_with()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->with('table')
-            ->with('table2', function (Criteria $criteria) {
-                return $criteria->where('id', '=', 'closure');
-            });
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('with')->with('table')->once()->andReturnSelf()
-            ->shouldReceive('with')->with('table2', m::type(Closure::class))->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_join()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->join('table2', function (Criteria $criteria) {
-                return $criteria->on('table1.id', '=', 'table2.id');
-            });
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('join')->with('table2', m::type(Closure::class))->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_select()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->select('id');
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('select')->with('id')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_select_expression()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = Criteria::create()
-            ->select(Criteria::expr('id'));
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('select')->with(m::type(Expression::class))->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_array()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = [
-            ['foo', '=', 'bar'],
-            ['fuzz', 'buzz'],
-            'hello' => 'world',
-        ];
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('fuzz', 'buzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('hello', 'world')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
-    }
-
-    public function test_find_by_criteria_and_array()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $criteria = [
-            ['foo', '=', 'bar'],
-            Criteria::create()
-                ->where('fuzz', '=', 'buzz'),
-        ];
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $model
             ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf()
             ->shouldReceive('get')->once();
-        $repository->findBy($criteria);
+        $repository->findBy([
+            CustomEloquentCriteria::create('foo', 'bar'),
+            (new CustomEloquentCriteria('fuzz', 'buzz')),
+        ]);
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+    }
+}
+
+class CustomEloquentCriteria extends Criteria
+{
+    public function __construct($a, $b)
+    {
+        $this->where($a, '=', $b);
     }
 }
