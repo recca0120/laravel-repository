@@ -1,55 +1,17 @@
 <?php
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
-use Recca0120\Repository\CollectionRepository;
+use Recca0120\Repository\EloquentRepository;
 
-class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
+class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
         m::close();
     }
 
-    protected function mockCollection($data = [])
-    {
-        return m::mock(Collection::class)
-            ->shouldReceive('make')->once()->andReturnSelf()
-            ->shouldReceive('map')->andReturnUsing(function ($closure) use ($data) {
-                $closure($data);
-
-                return m::self();
-            })
-            ->mock();
-    }
-
-    public function test_factory()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = $this->mockCollection();
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $repository->factory();
-    }
-
-    public function test_create()
+    public function test_find_by()
     {
         /*
         |------------------------------------------------------------
@@ -58,38 +20,8 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        // $model->shouldReceive('create')->with($data)->once()->andReturnSelf();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $repository->create($data);
-        // $this->assertSame($model, $repository->create($data));
-    }
-
-    public function test_find()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $model = $this->mockCollection();
-        $repository = new CollectionRepository($model);
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -98,8 +30,9 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $model
-            ->shouldReceive('where')->with('id', $id)->andReturnSelf()
-            ->shouldReceive('first')->andReturnSelf();
+            ->shouldReceive('take')->once()->with(10)->andReturnSelf()
+            ->shouldReceive('skip')->once()->with(5)->andReturnSelf()
+            ->shouldReceive('get')->once()->andReturn($data);
 
         /*
         |------------------------------------------------------------
@@ -107,67 +40,10 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $repository->find($id));
+        $this->assertSame($data, $repository->findBy([], 10, 5));
     }
 
-    public function test_update()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $repository->update($data, $id);
-        // $this->assertSame($model, $repository->update($data, $id));
-    }
-
-    public function test_delete()
-    {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $model = $this->mockCollection();
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $repository->delete($id);
-        // $this->assertTrue($repository->delete($id));
-    }
-
-    public function test_get_by_criteria()
+    public function test_find_all()
     {
         /*
         |------------------------------------------------------------
@@ -176,8 +52,8 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -185,10 +61,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model
-            ->shouldReceive('take')->with(10)->once()->andReturnSelf()
-            ->shouldReceive('skip')->with(5)->once()->andReturnSelf()
-            ->shouldReceive('toArray')->once()->andReturn($data);
+        $model->shouldReceive('get')->once()->andReturn($data);
 
         /*
         |------------------------------------------------------------
@@ -196,10 +69,10 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->get([], ['*'], 10, 5)->toArray());
+        $this->assertSame($data, $repository->findAll());
     }
 
-    public function test_paginate_by_criteria()
+    public function test_paginated_by()
     {
         /*
         |------------------------------------------------------------
@@ -208,8 +81,8 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -217,10 +90,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model
-            ->shouldReceive('count')->once()->andReturn(10)
-            ->shouldReceive('forPage')->once()->andReturnSelf()
-            ->shouldReceive('all')->once()->andReturn($data);
+        $model->shouldReceive('paginate')->with(1, ['*'], 'page', 1)->once()->andReturn($data);
 
         /*
         |------------------------------------------------------------
@@ -228,10 +98,10 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->paginate([], ['*'], 1, 'page', 1)->items());
+        $this->assertSame($data, $repository->paginatedBy([], 1, 'page', 1));
     }
 
-    public function test_first_by_criteria()
+    public function test_paginated_all()
     {
         /*
         |------------------------------------------------------------
@@ -240,8 +110,98 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('paginate')->with(1, ['*'], 'page', 1)->andReturn($data);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->paginatedAll(1, 'page', 1));
+    }
+
+    public function test_chunk_by()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+        $callable = function () {
+        };
+        $count = 100;
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('chunk')->with($count, $callable)->once()->andReturn(true);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame(true, $repository->chunkBy([], $count, $callable));
+    }
+
+    public function test_count_all()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $excepted = 10;
+        $model->shouldReceive('count')->once()->andReturn($excepted);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($repository->countBy([]), $excepted);
+    }
+
+    public function test_find_one_by()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -257,6 +217,60 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->first([]));
+        $this->assertSame($data, $repository->findOneBy([]));
+    }
+
+    public function test_matching()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertInstanceOf(Model::class, $repository->matching([]));
+    }
+
+    public function test_new_instance()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('forceFill')->once();
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $repository->newInstance([]);
     }
 }

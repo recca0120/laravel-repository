@@ -5,6 +5,66 @@ namespace Recca0120\Repository\Contracts;
 interface Repository
 {
     /**
+     * match.
+     *
+     * @method match
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
+     */
+    public function match($criteria);
+
+    /**
+     * get.
+     *
+     * @method get
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     * @param int                                  $limit
+     * @param int                                  $offset
+     *
+     * @return @return \Illuminate\Support\Collection
+     */
+    public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null);
+
+    /**
+     * first.
+     *
+     * @method first
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return mixed
+     */
+    public function first($criteria = [], $columns = ['*']);
+
+    /**
+     * count.
+     *
+     * @method count
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return int
+     */
+    public function count($criteria = []);
+
+    /**
+     * paginate.
+     *
+     * @method paginate
+     *
+     * @param mixed  $criteria
+     * @param string $perPage
+     * @param int    $pageName
+     * @param int    $page
+     *
+     * @return \illuminate\Pagination\AbstractPaginator
+     */
+    public function paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null);
+
+    /**
      * find.
      *
      * @method find
@@ -14,73 +74,6 @@ interface Repository
      * @return mixed
      */
     public function find($id);
-
-    /**
-     * findAll.
-     *
-     * @method findAll
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function findAll();
-
-    /**
-     * findBy.
-     *
-     * @method findBy
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param int                                  $limit
-     * @param int                                  $offset
-     *
-     * @return @return \Illuminate\Support\Collection
-     */
-    public function findBy($criteria, $limit = null, $offset = null);
-
-    /**
-     * findOneBy.
-     *
-     * @method findOneBy
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return mixed
-     */
-    public function findOneBy($criteria);
-
-    /**
-     * findOneBy.
-     *
-     * @method findOneBy
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return mixed
-     */
-    public function matching($criteria);
-
-    /**
-     * paginatedAll.
-     *
-     * @method paginatedAll
-     *
-     * @param int $perPage
-     *
-     * @return |illuminate\Pagination\AbstractPaginator
-     */
-    public function paginatedAll($perPage = null, $pageName = 'page', $page = null);
-
-    /**
-     * paginatedBy.
-     *
-     * @method paginatedBy
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param int                                  $perPage
-     *
-     * @return |illuminate\Pagination\AbstractPaginator
-     */
-    public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null);
 
     /**
      * create.
@@ -128,11 +121,11 @@ interface Repository
     public function cloneModel();
 
     /**
-     * newInstance.
+     * factory.
      *
-     * @method newInstance
+     * @method factory
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function newInstance($data);
+    public function factory($data = []);
 }

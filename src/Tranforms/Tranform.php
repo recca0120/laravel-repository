@@ -25,7 +25,7 @@ abstract class Tranform
      *
      * @method __construct
      *
-     * @param mixed $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      */
     public function __construct($model)
     {
@@ -41,9 +41,21 @@ abstract class Tranform
      *
      * @return self
      */
-    public function push(Criteria $criteria)
+    public function push($criteria)
     {
-        $this->items[] = $criteria;
+        $items = is_array($criteria) ? $criteria : [$criteria];
+
+        foreach ($items as $key => $value) {
+            if (($value instanceof Criteria) === true) {
+                $this->items[] = $value;
+            } else {
+                $value = is_array($value) ? $value : [$key, $value];
+                $criteria = call_user_func_array([Criteria::create(), 'where'], $value);
+                $this->items[] = $criteria;
+            }
+        }
+
+        // $this->items[] = $criteria;
 
         return $this;
     }

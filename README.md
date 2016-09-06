@@ -22,7 +22,7 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "recca0120/laravel-repository": "~1.1.4"
+        "recca0120/laravel-repository": "~1.2.0"
     }
 }
 ```
@@ -31,21 +31,17 @@ Instead, you may of course manually update your require block and run `composer 
 
 ### Recca0120\Repository\Contracts\Repository
 
+- match($criteria);
+- get($criteria = [], $columns = ['*'], $limit = null, $offset = null);
+- first($criteria = [], $columns = ['*']);
+- count($criteria = []);
+- paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null);
 - find($id);
-- function findAll()
-- findBy($criteria, $limit = null, $offset = null)
-- findOneBy($criteria)
-- paginatedAll($perPage = null, $pageName = 'page', $page = null)
-- paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
-- count
-- countBy($criteria)
-- chunkBy($criteria, $count, callable $callable)
-- matching($criteria)
-- create($data, $forceFill = false)
-- update($data, $id, $forceFill = false)
-- delete($id)
-- newInstance($data)
-
+- create($data, $forceFill = false);
+- update($data, $id, $forceFill = false);
+- delete($id);
+- cloneModel();
+- factory($data = []);
 
 ## Usage
 
@@ -144,13 +140,13 @@ class PostsController extends Controller
 Find all results in Repository
 
 ```php
-$posts = $this->repository->findAll();
+$posts = $this->repository->get();
 ```
 
 Find all results in Repository with pagination
 
 ```php
-$posts = $this->repository->paginatedAll();
+$posts = $this->repository->paginate();
 ```
 
 Count results in Repository
@@ -180,7 +176,7 @@ $this->repository->delete($id);
 New instance
 
 ```php
-$post = $this->repository->newInstance([
+$post = $this->repository->factory([
     'author' => 'author'
 ]);
 ```
@@ -188,7 +184,7 @@ $post = $this->repository->newInstance([
 Return Model With Conditions
 
 ```
-$model = $this->repository->matching(Criteria::create()->where('title', '=', 'title'));
+$model = $this->repository->match(Criteria::create()->where('title', '=', 'title'));
 ```
 
 Find result by id
@@ -215,9 +211,8 @@ $criteria = Criteria::create()
     ->orWhere('title', '=', 'title')
     ->orderBy('author', 'asc');
 
-$this->repository->findBy($criteria);
-// $this->repository->findOneBy($criteria);
-// $this->repository->paginatedBy($criteria);
+$this->repository->get($criteria);
+$this->repository->paginate($criteria);
 ```
 
 #### Multiple Criteria
@@ -235,11 +230,8 @@ $criteria[] = Criteria::create()
     ->where('author', '=', 'author')
     ->orWhere('title', '=', 'title');
 
-$this->repository->findBy($criteria);
-// $this->repository->findOneBy($criteria);
-// $this->repository->paginatedBy($criteria);
-// $this->repository->countBy($criteria);
-// $this->repository->matching($criteria);
+$this->repository->get($criteria);
+// $this->repository->paginate($criteria);
 ```
 
 ##### With
@@ -253,11 +245,8 @@ $criteria = Criteria::create()
         return $criteria->where('author', '=', 'author');
     });
 
-$this->repository->findBy($criteria);
-// $this->repository->findOneBy($criteria);
-// $this->repository->paginatedBy($criteria);
-// $this->repository->countBy($criteria);
-// $this->repository->matching($criteria);
+$this->repository->get($criteria);
+// $this->repository->paginate($criteria);
 ```
 
 #### Join
@@ -271,11 +260,8 @@ $criteria = Criteria::create()
         return $criteria->on('posts.author_id', '=', 'author.id');
     });
 
-$this->repository->findBy($criteria);
-// $this->repository->findOneBy($criteria);
-// $this->repository->paginatedBy($criteria);
-// $this->repository->countBy($criteria);
-// $this->repository->matching($criteria);
+$this->repository->get($criteria);
+// $this->repository->paginate($criteria);
 ```
 
 #### Expression
@@ -287,11 +273,8 @@ use Recca0120\Repository\Criteria;
 $criteria = Criteria::create()
     ->where('created_at', '<=', Criteria::expr('NOW()'));
 
-$this->repository->findBy($criteria);
-// $this->repository->findOneBy($criteria);
-// $this->repository->paginatedBy($criteria);
-// $this->repository->countBy($criteria);
-// $this->repository->matching($criteria);
+$this->repository->get($criteria);
+// $this->repository->paginate($criteria);
 ```
 
 ## Find results by array
@@ -300,7 +283,7 @@ $this->repository->findBy($criteria);
 
 use Recca0120\Repository\Criteria;
 
-$posts = $this->repository->findBy([
+$posts = $this->repository->get([
     'author' => 'author',
     ['title', '=', 'title'],
     Criteria::create()
@@ -322,8 +305,8 @@ class CustomCriteria extends Criteria
     }
 }
 
-$this->repository->findBy(CustomCriteria::create(1));
-$this->repository->findBy((new CustomCriteria::create(2))->where('autor', '=', 'autor'));
+$this->repository->get(CustomCriteria::create(1));
+$this->repository->get((new CustomCriteria::create(2))->where('autor', '=', 'autor'));
 ```
 
 

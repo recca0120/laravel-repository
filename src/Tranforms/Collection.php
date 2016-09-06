@@ -24,7 +24,7 @@ class Collection extends Tranform
             $parameters = $action['parameters'];
             if (in_array($method, ['where', 'having'], true) === true) {
                 if (count($parameters) === 3) {
-                    $model = $model->filter(function () use ($parameters) {
+                    $model = $model->filter(function ($item) use ($parameters) {
                         list($key, $operator, $value) = $parameters;
                         if ($value instanceof CriteriaExpression) {
                             return $value->getValue();

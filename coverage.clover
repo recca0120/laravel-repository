@@ -1,49 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1473132499">
-  <project timestamp="1473132499">
+<coverage generated="1473175015">
+  <project timestamp="1473175015">
     <package name="Recca0120\Repository">
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/AbstractRepository.php">
         <class name="AbstractRepository" namespace="Recca0120\Repository">
-          <metrics complexity="12" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="29" coveredelements="29"/>
+          <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="13" coveredelements="13"/>
         </class>
-        <line num="31" type="method" name="findAll" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="33" type="stmt" count="2"/>
-        <line num="45" type="method" name="findOneBy" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="47" type="stmt" count="2"/>
-        <line num="49" type="stmt" count="2"/>
-        <line num="61" type="method" name="paginatedAll" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="63" type="stmt" count="2"/>
-        <line num="73" type="method" name="cloneModel" visibility="public" complexity="1" crap="1" count="40"/>
-        <line num="75" type="stmt" count="40"/>
-        <line num="87" type="method" name="matching" visibility="public" complexity="5" crap="5" count="32"/>
-        <line num="89" type="stmt" count="32"/>
-        <line num="90" type="stmt" count="32"/>
-        <line num="91" type="stmt" count="32"/>
-        <line num="93" type="stmt" count="32"/>
-        <line num="95" type="stmt" count="32"/>
-        <line num="96" type="stmt" count="20"/>
-        <line num="97" type="stmt" count="18"/>
-        <line num="99" type="stmt" count="4"/>
-        <line num="100" type="stmt" count="4"/>
-        <line num="101" type="stmt" count="20"/>
-        <line num="105" type="stmt" count="32"/>
-        <line num="115" type="method" name="count" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="117" type="stmt" count="1"/>
-        <line num="129" type="method" name="countBy" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="131" type="stmt" count="2"/>
-        <line num="133" type="stmt" count="2"/>
-        <line num="147" type="method" name="chunkBy" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="149" type="stmt" count="1"/>
-        <line num="151" type="stmt" count="1"/>
-        <metrics loc="153" ncloc="75" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="29" coveredelements="29"/>
+        <line num="33" type="method" name="cloneModel" visibility="public" complexity="1" crap="1" count="27"/>
+        <line num="35" type="stmt" count="27"/>
+        <line num="47" type="method" name="match" visibility="public" complexity="1" crap="1" count="18"/>
+        <line num="49" type="stmt" count="18"/>
+        <line num="50" type="stmt" count="18"/>
+        <line num="51" type="stmt" count="18"/>
+        <line num="53" type="stmt" count="18"/>
+        <line num="65" type="method" name="count" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="67" type="stmt" count="2"/>
+        <line num="69" type="stmt" count="2"/>
+        <line num="83" type="method" name="chunk" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="85" type="stmt" count="2"/>
+        <line num="87" type="stmt" count="2"/>
+        <metrics loc="89" ncloc="43" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="13" coveredelements="13"/>
       </file>
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/CollectionRepository.php">
         <class name="CollectionRepository" namespace="Recca0120\Repository">
-          <metrics complexity="17" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="28" coveredelements="28"/>
+          <metrics complexity="18" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="23" elements="32" coveredelements="32"/>
         </class>
-        <line num="36" type="method" name="anonymous function" complexity="3" crap="3" count="18"/>
-        <line num="38" type="stmt" count="18"/>
-        <line num="39" type="stmt" count="18"/>
+        <line num="36" type="method" name="anonymous function" complexity="3" crap="3" count="8"/>
+        <line num="37" type="stmt" count="8"/>
+        <line num="38" type="stmt" count="8"/>
+        <line num="39" type="stmt" count="8"/>
         <line num="50" type="method" name="find" visibility="public" complexity="1" crap="1" count="1"/>
         <line num="52" type="stmt" count="1"/>
         <line num="65" type="method" name="create" visibility="public" complexity="1" crap="1" count="1"/>
@@ -52,25 +37,28 @@
         <line num="82" type="stmt" count="1"/>
         <line num="93" type="method" name="delete" visibility="public" complexity="1" crap="1" count="1"/>
         <line num="95" type="stmt" count="1"/>
-        <line num="106" type="method" name="newInstance" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="106" type="method" name="factory" visibility="public" complexity="1" crap="1" count="1"/>
         <line num="108" type="stmt" count="1"/>
-        <line num="123" type="method" name="findBy" visibility="public" complexity="3" crap="3" count="12"/>
-        <line num="125" type="stmt" count="12"/>
-        <line num="127" type="stmt" count="12"/>
-        <line num="128" type="stmt" count="1"/>
-        <line num="131" type="stmt" count="12"/>
-        <line num="132" type="stmt" count="1"/>
-        <line num="135" type="stmt" count="12"/>
-        <line num="150" type="method" name="paginatedBy" visibility="public" complexity="3" crap="3" count="2"/>
-        <line num="152" type="stmt" count="2"/>
-        <line num="153" type="stmt" count="2"/>
-        <line num="154" type="stmt" count="2"/>
-        <line num="155" type="stmt" count="2"/>
-        <line num="156" type="stmt" count="2"/>
-        <line num="158" type="stmt" count="2"/>
-        <line num="159" type="stmt" count="2"/>
-        <line num="160" type="stmt" count="2"/>
-        <metrics loc="163" ncloc="74" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="29" coveredelements="29"/>
+        <line num="120" type="method" name="first" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="122" type="stmt" count="1"/>
+        <line num="124" type="stmt" count="1"/>
+        <line num="139" type="method" name="get" visibility="public" complexity="3" crap="3" count="2"/>
+        <line num="141" type="stmt" count="2"/>
+        <line num="143" type="stmt" count="2"/>
+        <line num="144" type="stmt" count="1"/>
+        <line num="147" type="stmt" count="2"/>
+        <line num="148" type="stmt" count="1"/>
+        <line num="151" type="stmt" count="2"/>
+        <line num="166" type="method" name="paginate" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="168" type="stmt" count="1"/>
+        <line num="169" type="stmt" count="1"/>
+        <line num="170" type="stmt" count="1"/>
+        <line num="171" type="stmt" count="1"/>
+        <line num="172" type="stmt" count="1"/>
+        <line num="174" type="stmt" count="1"/>
+        <line num="175" type="stmt" count="1"/>
+        <line num="176" type="stmt" count="1"/>
+        <metrics loc="179" ncloc="81" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="24" elements="33" coveredelements="33"/>
       </file>
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Criteria.php">
         <class name="Criteria" namespace="Recca0120\Repository">
@@ -80,15 +68,15 @@
         <line num="20" type="stmt" count="2"/>
         <line num="28" type="method" name="raw" visibility="public" complexity="1" crap="1" count="2"/>
         <line num="30" type="stmt" count="2"/>
-        <line num="38" type="method" name="create" visibility="public" complexity="6" crap="6" count="21"/>
-        <line num="40" type="stmt" count="21"/>
-        <line num="42" type="stmt" count="21"/>
-        <line num="43" type="stmt" count="21"/>
+        <line num="38" type="method" name="create" visibility="public" complexity="6" crap="6" count="22"/>
+        <line num="40" type="stmt" count="22"/>
+        <line num="42" type="stmt" count="22"/>
+        <line num="43" type="stmt" count="22"/>
         <line num="44" type="stmt" count="19"/>
-        <line num="45" type="stmt" count="2"/>
+        <line num="45" type="stmt" count="3"/>
         <line num="46" type="stmt" count="1"/>
-        <line num="47" type="stmt" count="2"/>
-        <line num="48" type="stmt" count="2"/>
+        <line num="47" type="stmt" count="3"/>
+        <line num="48" type="stmt" count="3"/>
         <line num="49" type="stmt" count="1"/>
         <line num="50" type="stmt" count="1"/>
         <line num="51" type="stmt" count="1"/>
@@ -100,13 +88,37 @@
         <line num="74" type="stmt" count="1"/>
         <metrics loc="76" ncloc="49" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="22" coveredelements="22"/>
       </file>
+      <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/DeprecatedMethod.php">
+        <class name="DeprecatedMethod" namespace="Recca0120\Repository">
+          <metrics complexity="9" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="18" coveredelements="18"/>
+        </class>
+        <line num="16" type="method" name="newInstance" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="18" type="stmt" count="1"/>
+        <line num="30" type="method" name="matching" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="32" type="stmt" count="1"/>
+        <line num="42" type="method" name="findAll" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="44" type="stmt" count="1"/>
+        <line num="59" type="method" name="findBy" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="61" type="stmt" count="3"/>
+        <line num="76" type="method" name="paginatedBy" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="78" type="stmt" count="1"/>
+        <line num="90" type="method" name="paginatedAll" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="92" type="stmt" count="1"/>
+        <line num="104" type="method" name="findOneBy" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="106" type="stmt" count="1"/>
+        <line num="118" type="method" name="countBy" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="134" type="method" name="chunkBy" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="136" type="stmt" count="1"/>
+        <metrics loc="138" ncloc="51" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="18" coveredelements="18"/>
+      </file>
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/EloquentRepository.php">
         <class name="EloquentRepository" namespace="Recca0120\Repository">
-          <metrics complexity="14" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="33" coveredelements="33"/>
+          <metrics complexity="15" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="36" coveredelements="36"/>
         </class>
-        <line num="31" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="26"/>
-        <line num="33" type="stmt" count="26"/>
-        <line num="34" type="stmt" count="26"/>
+        <line num="31" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="23"/>
+        <line num="33" type="stmt" count="23"/>
+        <line num="34" type="stmt" count="23"/>
         <line num="45" type="method" name="find" visibility="public" complexity="2" crap="2" count="4"/>
         <line num="47" type="stmt" count="4"/>
         <line num="48" type="stmt" count="4"/>
@@ -123,51 +135,54 @@
         <line num="89" type="stmt" count="2"/>
         <line num="101" type="method" name="delete" visibility="public" complexity="1" crap="1" count="1"/>
         <line num="103" type="stmt" count="1"/>
-        <line num="115" type="method" name="newInstance" visibility="public" complexity="2" crap="2" count="3"/>
-        <line num="117" type="stmt" count="3"/>
-        <line num="118" type="stmt" count="3"/>
-        <line num="120" type="stmt" count="3"/>
-        <line num="135" type="method" name="findBy" visibility="public" complexity="3" crap="3" count="13"/>
-        <line num="137" type="stmt" count="13"/>
-        <line num="139" type="stmt" count="13"/>
-        <line num="140" type="stmt" count="1"/>
-        <line num="143" type="stmt" count="13"/>
-        <line num="144" type="stmt" count="1"/>
-        <line num="147" type="stmt" count="13"/>
-        <line num="162" type="method" name="paginatedBy" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="164" type="stmt" count="2"/>
-        <line num="166" type="stmt" count="2"/>
-        <metrics loc="168" ncloc="79" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="25" elements="33" coveredelements="33"/>
+        <line num="115" type="method" name="factory" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="117" type="stmt" count="4"/>
+        <line num="118" type="stmt" count="4"/>
+        <line num="120" type="stmt" count="4"/>
+        <line num="132" type="method" name="first" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="134" type="stmt" count="2"/>
+        <line num="136" type="stmt" count="2"/>
+        <line num="151" type="method" name="get" visibility="public" complexity="3" crap="3" count="5"/>
+        <line num="153" type="stmt" count="5"/>
+        <line num="155" type="stmt" count="5"/>
+        <line num="156" type="stmt" count="2"/>
+        <line num="159" type="stmt" count="5"/>
+        <line num="160" type="stmt" count="2"/>
+        <line num="163" type="stmt" count="5"/>
+        <line num="178" type="method" name="paginate" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="180" type="stmt" count="3"/>
+        <line num="182" type="stmt" count="3"/>
+        <metrics loc="184" ncloc="86" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="36" coveredelements="36"/>
       </file>
     </package>
     <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Contracts/Repository.php">
-      <metrics loc="138" ncloc="30" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="131" ncloc="28" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <package name="Recca0120\Repository\Criteria">
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Criteria/Action.php">
         <class name="Action" namespace="Recca0120\Repository\Criteria">
           <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="5" coveredelements="5"/>
         </class>
-        <line num="37" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="21"/>
-        <line num="39" type="stmt" count="21"/>
-        <line num="40" type="stmt" count="21"/>
-        <line num="41" type="stmt" count="21"/>
-        <line num="42" type="stmt" count="21"/>
+        <line num="37" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="22"/>
+        <line num="39" type="stmt" count="22"/>
+        <line num="40" type="stmt" count="22"/>
+        <line num="41" type="stmt" count="22"/>
+        <line num="42" type="stmt" count="22"/>
         <metrics loc="43" ncloc="19" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="5" coveredelements="5"/>
       </file>
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Criteria/Collection.php">
         <class name="Collection" namespace="Recca0120\Repository\Criteria">
           <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="10" coveredelements="10"/>
         </class>
-        <line num="45" type="method" name="push" visibility="public" complexity="1" crap="1" count="21"/>
-        <line num="47" type="stmt" count="21"/>
-        <line num="49" type="stmt" count="21"/>
-        <line num="59" type="method" name="all" visibility="public" complexity="1" crap="1" count="20"/>
-        <line num="61" type="stmt" count="20"/>
-        <line num="74" type="method" name="__call" visibility="public" complexity="2" crap="2" count="22"/>
-        <line num="76" type="stmt" count="22"/>
-        <line num="77" type="stmt" count="21"/>
-        <line num="79" type="stmt" count="21"/>
+        <line num="45" type="method" name="push" visibility="public" complexity="1" crap="1" count="22"/>
+        <line num="47" type="stmt" count="22"/>
+        <line num="49" type="stmt" count="22"/>
+        <line num="59" type="method" name="all" visibility="public" complexity="1" crap="1" count="21"/>
+        <line num="61" type="stmt" count="21"/>
+        <line num="74" type="method" name="__call" visibility="public" complexity="2" crap="2" count="23"/>
+        <line num="76" type="stmt" count="23"/>
+        <line num="77" type="stmt" count="22"/>
+        <line num="79" type="stmt" count="22"/>
         <line num="82" type="stmt" count="1"/>
         <metrics loc="84" ncloc="48" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="10" coveredelements="10"/>
       </file>
@@ -188,7 +203,7 @@
     <package name="Recca0120\Repository\Tranforms">
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Tranforms/Collection.php">
         <class name="Collection" namespace="Recca0120\Repository\Tranforms">
-          <metrics complexity="34" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="26" elements="34" coveredelements="34"/>
+          <metrics complexity="34" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="32" elements="40" coveredelements="40"/>
         </class>
         <line num="20" type="method" name="where" visibility="public" complexity="15" crap="15" count="4"/>
         <line num="22" type="stmt" count="4"/>
@@ -196,6 +211,11 @@
         <line num="24" type="stmt" count="4"/>
         <line num="25" type="stmt" count="4"/>
         <line num="26" type="stmt" count="4"/>
+        <line num="28" type="stmt" count="2"/>
+        <line num="29" type="stmt" count="2"/>
+        <line num="32" type="stmt" count="2"/>
+        <line num="34" type="stmt" count="2"/>
+        <line num="35" type="stmt" count="2"/>
         <line num="45" type="stmt" count="4"/>
         <line num="47" type="stmt" count="4"/>
         <line num="50" type="stmt" count="4"/>
@@ -221,57 +241,64 @@
         <line num="154" type="stmt" count="1"/>
         <line num="155" type="stmt" count="1"/>
         <line num="156" type="stmt" count="1"/>
+        <line num="160" type="stmt" count="1"/>
         <line num="161" type="stmt" count="1"/>
         <line num="173" type="method" name="transformParameters" visibility="protected" complexity="1" crap="1" count="8"/>
         <line num="175" type="stmt" count="8"/>
-        <metrics loc="177" ncloc="95" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="26" elements="34" coveredelements="34"/>
+        <metrics loc="177" ncloc="95" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="32" elements="40" coveredelements="40"/>
       </file>
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Tranforms/Eloquent.php">
         <class name="Eloquent" namespace="Recca0120\Repository\Tranforms">
           <metrics complexity="4" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="7" coveredelements="7"/>
         </class>
-        <line num="21" type="method" name="transformParameters" visibility="protected" complexity="3" crap="3" count="12"/>
-        <line num="24" type="stmt" count="12"/>
+        <line num="21" type="method" name="transformParameters" visibility="protected" complexity="3" crap="3" count="13"/>
+        <line num="24" type="stmt" count="13"/>
         <line num="25" type="stmt" count="5"/>
         <line num="27" type="method" name="anonymous function" complexity="1" crap="1" count="5"/>
         <line num="28" type="stmt" count="3"/>
         <line num="30" type="stmt" count="3"/>
         <line num="31" type="stmt" count="5"/>
-        <line num="34" type="stmt" count="12"/>
+        <line num="34" type="stmt" count="13"/>
         <line num="35" type="stmt" count="1"/>
-        <line num="38" type="stmt" count="11"/>
-        <line num="39" type="stmt" count="12"/>
+        <line num="38" type="stmt" count="12"/>
+        <line num="39" type="stmt" count="13"/>
         <metrics loc="41" ncloc="32" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="11" coveredelements="11"/>
       </file>
       <file name="C:\Users\recca\UniServerZ\www\driways\laravel\vendor\recca0120\repository\src/Tranforms/Tranform.php">
         <class name="Tranform" namespace="Recca0120\Repository\Tranforms">
-          <metrics complexity="10" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="22" coveredelements="22"/>
+          <metrics complexity="14" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="24" elements="28" coveredelements="28"/>
         </class>
-        <line num="30" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="32"/>
-        <line num="32" type="stmt" count="32"/>
-        <line num="33" type="stmt" count="32"/>
-        <line num="44" type="method" name="push" visibility="public" complexity="1" crap="1" count="20"/>
-        <line num="46" type="stmt" count="20"/>
-        <line num="48" type="stmt" count="20"/>
-        <line num="58" type="method" name="apply" visibility="public" complexity="5" crap="5" count="32"/>
-        <line num="60" type="stmt" count="32"/>
-        <line num="61" type="stmt" count="32"/>
-        <line num="62" type="stmt" count="20"/>
-        <line num="63" type="stmt" count="20"/>
-        <line num="64" type="stmt" count="20"/>
-        <line num="65" type="stmt" count="20"/>
-        <line num="70" type="stmt" count="32"/>
-        <line num="71" type="stmt" count="20"/>
-        <line num="72" type="stmt" count="20"/>
-        <line num="74" type="stmt" count="20"/>
-        <line num="77" type="stmt" count="32"/>
-        <line num="90" type="method" name="defaults" visibility="public" complexity="2" crap="2" count="12"/>
-        <line num="92" type="stmt" count="12"/>
-        <line num="93" type="stmt" count="12"/>
-        <line num="96" type="stmt" count="12"/>
-        <metrics loc="109" ncloc="57" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="22" coveredelements="22"/>
+        <line num="30" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="36"/>
+        <line num="32" type="stmt" count="36"/>
+        <line num="33" type="stmt" count="36"/>
+        <line num="44" type="method" name="push" visibility="public" complexity="5" crap="5" count="36"/>
+        <line num="46" type="stmt" count="36"/>
+        <line num="48" type="stmt" count="36"/>
+        <line num="49" type="stmt" count="21"/>
+        <line num="50" type="stmt" count="19"/>
+        <line num="52" type="stmt" count="4"/>
+        <line num="53" type="stmt" count="4"/>
+        <line num="54" type="stmt" count="21"/>
+        <line num="60" type="stmt" count="36"/>
+        <line num="70" type="method" name="apply" visibility="public" complexity="5" crap="5" count="36"/>
+        <line num="72" type="stmt" count="36"/>
+        <line num="73" type="stmt" count="36"/>
+        <line num="74" type="stmt" count="21"/>
+        <line num="75" type="stmt" count="21"/>
+        <line num="76" type="stmt" count="21"/>
+        <line num="77" type="stmt" count="21"/>
+        <line num="82" type="stmt" count="36"/>
+        <line num="83" type="stmt" count="21"/>
+        <line num="84" type="stmt" count="21"/>
+        <line num="86" type="stmt" count="21"/>
+        <line num="89" type="stmt" count="36"/>
+        <line num="102" type="method" name="defaults" visibility="public" complexity="2" crap="2" count="13"/>
+        <line num="104" type="stmt" count="13"/>
+        <line num="105" type="stmt" count="13"/>
+        <line num="108" type="stmt" count="13"/>
+        <metrics loc="121" ncloc="67" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="24" elements="28" coveredelements="28"/>
       </file>
     </package>
-    <metrics files="11" loc="1201" ncloc="581" classes="10" methods="49" coveredmethods="49" conditionals="0" coveredconditionals="0" statements="153" coveredstatements="153" elements="202" coveredelements="202"/>
+    <metrics files="12" loc="1312" ncloc="622" classes="11" methods="56" coveredmethods="56" conditionals="0" coveredconditionals="0" statements="167" coveredstatements="167" elements="223" coveredelements="223"/>
   </project>
 </coverage>
