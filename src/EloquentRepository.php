@@ -55,15 +55,15 @@ class EloquentRepository extends AbstractRepository
      *
      * @method create
      *
-     * @param array $data
+     * @param array $attributes
      * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function create($data, $forceFill = false)
+    public function create($attributes, $forceFill = false)
     {
         $model = $this->factory();
-        $model = ($forceFill === false) ? $model->fill($data) : $model->forceFill($data);
+        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
         $model->save();
 
         return $model;
@@ -74,16 +74,16 @@ class EloquentRepository extends AbstractRepository
      *
      * @method update
      *
-     * @param array $data
+     * @param array $attributes
      * @param int   $id
      * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function update($data, $id, $forceFill = false)
+    public function update($attributes, $id, $forceFill = false)
     {
         $model = $this->find($id);
-        $model = ($forceFill === false) ? $model->fill($data) : $model->forceFill($data);
+        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
         $model->save();
 
         return $model;
@@ -108,16 +108,16 @@ class EloquentRepository extends AbstractRepository
      *
      * @method factory
      *
-     * @param array $data
+     * @param array $attributes
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function factory($data = [])
+    public function factory($attributes = [])
     {
         $model = $this->cloneModel();
         $model = ($model instanceof Model) ? $model : $model->getModel();
 
-        return $model->forceFill($data);
+        return $model->forceFill($attributes);
     }
 
     /**

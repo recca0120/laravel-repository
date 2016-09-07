@@ -57,12 +57,12 @@ class CollectionRepository extends AbstractRepository
      *
      * @method create
      *
-     * @param array $data
+     * @param array $attributes
      * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function create($data, $forceFill = false)
+    public function create($attributes, $forceFill = false)
     {
     }
 
@@ -71,13 +71,13 @@ class CollectionRepository extends AbstractRepository
      *
      * @method update
      *
-     * @param array $data
+     * @param array $attributes
      * @param int   $id
      * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function update($data, $id, $forceFill = false)
+    public function update($attributes, $id, $forceFill = false)
     {
     }
 
@@ -99,13 +99,13 @@ class CollectionRepository extends AbstractRepository
      *
      * @method factory
      *
-     * @param array $data
+     * @param array $attributes
      *
      * @return \Illuminate\Support\Fluent
      */
-    public function factory($data = [])
+    public function factory($attributes = [])
     {
-        return new Fluent($data);
+        return new Fluent($attributes);
     }
 
     /**

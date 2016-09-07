@@ -80,25 +80,25 @@ interface Repository
      *
      * @method create
      *
-     * @param array $data
+     * @param array $attributes
      * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function create($data, $forceFill = false);
+    public function create($attributes, $forceFill = false);
 
     /**
      * update.
      *
      * @method update
      *
-     * @param array $data
+     * @param array $attributes
      * @param int   $id
      * @param bool  $forceFill
      *
      * @return mixed
      */
-    public function update($data, $id, $forceFill = false);
+    public function update($attributes, $id, $forceFill = false);
 
     /**
      * delete.
@@ -127,5 +127,5 @@ interface Repository
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function factory($data = []);
+    public function factory($attributes = []);
 }
