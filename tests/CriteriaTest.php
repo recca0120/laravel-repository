@@ -85,7 +85,7 @@ class CriteriaTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf()
             ->shouldReceive('get')->once();
 
-        $repository->findBy([
+        $repository->get([
             CustomCriteria::create('foo', 'bar'),
             (new CustomCriteria('fuzz', 'buzz')),
         ]);

@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 use Recca0120\Repository\EloquentRepository;
+use Recca0120\Repository\DeprecatedMethod;
 
 class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 {
@@ -21,7 +22,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $data = ['foo' => 'bar'];
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -53,7 +54,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $data = ['foo' => 'bar'];
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -82,7 +83,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $data = ['foo' => 'bar'];
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -111,7 +112,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $data = ['foo' => 'bar'];
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -140,7 +141,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $data = ['foo' => 'bar'];
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
         $callable = function () {
         };
         $count = 100;
@@ -171,7 +172,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -201,7 +202,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $data = ['foo' => 'bar'];
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -229,7 +230,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -255,7 +256,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $repository = new EloquentRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -286,7 +287,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $repository = new DeprecatedDisabledRepository($model);
+        $repository = new DeprecatedRepository($model);
 
         /*
         |------------------------------------------------------------
@@ -300,11 +301,20 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $repository->factory([]);
+        $repository->disableDeprecated()->factory([]);
     }
 }
 
-class DeprecatedDisabledRepository extends EloquentRepository
+class DeprecatedRepository extends EloquentRepository
 {
-    protected $enabledDeprecated = false;
+    use DeprecatedMethod;
+
+    protected $disableDeprecated = false;
+
+    public function disableDeprecated()
+    {
+        $this->disableDeprecated = false;
+
+        return $this;
+    }
 }

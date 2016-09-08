@@ -37,7 +37,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         foreach (['=', '==', '!=', '<>', '<', '>', '<=', '>=', '===', '!=='] as $operator) {
             $criteria = Criteria::create()
-                ->where('foo', '=', 'bar');
+                ->where('foo', $operator, 'bar');
                 // ->orWhere('buzz', '=', 'fuzz')
                 // ->where(function (Criteria $criteria) {
                 //     return $criteria->where('id', '=', 'closure');

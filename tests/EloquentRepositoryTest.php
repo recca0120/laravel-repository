@@ -444,7 +444,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf()
             ->shouldReceive('get')->once();
-        $repository->findBy([
+        $repository->get([
             CustomEloquentCriteria::create('foo', 'bar'),
             (new CustomEloquentCriteria('fuzz', 'buzz')),
         ]);

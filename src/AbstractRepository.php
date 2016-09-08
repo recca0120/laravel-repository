@@ -7,8 +7,6 @@ use Recca0120\Repository\Contracts\Repository as RepositoryContract;
 
 abstract class AbstractRepository implements RepositoryContract
 {
-    use DeprecatedMethod;
-
     /**
      * $model.
      *
