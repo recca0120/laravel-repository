@@ -163,7 +163,7 @@ trait DeprecatedMethod
      */
     protected function deprecated($method)
     {
-        if (property_exists($this->disableDeprecated) === true && $this->disableDeprecated === true) {
+        if (property_exists($this, 'disableDeprecated') === true && $this->disableDeprecated === true) {
             throw new BadMethodCallException('BadMethodCallException Method ['.$method.'] is deprecated');
         }
     }

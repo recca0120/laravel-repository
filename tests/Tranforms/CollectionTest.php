@@ -209,6 +209,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $tranform->push($criteria)->apply());
     }
 
+
     public function test_select_condition()
     {
         /*
@@ -300,6 +301,42 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         $model
             ->shouldReceive('filter')->twice()->andReturnSelf();
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($model, $tranform->push($criteria)->apply());
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function test_or_where_condition()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $tranform = new Collection($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $criteria = Criteria::create()
+            ->orWhere('foo', '=', 'bar');
+            // ->orWhere('buzz', '=', 'fuzz')
+            // ->where(function (Criteria $criteria) {
+            //     return $criteria->where('id', '=', 'closure');
+            // });
 
         /*
         |------------------------------------------------------------
