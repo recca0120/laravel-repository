@@ -42,7 +42,7 @@ class EloquentRepository extends AbstractRepository
      *
      * @return mixed
      */
-    public function find($id)
+    public function find($id, $columns = ['*'])
     {
         $model = $this->cloneModel();
         $model = ($model instanceof Model) ? $model : $model->getModel();
@@ -62,7 +62,7 @@ class EloquentRepository extends AbstractRepository
      */
     public function create($attributes, $forceFill = false)
     {
-        $model = $this->factory();
+        $model = $this->newInstance();
         $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
         $model->save();
 
@@ -104,15 +104,15 @@ class EloquentRepository extends AbstractRepository
     }
 
     /**
-     * factory.
+     * newInstance.
      *
-     * @method factory
+     * @method newInstance
      *
      * @param array $attributes
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function factory($attributes = [])
+    public function newInstance($attributes = [])
     {
         $model = $this->cloneModel();
         $model = ($model instanceof Model) ? $model : $model->getModel();
@@ -173,12 +173,31 @@ class EloquentRepository extends AbstractRepository
      * @param int    $pageName
      * @param int    $page
      *
-     * @return \illuminate\Pagination\AbstractPaginator
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null)
+    public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $model = $this->match($criteria);
 
         return $model->paginate($perPage, $columns, $pageName, $page);
+    }
+
+    /**
+     * simplePaginate.
+     *
+     * @method simplePaginate
+     *
+     * @param mixed  $criteria
+     * @param string $perPage
+     * @param int    $pageName
+     * @param int    $page
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $model = $this->match($criteria);
+
+        return $model->simplePaginate($perPage, $columns, $pageName, $page);
     }
 }

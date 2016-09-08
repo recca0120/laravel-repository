@@ -246,7 +246,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Model::class, $repository->matching([]));
     }
 
-    public function test_new_instance()
+    public function test_factory()
     {
         /*
         |------------------------------------------------------------
@@ -271,6 +271,6 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $repository->newInstance([]);
+        $repository->factory([]);
     }
 }

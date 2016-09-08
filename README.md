@@ -35,13 +35,13 @@ Instead, you may of course manually update your require block and run `composer 
 - get($criteria = [], $columns = ['*'], $limit = null, $offset = null);
 - first($criteria = [], $columns = ['*']);
 - count($criteria = []);
-- paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null);
+- paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
 - find($id);
-- create($data, $forceFill = false);
-- update($data, $id, $forceFill = false);
+- create($attributes, $forceFill = false);
+- update($attributes, $id, $forceFill = false);
 - delete($id);
 - cloneModel();
-- factory($data = []);
+- newInstance($attributes = []);
 
 ## Usage
 
@@ -176,7 +176,7 @@ $this->repository->delete($id);
 New instance
 
 ```php
-$post = $this->repository->factory([
+$post = $this->repository->newInstance([
     'author' => 'author'
 ]);
 ```

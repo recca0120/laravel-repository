@@ -23,7 +23,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
             ->mock();
     }
 
-    public function test_factory()
+    public function test_new_instance()
     {
         /*
         |------------------------------------------------------------
@@ -46,7 +46,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $repository->factory();
+        $repository->newInstance();
     }
 
     public function test_create()
@@ -219,8 +219,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
 
         $model
             ->shouldReceive('count')->once()->andReturn(10)
-            ->shouldReceive('forPage')->once()->andReturnSelf()
-            ->shouldReceive('all')->once()->andReturn($data);
+            ->shouldReceive('forPage')->once()->andReturn($data);
 
         /*
         |------------------------------------------------------------
@@ -228,7 +227,36 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->paginate([], ['*'], 1, 'page', 1)->items());
+        $this->assertSame($data, $repository->paginate([], 1, ['*'], 'page', 1)->items());
+    }
+
+    public function test_simple_paginate_by_criteria()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection($data);
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('forPage')->once()->andReturn($data);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->simplePaginate([], 1, ['*'], 'page', 1)->items());
     }
 
     public function test_first_by_criteria()

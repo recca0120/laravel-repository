@@ -12,7 +12,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function test_factory()
+    public function test_new_instance()
     {
         /*
         |------------------------------------------------------------
@@ -37,7 +37,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $repository->factory();
+        $repository->newInstance();
     }
 
     public function test_create()
@@ -288,7 +288,36 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($data, $repository->paginate([], ['*'], 1, 'page', 1));
+        $this->assertSame($data, $repository->paginate([], 1, ['*'], 'page', 1));
+    }
+
+    public function test_simple_paginate_by_criteria()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $model->shouldReceive('simplePaginate')->with(1, ['*'], 'page', 1)->once()->andReturn($data);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($data, $repository->simplePaginate([], 1, ['*'], 'page', 1));
     }
 
     public function test_chunk_by_criteria()

@@ -5,17 +5,17 @@ namespace Recca0120\Repository;
 trait DeprecatedMethod
 {
     /**
-     * newInstance.
+     * factory.
      *
-     * @method newInstance
+     * @method factory
      *
      * @param array $data
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function newInstance($data = [])
+    public function factory($data = [])
     {
-        return $this->factory($data);
+        return $this->newInstance($data);
     }
 
     /**
@@ -75,7 +75,7 @@ trait DeprecatedMethod
      */
     public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
     {
-        return $this->paginate($criteria, ['*'], $perPage, $pageName, $page);
+        return $this->paginate($criteria, $perPage, ['*'], $pageName, $page);
     }
 
     /**
@@ -89,7 +89,7 @@ trait DeprecatedMethod
      */
     public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
     {
-        return $this->paginate([], ['*'], $perPage, $pageName, $page);
+        return $this->paginate([], $perPage, ['*'], $pageName, $page);
     }
 
     /**

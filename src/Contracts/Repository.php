@@ -60,20 +60,35 @@ interface Repository
      * @param int    $pageName
      * @param int    $page
      *
-     * @return \illuminate\Pagination\AbstractPaginator
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null);
+    public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
+
+    /**
+     * simplePaginate.
+     *
+     * @method simplePaginate
+     *
+     * @param mixed  $criteria
+     * @param string $perPage
+     * @param int    $pageName
+     * @param int    $page
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
 
     /**
      * find.
      *
      * @method find
      *
-     * @param int $id
+     * @param int   $id
+     * @param array $columns
      *
      * @return mixed
      */
-    public function find($id);
+    public function find($id, $columns = ['*']);
 
     /**
      * create.
@@ -121,11 +136,11 @@ interface Repository
     public function cloneModel();
 
     /**
-     * factory.
+     * newInstance.
      *
-     * @method factory
+     * @method newInstance
      *
      * @return \Illuminate\Database\Eloquent
      */
-    public function factory($attributes = []);
+    public function newInstance($attributes = []);
 }

@@ -25,6 +25,13 @@ class CollectionRepository extends AbstractRepository
     protected $transform = CollectionTranform::class;
 
     /**
+     * $perPage
+     *
+     * @var integer
+     */
+    protected $perPage = 15;
+
+    /**
      * __construct.
      *
      * @method __construct
@@ -47,7 +54,7 @@ class CollectionRepository extends AbstractRepository
      *
      * @return mixed
      */
-    public function find($id)
+    public function find($id, $columns = ['*'])
     {
         return $this->cloneModel()->where('id', $id)->first();
     }
@@ -95,15 +102,15 @@ class CollectionRepository extends AbstractRepository
     }
 
     /**
-     * factory.
+     * newInstance.
      *
-     * @method factory
+     * @method newInstance
      *
      * @param array $attributes
      *
      * @return \Illuminate\Support\Fluent
      */
-    public function factory($attributes = [])
+    public function newInstance($attributes = [])
     {
         return new Fluent($attributes);
     }
@@ -163,15 +170,40 @@ class CollectionRepository extends AbstractRepository
      *
      * @return \illuminate\Pagination\AbstractPaginator
      */
-    public function paginate($criteria = [], $columns = ['*'], $perPage = null, $pageName = 'page', $page = null)
+    public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
-        $perPage = $perPage ?: 15;
-        $items = $this->get($criteria);
+        $perPage = $perPage ?: $this->perPage;
+        $items = $this->get($criteria, $columns);
         $total = $items->count();
         $items = $items->forPage($page, $perPage);
 
         return new LengthAwarePaginator($items, $total, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+    }
+
+    /**
+     * simplePaginate.
+     *
+     * @method simplePaginate
+     *
+     * @param mixed  $criteria
+     * @param string $perPage
+     * @param int    $pageName
+     * @param int    $page
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+        $perPage = $perPage ?: $this->perPage;
+        $items = $this->get($criteria, $columns);
+        $items = $items->forPage($page, $perPage);
+
+        return new Paginator($items, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
