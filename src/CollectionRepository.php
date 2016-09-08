@@ -11,6 +11,13 @@ use Recca0120\Repository\Tranforms\Collection as CollectionTranform;
 class CollectionRepository extends AbstractRepository
 {
     /**
+     * $primaryKey.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
      * $model.
      *
      * @var \Illuminate\Support\Collection
@@ -35,7 +42,7 @@ class CollectionRepository extends AbstractRepository
     {
         $this->model = $model->make()->map(function ($item) {
             return (is_object($item) === false && is_array($item) === true) ? new Fluent($item) : $item;
-        });
+        })->keyBy($this->primaryKey);
     }
 
     /**
@@ -49,7 +56,7 @@ class CollectionRepository extends AbstractRepository
      */
     public function find($id, $columns = ['*'])
     {
-        return $this->cloneModel()->where('id', $id)->first();
+        return $this->model->get($id);
     }
 
     /**
@@ -64,6 +71,10 @@ class CollectionRepository extends AbstractRepository
      */
     public function create($attributes, $forceFill = false)
     {
+        $model = $this->newInstance($attributes);
+        $this->model->push($model);
+
+        return $model;
     }
 
     /**
@@ -79,6 +90,13 @@ class CollectionRepository extends AbstractRepository
      */
     public function update($attributes, $id, $forceFill = false)
     {
+        $model = $this->find($id);
+        foreach ($attributes as $key => $value) {
+            $model->{$key} = $value;
+        }
+        $this->model->put($id, $model);
+
+        return $model;
     }
 
     /**
@@ -92,6 +110,9 @@ class CollectionRepository extends AbstractRepository
      */
     public function delete($id)
     {
+        $this->model->forget($id);
+
+        return $this->model->has($id);
     }
 
     /**
@@ -148,7 +169,7 @@ class CollectionRepository extends AbstractRepository
             $model = $model->skip($offset);
         }
 
-        return $model;
+        return $model->keyBy($this->primaryKey);
     }
 
     /**

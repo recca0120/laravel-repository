@@ -313,7 +313,7 @@ class DeprecatedRepository extends EloquentRepository
 
     public function disableDeprecated()
     {
-        $this->disableDeprecated = false;
+        $this->disableDeprecated = true;
 
         return $this;
     }

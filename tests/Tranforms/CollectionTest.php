@@ -209,7 +209,6 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertSame($model, $tranform->push($criteria)->apply());
     }
 
-
     public function test_select_condition()
     {
         /*
@@ -332,7 +331,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $criteria = Criteria::create()
-            ->orWhere('foo', '=', 'bar');
+            ->testWhere('foo', '=', 'bar');
             // ->orWhere('buzz', '=', 'fuzz')
             // ->where(function (Criteria $criteria) {
             //     return $criteria->where('id', '=', 'closure');

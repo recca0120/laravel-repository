@@ -3,6 +3,7 @@
 use Illuminate\Support\Collection;
 use Mockery as m;
 use Recca0120\Repository\CollectionRepository;
+use Illuminate\Support\Fluent;
 
 class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
 {
@@ -20,6 +21,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
 
                 return m::self();
             })
+            ->shouldReceive('keyBy')->andReturnSelf()
             ->mock();
     }
 
@@ -67,7 +69,8 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        // $model->shouldReceive('create')->with($data)->once()->andReturnSelf();
+        $model
+            ->shouldReceive('push')->once()->andReturnSelf();
 
         /*
         |------------------------------------------------------------
@@ -75,8 +78,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $repository->create($data);
-        // $this->assertSame($model, $repository->create($data));
+        $this->assertSame((new Fluent($data))->toArray(), $repository->create($data)->toArray());
     }
 
     public function test_find()
@@ -97,9 +99,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model
-            ->shouldReceive('where')->with('id', $id)->andReturnSelf()
-            ->shouldReceive('first')->andReturnSelf();
+        $model->shouldReceive('get')->with($id)->andReturnSelf();
 
         /*
         |------------------------------------------------------------
@@ -129,14 +129,17 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
+        $model
+            ->shouldReceive('get')->with($id)->andReturnSelf()
+            ->shouldReceive('put')->andReturnSelf();
+
         /*
         |------------------------------------------------------------
         | Assertion
         |------------------------------------------------------------
         */
 
-        $repository->update($data, $id);
-        // $this->assertSame($model, $repository->update($data, $id));
+        $this->assertSame($model, $repository->update($data, $id));
     }
 
     public function test_delete()
@@ -157,14 +160,17 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
+        $model
+            ->shouldReceive('forget')->with($id)
+            ->shouldReceive('has')->andReturn(true);
+
         /*
         |------------------------------------------------------------
         | Assertion
         |------------------------------------------------------------
         */
 
-        $repository->delete($id);
-        // $this->assertTrue($repository->delete($id));
+        $this->assertTrue($repository->delete($id));
     }
 
     public function test_get_by_criteria()
