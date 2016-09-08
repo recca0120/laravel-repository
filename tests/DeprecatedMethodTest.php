@@ -273,4 +273,38 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 
         $repository->factory([]);
     }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function test_deprecated()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new DeprecatedDisabledRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $repository->factory([]);
+    }
+}
+
+class DeprecatedDisabledRepository extends EloquentRepository
+{
+    protected $enabledDeprecated = false;
 }

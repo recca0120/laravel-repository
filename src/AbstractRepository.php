@@ -24,6 +24,13 @@ abstract class AbstractRepository implements RepositoryContract
     protected $transform;
 
     /**
+     * $perPage.
+     *
+     * @var int
+     */
+    public $perPage = 15;
+
+    /**
      * cloneModel.
      *
      * @method cloneModel

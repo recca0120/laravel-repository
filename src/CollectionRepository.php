@@ -25,13 +25,6 @@ class CollectionRepository extends AbstractRepository
     protected $transform = CollectionTranform::class;
 
     /**
-     * $perPage
-     *
-     * @var integer
-     */
-    protected $perPage = 15;
-
-    /**
      * __construct.
      *
      * @method __construct

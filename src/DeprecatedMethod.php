@@ -2,8 +2,17 @@
 
 namespace Recca0120\Repository;
 
+use BadMethodCallException;
+
 trait DeprecatedMethod
 {
+    /**
+     * $enabledDeprecated.
+     *
+     * @var bool
+     */
+    protected $enabledDeprecated = true;
+
     /**
      * factory.
      *
@@ -15,6 +24,8 @@ trait DeprecatedMethod
      */
     public function factory($data = [])
     {
+        $this->deprecated(__METHOD__);
+
         return $this->newInstance($data);
     }
 
@@ -29,6 +40,8 @@ trait DeprecatedMethod
      */
     public function matching($criteria)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->match($criteria);
     }
 
@@ -41,6 +54,8 @@ trait DeprecatedMethod
      */
     public function findAll()
     {
+        $this->deprecated(__METHOD__);
+
         return $this->get([]);
     }
 
@@ -58,6 +73,8 @@ trait DeprecatedMethod
      */
     public function findBy($criteria, $limit = null, $offset = null)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->get($criteria, ['*'], $limit, $offset);
     }
 
@@ -75,6 +92,8 @@ trait DeprecatedMethod
      */
     public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->paginate($criteria, $perPage, ['*'], $pageName, $page);
     }
 
@@ -89,6 +108,8 @@ trait DeprecatedMethod
      */
     public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->paginate([], $perPage, ['*'], $pageName, $page);
     }
 
@@ -103,6 +124,8 @@ trait DeprecatedMethod
      */
     public function findOneBy($criteria)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->first($criteria);
     }
 
@@ -117,6 +140,8 @@ trait DeprecatedMethod
      */
     public function countBy($criteria)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->count($criteria);
     }
 
@@ -133,6 +158,20 @@ trait DeprecatedMethod
      */
     public function chunkBy($criteria, $count, callable $callback)
     {
+        $this->deprecated(__METHOD__);
+
         return $this->chunk($criteria, $count, $callback);
+    }
+
+    /**
+     * deprecated.
+     *
+     * @method deprecated
+     */
+    protected function deprecated($method)
+    {
+        if ($this->enabledDeprecated === false) {
+            throw new BadMethodCallException('BadMethodCallException Method ['.$method.'] is deprecated');
+        }
     }
 }

@@ -178,6 +178,7 @@ class EloquentRepository extends AbstractRepository
     public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $model = $this->match($criteria);
+        $perPage = $perPage ?: $this->perPage;
 
         return $model->paginate($perPage, $columns, $pageName, $page);
     }
@@ -197,6 +198,7 @@ class EloquentRepository extends AbstractRepository
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $model = $this->match($criteria);
+        $perPage = $perPage ?: $this->perPage;
 
         return $model->simplePaginate($perPage, $columns, $pageName, $page);
     }
