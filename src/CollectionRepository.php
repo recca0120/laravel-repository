@@ -19,13 +19,6 @@ class CollectionRepository extends AbstractRepository
     protected $primaryKey = 'id';
 
     /**
-     * $model.
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $model;
-
-    /**
      * $converter.
      *
      * @var string
@@ -44,106 +37,6 @@ class CollectionRepository extends AbstractRepository
         $this->model = $model->make()->map(function ($item) {
             return (is_object($item) === false && is_array($item) === true) ? new Fluent($item) : $item;
         })->keyBy($this->primaryKey);
-    }
-
-    /**
-     * find.
-     *
-     * @method find
-     *
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function find($id, $columns = ['*'])
-    {
-        return $this->model->get($id);
-    }
-
-    /**
-     * create.
-     *
-     * @method create
-     *
-     * @param array $attributes
-     * @param bool  $forceFill
-     *
-     * @return mixed
-     */
-    public function create($attributes, $forceFill = false)
-    {
-        $model = $this->newInstance($attributes);
-        $this->model->push($model);
-
-        return $model;
-    }
-
-    /**
-     * update.
-     *
-     * @method update
-     *
-     * @param array $attributes
-     * @param int   $id
-     * @param bool  $forceFill
-     *
-     * @return mixed
-     */
-    public function update($attributes, $id, $forceFill = false)
-    {
-        $model = $this->find($id);
-        foreach ($attributes as $key => $value) {
-            $model->{$key} = $value;
-        }
-        $this->model->put($id, $model);
-
-        return $model;
-    }
-
-    /**
-     * delete.
-     *
-     * @method delete
-     *
-     * @param int $id
-     *
-     * @return bool
-     */
-    public function delete($id)
-    {
-        $this->model->forget($id);
-
-        return $this->model->has($id);
-    }
-
-    /**
-     * newInstance.
-     *
-     * @method newInstance
-     *
-     * @param array $attributes
-     *
-     * @return \Illuminate\Support\Fluent
-     */
-    public function newInstance($attributes = [])
-    {
-        return new Fluent($attributes);
-    }
-
-    /**
-     * first.
-     *
-     * @method first
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return mixed
-     */
-    public function first($criteria = [], $columns = ['*'])
-    {
-        $model = $this->match($criteria);
-
-        return $model->first();
     }
 
     /**
@@ -222,5 +115,122 @@ class CollectionRepository extends AbstractRepository
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => $pageName,
         ]);
+    }
+
+    /**
+     * first.
+     *
+     * @method first
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return mixed
+     */
+    public function first($criteria = [], $columns = ['*'])
+    {
+        $model = $this->match($criteria);
+
+        return $model->first();
+    }
+
+    /**
+     * find.
+     *
+     * @method find
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function find($id, $columns = ['*'])
+    {
+        return $this->model->get($id);
+    }
+
+    /**
+     * newInstance.
+     *
+     * @method newInstance
+     *
+     * @param array $attributes
+     *
+     * @return \Illuminate\Support\Fluent
+     */
+    public function newInstance($attributes = [])
+    {
+        return new Fluent($attributes);
+    }
+
+    /**
+     * create.
+     *
+     * @method create
+     *
+     * @param array $attributes
+     * @param bool  $forceFill
+     *
+     * @return mixed
+     */
+    public function create($attributes, $forceFill = false)
+    {
+        $model = $this->newInstance($attributes);
+        $this->model->push($model);
+
+        return $model;
+    }
+
+    /**
+     * update.
+     *
+     * @method update
+     *
+     * @param array $attributes
+     * @param int   $id
+     * @param bool  $forceFill
+     *
+     * @return mixed
+     */
+    public function update($attributes, $id, $forceFill = false)
+    {
+        $model = $this->find($id);
+        foreach ($attributes as $key => $value) {
+            $model->{$key} = $value;
+        }
+        $this->model->put($id, $model);
+
+        return $model;
+    }
+
+    /**
+     * delete.
+     *
+     * @method delete
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $this->model->forget($id);
+
+        return $this->model->has($id);
+    }
+
+    /**
+     * destroy.
+     *
+     * @method destroy
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return int
+     */
+    public function destroy($criteria = []) {
+        $model = $this->match($criteria);
+
+        $this->model = $this->model->diff($model);
+
+        return $this->model->count();
     }
 }

@@ -16,6 +16,15 @@ interface Repository
     public function match($criteria);
 
     /**
+     * cloneModel.
+     *
+     * @method cloneModel
+     *
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function cloneModel();
+
+    /**
      * get.
      *
      * @method get
@@ -27,28 +36,6 @@ interface Repository
      * @return @return \Illuminate\Support\Collection
      */
     public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null);
-
-    /**
-     * first.
-     *
-     * @method first
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return mixed
-     */
-    public function first($criteria = [], $columns = ['*']);
-
-    /**
-     * count.
-     *
-     * @method count
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return int
-     */
-    public function count($criteria = []);
 
     /**
      * paginate.
@@ -79,6 +66,17 @@ interface Repository
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
 
     /**
+     * first.
+     *
+     * @method first
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return mixed
+     */
+    public function first($criteria = [], $columns = ['*']);
+
+    /**
      * find.
      *
      * @method find
@@ -89,6 +87,26 @@ interface Repository
      * @return mixed
      */
     public function find($id, $columns = ['*']);
+
+    /**
+     * count.
+     *
+     * @method count
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return int
+     */
+    public function count($criteria = []);
+
+    /**
+     * newInstance.
+     *
+     * @method newInstance
+     *
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function newInstance($attributes = []);
 
     /**
      * create.
@@ -127,20 +145,13 @@ interface Repository
     public function delete($id);
 
     /**
-     * cloneModel.
+     * destroy.
      *
-     * @method cloneModel
+     * @method destroy
      *
-     * @return \Illuminate\Database\Eloquent
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return int
      */
-    public function cloneModel();
-
-    /**
-     * newInstance.
-     *
-     * @method newInstance
-     *
-     * @return \Illuminate\Database\Eloquent
-     */
-    public function newInstance($attributes = []);
+    public function destroy($criteria = []);
 }

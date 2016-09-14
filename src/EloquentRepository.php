@@ -9,13 +9,6 @@ use Recca0120\Repository\Core\AbstractRepository;
 class EloquentRepository extends AbstractRepository
 {
     /**
-     * $model.
-     *
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
-
-    /**
      * $converter.
      *
      * @var string
@@ -32,109 +25,6 @@ class EloquentRepository extends AbstractRepository
     public function __construct(Model $model)
     {
         $this->model = $model;
-    }
-
-    /**
-     * find.
-     *
-     * @method find
-     *
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function find($id, $columns = ['*'])
-    {
-        $model = $this->cloneModel();
-        $model = ($model instanceof Model) ? $model : $model->getModel();
-
-        return $model->find($id);
-    }
-
-    /**
-     * create.
-     *
-     * @method create
-     *
-     * @param array $attributes
-     * @param bool  $forceFill
-     *
-     * @return mixed
-     */
-    public function create($attributes, $forceFill = false)
-    {
-        $model = $this->newInstance();
-        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
-        $model->save();
-
-        return $model;
-    }
-
-    /**
-     * update.
-     *
-     * @method update
-     *
-     * @param array $attributes
-     * @param int   $id
-     * @param bool  $forceFill
-     *
-     * @return mixed
-     */
-    public function update($attributes, $id, $forceFill = false)
-    {
-        $model = $this->find($id);
-        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
-        $model->save();
-
-        return $model;
-    }
-
-    /**
-     * delete.
-     *
-     * @method delete
-     *
-     * @param int $id
-     *
-     * @return bool
-     */
-    public function delete($id)
-    {
-        return $this->find($id)->delete();
-    }
-
-    /**
-     * newInstance.
-     *
-     * @method newInstance
-     *
-     * @param array $attributes
-     *
-     * @return \Illuminate\Database\Eloquent
-     */
-    public function newInstance($attributes = [])
-    {
-        $model = $this->cloneModel();
-        $model = ($model instanceof Model) ? $model : $model->getModel();
-
-        return $model->forceFill($attributes);
-    }
-
-    /**
-     * first.
-     *
-     * @method first
-     *
-     * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return mixed
-     */
-    public function first($criteria = [], $columns = ['*'])
-    {
-        $model = $this->match($criteria);
-
-        return $model->first($columns);
     }
 
     /**
@@ -202,5 +92,123 @@ class EloquentRepository extends AbstractRepository
         $perPage = $perPage ?: $this->perPage;
 
         return $model->simplePaginate($perPage, $columns, $pageName, $page);
+    }
+
+    /**
+     * first.
+     *
+     * @method first
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return mixed
+     */
+    public function first($criteria = [], $columns = ['*'])
+    {
+        $model = $this->match($criteria);
+
+        return $model->first($columns);
+    }
+
+    /**
+     * find.
+     *
+     * @method find
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function find($id, $columns = ['*'])
+    {
+        $model = $this->cloneModel();
+        $model = ($model instanceof Model) ? $model : $model->getModel();
+
+        return $model->find($id);
+    }
+
+    /**
+     * newInstance.
+     *
+     * @method newInstance
+     *
+     * @param array $attributes
+     *
+     * @return \Illuminate\Database\Eloquent
+     */
+    public function newInstance($attributes = [])
+    {
+        $model = $this->cloneModel();
+        $model = ($model instanceof Model) ? $model : $model->getModel();
+
+        return $model->forceFill($attributes);
+    }
+
+    /**
+     * create.
+     *
+     * @method create
+     *
+     * @param array $attributes
+     * @param bool  $forceFill
+     *
+     * @return mixed
+     */
+    public function create($attributes, $forceFill = false)
+    {
+        $model = $this->newInstance();
+        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
+        $model->save();
+
+        return $model;
+    }
+
+    /**
+     * update.
+     *
+     * @method update
+     *
+     * @param array $attributes
+     * @param int   $id
+     * @param bool  $forceFill
+     *
+     * @return mixed
+     */
+    public function update($attributes, $id, $forceFill = false)
+    {
+        $model = $this->find($id);
+        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
+        $model->save();
+
+        return $model;
+    }
+
+    /**
+     * delete.
+     *
+     * @method delete
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete($id)
+    {
+        return $this->find($id)->delete();
+    }
+
+    /**
+     * destroy.
+     *
+     * @method destroy
+     *
+     * @param \Recca0120\Repository\Criteria|array $criteria
+     *
+     * @return int
+     */
+    public function destroy($criteria = []) {
+        $model = $this->match($criteria);
+
+        return $model->delete();
     }
 }
