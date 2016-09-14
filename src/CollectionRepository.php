@@ -6,7 +6,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
-use Recca0120\Repository\Tranforms\Collection as CollectionTranform;
+use Recca0120\Repository\Compilers\CollectionCompiler;
+use Recca0120\Repository\Core\AbstractRepository;
 
 class CollectionRepository extends AbstractRepository
 {
@@ -29,7 +30,7 @@ class CollectionRepository extends AbstractRepository
      *
      * @var string
      */
-    protected $transform = CollectionTranform::class;
+    protected $compiler = CollectionCompiler::class;
 
     /**
      * __construct.

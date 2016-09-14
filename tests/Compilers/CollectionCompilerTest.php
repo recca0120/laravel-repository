@@ -2,10 +2,10 @@
 
 use Mockery as m;
 use Illuminate\Support\Collection as Model;
-use Recca0120\Repository\Tranforms\Collection;
+use Recca0120\Repository\Compilers\CollectionCompiler;
 use Recca0120\Repository\Criteria;
 
-class CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionCompilersTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
@@ -21,7 +21,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -51,7 +51,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
                 return m::self();
             });
 
-            $this->assertSame($model, $tranform->push($criteria)->apply());
+            $this->assertSame($model, $compiler->push($criteria)->apply());
         }
     }
 
@@ -64,7 +64,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -92,7 +92,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_order_by_condition()
@@ -111,7 +111,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
             ['id' => 1, 'name' => 'Pascal', 'age' => '15'],
         ];
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -143,7 +143,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_with_condition()
@@ -155,7 +155,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -175,7 +175,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_join_condition()
@@ -187,7 +187,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -206,7 +206,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_select_condition()
@@ -218,7 +218,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -235,7 +235,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_array_where_condition()
@@ -247,7 +247,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -272,7 +272,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_criteria_and_array()
@@ -284,7 +284,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -307,7 +307,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     /**
@@ -322,7 +322,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Collection($model);
+        $compiler = new CollectionCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -343,6 +343,6 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 }

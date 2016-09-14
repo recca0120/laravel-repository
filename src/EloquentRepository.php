@@ -3,7 +3,8 @@
 namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
-use Recca0120\Repository\Tranforms\Eloquent as EloquentTranform;
+use Recca0120\Repository\Compilers\EloquentCompiler;
+use Recca0120\Repository\Core\AbstractRepository;
 
 class EloquentRepository extends AbstractRepository
 {
@@ -19,7 +20,7 @@ class EloquentRepository extends AbstractRepository
      *
      * @var string
      */
-    protected $transform = EloquentTranform::class;
+    protected $compiler = EloquentCompiler::class;
 
     /**
      * __construct.

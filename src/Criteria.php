@@ -2,18 +2,95 @@
 
 namespace Recca0120\Repository;
 
-use Recca0120\Repository\Criteria\Collection;
-use Recca0120\Repository\Criteria\Expression;
 use ReflectionClass;
+use BadMethodCallException;
+use Recca0120\Repository\Core\Action;
+use Recca0120\Repository\Core\Expression;
 
-class Criteria extends Collection
+class Criteria
 {
+    /**
+     * $actions.
+     *
+     * @var array
+     */
+    protected $actions = [];
+
+    /**
+     * $allowTypes.
+     *
+     * @var array
+     */
+    protected $allowTypes = [
+        'select',
+        'where',
+        'join',
+        'having',
+        'order',
+        'union',
+        'groupBy',
+        'on',
+        'with',
+        'take',
+        'skip',
+        'has',
+    ];
+
+    /**
+     * all.
+     *
+     * @method all
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * push.
+     *
+     * @method push
+     *
+     * @param \Recca0120\Repository\Core\Action $action
+     *
+     * @return self
+     */
+    public function push(Action $action)
+    {
+        array_push($this->actions, $action);
+
+        return $this;
+    }
+
+    /**
+     *  _call.
+     *
+     * @method __call
+     *
+     * @param string $method
+     * @param mixed  $parameters
+     *
+     * @return \Recca0120\Repository\Criteria
+     */
+    public function __call($method, $parameters)
+    {
+        if (preg_match('/'.implode('|', $this->allowTypes).'/i', $method, $match) != false) {
+            $this->push(new Action($match[0], $method, $parameters));
+
+            return $this;
+        }
+
+        throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
+    }
+
     /**
      * alias raw.
      *
      * @param mixed $value
      *
-     * @return \Recca0120\Repository\Criteria\Expression
+     * @return \Recca0120\Repository\CriteriaExpression
      */
     public static function expr($value)
     {
@@ -23,7 +100,7 @@ class Criteria extends Collection
     /**
      * @param mixed $value
      *
-     * @return \Recca0120\Repository\Criteria\Expression
+     * @return \Recca0120\Repository\Expression
      */
     public static function raw($value)
     {

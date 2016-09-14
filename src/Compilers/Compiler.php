@@ -1,10 +1,11 @@
 <?php
 
-namespace Recca0120\Repository\Tranforms;
+namespace Recca0120\Repository\Compilers;
 
 use Recca0120\Repository\Criteria;
+use Recca0120\Repository\Core\Expression;
 
-abstract class Tranform
+abstract class Compiler
 {
     /**
      * $items.
@@ -74,7 +75,7 @@ abstract class Tranform
             foreach ($criteria->all() as $action) {
                 $allowTypes[$action->type][] = [
                     'method' => $action->method,
-                    'parameters' => $this->transformParameters($action->parameters),
+                    'parameters' => $this->compileParameters($action->parameters),
                 ];
             }
         }
@@ -109,6 +110,18 @@ abstract class Tranform
     }
 
     /**
+     * isExpression.
+     *
+     * @method isExpression
+     * @param  mix              $param
+     * @return bool
+     */
+    protected function isExpression($param)
+    {
+        return $param instanceof Expression;
+    }
+
+    /**
      * transformParameters.
      *
      * @method transformParameters
@@ -117,5 +130,5 @@ abstract class Tranform
      *
      * @return array
      */
-    abstract protected function transformParameters($parameters);
+    abstract protected function compileParameters($parameters);
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\Repository;
+namespace Recca0120\Repository\Core;
 
 use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Contracts\Repository as RepositoryContract;
@@ -19,7 +19,7 @@ abstract class AbstractRepository implements RepositoryContract
      *
      * @var string
      */
-    protected $transform;
+    protected $compiler;
 
     /**
      * $perPage.
@@ -52,10 +52,10 @@ abstract class AbstractRepository implements RepositoryContract
     public function match($criteria)
     {
         $model = $this->cloneModel();
-        $class = $this->transform;
-        $transform = new $class($model);
+        $class = $this->compiler;
+        $compiler = new $class($model);
 
-        return $transform->push($criteria)->apply();
+        return $compiler->push($criteria)->apply();
     }
 
     /**

@@ -1,11 +1,10 @@
 <?php
 
-namespace Recca0120\Repository\Tranforms;
+namespace Recca0120\Repository\Compilers;
 
 use BadMethodCallException;
-use Recca0120\Repository\Criteria\Expression as CriteriaExpression;
 
-class Collection extends Tranform
+class CollectionCompiler extends Compiler
 {
     /**
      * where.
@@ -26,7 +25,7 @@ class Collection extends Tranform
                 if (count($parameters) === 3) {
                     $model = $model->filter(function ($item) use ($parameters) {
                         list($key, $operator, $value) = $parameters;
-                        if ($value instanceof CriteriaExpression) {
+                        if ($value instanceof Expression) {
                             return $value->getValue();
                         }
                         $retrieved = $item[$key];
@@ -162,15 +161,15 @@ class Collection extends Tranform
     }
 
     /**
-     * transformParameters.
+     * compileParameters.
      *
-     * @method transformParameters
+     * @method compileParameters
      *
      * @param array $parameters
      *
      * @return array
      */
-    protected function transformParameters($parameters)
+    protected function compileParameters($parameters)
     {
         return $parameters;
     }

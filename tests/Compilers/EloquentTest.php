@@ -2,7 +2,7 @@
 
 use Mockery as m;
 use Illuminate\Database\Eloquent\Model;
-use Recca0120\Repository\Tranforms\Eloquent;
+use Recca0120\Repository\Compilers\EloquentCompiler;
 use Recca0120\Repository\Criteria;
 use Illuminate\Database\Query\Expression;
 
@@ -22,7 +22,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -41,7 +41,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
             ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
-                $tranform = $closure(m::self());
+                $compiler = $closure(m::self());
 
                 return m::self();
             })
@@ -53,7 +53,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_having_condition()
@@ -65,7 +65,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -84,7 +84,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('having')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('orHaving')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
             ->shouldReceive('having')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
-                $tranform = $closure(m::self());
+                $compiler = $closure(m::self());
 
                 return m::self();
             })
@@ -96,7 +96,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_group_by_condition()
@@ -108,7 +108,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -128,7 +128,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_order_by_condition()
@@ -140,7 +140,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -159,7 +159,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_join_condition()
@@ -171,7 +171,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -193,7 +193,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_with_condition()
@@ -205,7 +205,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -229,7 +229,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_select_condition()
@@ -241,7 +241,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -261,7 +261,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_select_expression_condition()
@@ -273,7 +273,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -293,7 +293,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_array_where_condition()
@@ -305,7 +305,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -330,7 +330,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 
     public function test_criteria_and_array()
@@ -342,7 +342,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         */
 
         $model = m::mock(Model::class);
-        $tranform = new Eloquent($model);
+        $compiler = new EloquentCompiler($model);
 
         /*
         |------------------------------------------------------------
@@ -366,6 +366,6 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertSame($model, $tranform->push($criteria)->apply());
+        $this->assertSame($model, $compiler->push($criteria)->apply());
     }
 }
