@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\Repository\Core;
+namespace Recca0120\Repository;
 
 class Expression
 {

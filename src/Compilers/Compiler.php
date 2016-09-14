@@ -3,7 +3,7 @@
 namespace Recca0120\Repository\Compilers;
 
 use Recca0120\Repository\Criteria;
-use Recca0120\Repository\Core\Expression;
+use Recca0120\Repository\Expression;
 
 abstract class Compiler
 {

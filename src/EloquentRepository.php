@@ -4,7 +4,6 @@ namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Compilers\EloquentCompiler;
-use Recca0120\Repository\Core\AbstractRepository;
 
 class EloquentRepository extends AbstractRepository
 {
@@ -206,7 +205,8 @@ class EloquentRepository extends AbstractRepository
      *
      * @return int
      */
-    public function destroy($criteria = []) {
+    public function destroy($criteria = [])
+    {
         $model = $this->match($criteria);
 
         return $model->delete();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\Repository\Core;
+namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Contracts\Repository as RepositoryContract;

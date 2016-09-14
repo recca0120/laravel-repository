@@ -7,7 +7,6 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Recca0120\Repository\Compilers\CollectionCompiler;
-use Recca0120\Repository\Core\AbstractRepository;
 
 class CollectionRepository extends AbstractRepository
 {
@@ -226,11 +225,15 @@ class CollectionRepository extends AbstractRepository
      *
      * @return int
      */
-    public function destroy($criteria = []) {
-        $model = $this->match($criteria);
-
-        $this->model = $this->model->diff($model);
-
-        return $this->model->count();
+    public function destroy($criteria = [])
+    {
+        // $items = $this->match($criteria)->keys()->toArray();
+        // $count = $this->count();
+        //
+        // $this->model = $this->model->filter(function ($item) use ($items) {
+        //     return in_array($item->{$this->primaryKey}, $items, true) === false;
+        // });
+        //
+        // return count($items);
     }
 }

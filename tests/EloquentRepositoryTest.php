@@ -426,6 +426,51 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertSame($data, $repository->first([]));
     }
 
+    public function destroy_by_criteria()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $model = m::mock(Model::class);
+        $repository = new EloquentRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $criteria = Criteria::create()
+            ->where('foo', '=', 'bar')
+            ->orWhere('buzz', '=', 'fuzz')
+            ->where(function (Criteria $criteria) {
+                return $criteria->where('id', '=', 'closure');
+            });
+
+        $excepted = 10;
+        $model
+            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
+            ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
+            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+                $tranform = $closure(m::self());
+
+                return m::self();
+            })
+            ->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf()
+            ->shouldReceive('delete')->once()->andReturn($excepted);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        $this->assertSame($repository->destroy($criteria), $excepted);
+    }
+
     public function test_custom_criteria()
     {
         /*

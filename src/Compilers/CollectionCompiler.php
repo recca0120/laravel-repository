@@ -18,39 +18,64 @@ class CollectionCompiler extends Compiler
      */
     public function where($model, $actions)
     {
+        $filters = [];
         foreach ($actions as $action) {
             $method = $action['method'];
             $parameters = $action['parameters'];
-            if (in_array($method, ['where', 'having'], true) === true) {
-                if (count($parameters) === 3) {
-                    $model = $model->filter(function ($item) use ($parameters) {
-                        list($key, $operator, $value) = $parameters;
-                        if ($value instanceof Expression) {
-                            return $value->getValue();
-                        }
-                        $retrieved = $item[$key];
-                        switch ($operator) {
-                            case '=':
-                            case '==':  return $retrieved == $value;
-                            case '!=':
-                            case '<>':  return $retrieved != $value;
-                            case '<':   return $retrieved < $value;
-                            case '>':   return $retrieved > $value;
-                            case '<=':  return $retrieved <= $value;
-                            case '>=':  return $retrieved >= $value;
-                            case '===': return $retrieved === $value;
-                            case '!==': return $retrieved !== $value;
-                        }
-                    });
-                } else {
-                    $model = $model->where($parameters[0], $parameters[1]);
-                }
+            if (count($parameters) === 3) {
+                list($key, $operator, $value) = $parameters;
             } else {
-                throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
+                list($key, $value) = $parameters;
+                $operator = '=';
             }
+            if ($value instanceof Expression) {
+                $value = $value->getValue();
+            }
+
+            $filters[$method][] = [$key, $operator, $value];
         }
 
+        $model = $model->filter(function ($item) use ($filters) {
+            foreach ($filters as $method => $rules) {
+                switch ($method) {
+                    case 'where':
+                    case 'having':
+                        foreach ($rules as $parameters) {
+                            if ($this->checkOperator($item, $parameters) === false) {
+                                return false;
+                            }
+                        }
+                        break;
+                    default:
+                        throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
+                        break;
+                }
+            }
+
+            return true;
+        });
+
         return $model;
+    }
+
+    protected function checkOperator($item, $parameters)
+    {
+        list($key, $operator, $value) = $parameters;
+        $retrieved = $item[$key];
+        switch ($operator) {
+            case '=':
+            case '==':  return $retrieved == $value;
+            case '!=':
+            case '<>':  return $retrieved != $value;
+            case '<':   return $retrieved < $value;
+            case '>':   return $retrieved > $value;
+            case '<=':  return $retrieved <= $value;
+            case '>=':  return $retrieved >= $value;
+            case '===': return $retrieved === $value;
+            case '!==': return $retrieved !== $value;
+        }
+
+        return false;
     }
 
     /**
@@ -139,14 +164,14 @@ class CollectionCompiler extends Compiler
      *
      * @method orderComparer
      *
-     * @param array $criteria
+     * @param array $sort
      *
      * @return \Closure
      */
-    protected function orderComparer($criteria)
+    protected function orderComparer($sort)
     {
-        return function ($first, $second) use ($criteria) {
-            foreach ($criteria as $key => $orderType) {
+        return function ($first, $second) use ($sort) {
+            foreach ($sort as $key => $orderType) {
                 // normalize sort direction
                 $orderType = strtolower($orderType);
                 if (data_get($first, $key) < data_get($second, $key)) {

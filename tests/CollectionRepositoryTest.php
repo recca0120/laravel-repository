@@ -3,6 +3,7 @@
 use Illuminate\Support\Collection;
 use Mockery as m;
 use Recca0120\Repository\CollectionRepository;
+use Recca0120\Repository\Criteria;
 use Illuminate\Support\Fluent;
 
 class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
@@ -292,5 +293,37 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $this->assertSame($data, $repository->first([]));
+    }
+
+    public function test_destroy_by_criteria()
+    {
+        /*
+        |------------------------------------------------------------
+        | Set
+        |------------------------------------------------------------
+        */
+
+        $data = ['foo' => 'bar'];
+        $model = $this->mockCollection($data);
+        $repository = new CollectionRepository($model);
+
+        /*
+        |------------------------------------------------------------
+        | Expectation
+        |------------------------------------------------------------
+        */
+
+        $excepted = 1;
+        $criteria = Criteria::create()
+            ->where('id', '=', 1);
+
+        /*
+        |------------------------------------------------------------
+        | Assertion
+        |------------------------------------------------------------
+        */
+
+        // $this->assertSame($repository->destroy($criteria), $excepted);
+        $repository->destroy($criteria);
     }
 }

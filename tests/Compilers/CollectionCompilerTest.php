@@ -262,9 +262,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         ];
 
         $model
-            ->shouldReceive('filter')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('fuzz', 'buzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('hello', 'world')->once()->andReturnSelf();
+            ->shouldReceive('filter')->once()->andReturnSelf();
 
         /*
         |------------------------------------------------------------
@@ -299,7 +297,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         ];
 
         $model
-            ->shouldReceive('filter')->twice()->andReturnSelf();
+            ->shouldReceive('filter')->once()->andReturnSelf();
 
         /*
         |------------------------------------------------------------

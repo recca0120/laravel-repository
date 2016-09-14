@@ -4,8 +4,7 @@ namespace Recca0120\Repository;
 
 use ReflectionClass;
 use BadMethodCallException;
-use Recca0120\Repository\Core\Action;
-use Recca0120\Repository\Core\Expression;
+use Recca0120\Repository\Helper\Action;
 
 class Criteria
 {
