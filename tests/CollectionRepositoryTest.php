@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Collection;
 use Mockery as m;
 use Recca0120\Repository\CollectionRepository;
 use Recca0120\Repository\Criteria;
@@ -15,7 +14,7 @@ class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
 
     protected function mockCollection($data = [])
     {
-        return m::mock(Collection::class)
+        return m::mock('Illuminate\Support\Collection')
             ->shouldReceive('make')->once()->andReturnSelf()
             ->shouldReceive('map')->andReturnUsing(function ($closure) use ($data) {
                 $closure($data);

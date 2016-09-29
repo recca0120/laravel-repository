@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\EloquentRepository;
@@ -71,7 +70,7 @@ class CriteriaTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*

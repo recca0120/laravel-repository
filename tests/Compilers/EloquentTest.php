@@ -1,10 +1,8 @@
 <?php
 
 use Mockery as m;
-use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Compilers\EloquentCompiler;
 use Recca0120\Repository\Criteria;
-use Illuminate\Database\Query\Expression;
 
 class EloquentTest extends PHPUnit_Framework_TestCase
 {
@@ -21,7 +19,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -40,7 +38,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         $model
             ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+            ->shouldReceive('where')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
                 $compiler = $closure(m::self());
 
                 return m::self();
@@ -64,7 +62,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -83,7 +81,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         $model
             ->shouldReceive('having')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('orHaving')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('having')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+            ->shouldReceive('having')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
                 $compiler = $closure(m::self());
 
                 return m::self();
@@ -107,7 +105,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -139,7 +137,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -170,7 +168,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -185,7 +183,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
             });
 
         $model
-            ->shouldReceive('join')->with('table2', m::type(Closure::class))->once()->andReturnSelf();
+            ->shouldReceive('join')->with('table2', m::type('Closure'))->once()->andReturnSelf();
 
         /*
         |------------------------------------------------------------
@@ -204,7 +202,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -221,7 +219,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
 
         $model
             ->shouldReceive('with')->with('table')->once()->andReturnSelf()
-            ->shouldReceive('with')->with('table2', m::type(Closure::class))->once()->andReturnSelf();
+            ->shouldReceive('with')->with('table2', m::type('Closure'))->once()->andReturnSelf();
 
         /*
         |------------------------------------------------------------
@@ -240,7 +238,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -272,7 +270,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -285,7 +283,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
             ->select(Criteria::expr('id'));
 
         $model
-            ->shouldReceive('select')->with(m::type(Expression::class))->once()->andReturnSelf();
+            ->shouldReceive('select')->with(m::type('Illuminate\Database\Query\Expression'))->once()->andReturnSelf();
 
         /*
         |------------------------------------------------------------
@@ -304,7 +302,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*
@@ -341,7 +339,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new EloquentCompiler($model);
 
         /*

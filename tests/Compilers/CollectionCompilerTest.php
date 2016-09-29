@@ -1,7 +1,6 @@
 <?php
 
 use Mockery as m;
-use Illuminate\Support\Collection as Model;
 use Recca0120\Repository\Compilers\CollectionCompiler;
 use Recca0120\Repository\Criteria;
 
@@ -20,7 +19,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -43,7 +42,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
                 //     return $criteria->where('id', '=', 'closure');
                 // });
 
-            $model->shouldReceive('filter')->with(m::type(Closure::class))->andReturnUsing(function ($closure) {
+            $model->shouldReceive('filter')->with(m::type('Closure'))->andReturnUsing(function ($closure) {
                 $closure([
                     'foo' => 'bar',
                 ]);
@@ -63,7 +62,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -78,7 +77,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
             // ->where(function (Criteria $criteria) {
             //     return $criteria->where('id', '=', 'closure');
             // });
-            $model->shouldReceive('filter')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+            $model->shouldReceive('filter')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
                 $closure([
                     'foo' => 'bar',
                 ]);
@@ -110,7 +109,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
             ['id' => 2, 'name' => 'Angus', 'age' => '25'],
             ['id' => 1, 'name' => 'Pascal', 'age' => '15'],
         ];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -123,7 +122,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
             ->orderBy('age', 'desc')
             ->orderBy('id', 'asc');
 
-        $model->shouldReceive('sort')->with(m::type(Closure::class))->once()->andReturnUsing(function ($callback) use (&$data) {
+        $model->shouldReceive('sort')->with(m::type('Closure'))->once()->andReturnUsing(function ($callback) use (&$data) {
             uasort($data, $callback);
 
             $this->assertEquals([
@@ -154,7 +153,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -186,7 +185,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -217,7 +216,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -246,7 +245,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -281,7 +280,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*
@@ -319,7 +318,7 @@ class CollectionCompilersTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $compiler = new CollectionCompiler($model);
 
         /*

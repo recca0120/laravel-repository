@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 use Recca0120\Repository\EloquentRepository;
 use Recca0120\Repository\DeprecatedMethod;
@@ -21,7 +20,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -53,7 +52,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -82,7 +81,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -111,7 +110,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -140,7 +139,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
         $callable = function () {
         };
@@ -171,7 +170,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -201,7 +200,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -229,7 +228,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -244,7 +243,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $this->assertInstanceOf(Model::class, $repository->matching([]));
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $repository->matching([]));
     }
 
     public function test_factory()
@@ -255,7 +254,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*
@@ -286,7 +285,7 @@ class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new DeprecatedRepository($model);
 
         /*

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model;
 use Mockery as m;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\EloquentRepository;
@@ -20,7 +19,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -49,7 +48,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -81,7 +80,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -113,7 +112,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $id = 1;
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -143,7 +142,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
 
         $id = 1;
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -176,7 +175,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
 
         $id = 1;
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -208,7 +207,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $id = 1;
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -239,7 +238,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -271,7 +270,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -300,7 +299,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -329,7 +328,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
         $callable = function () {
         };
@@ -360,7 +359,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -380,7 +379,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $model
             ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+            ->shouldReceive('where')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
                 $tranform = $closure(m::self());
 
                 return m::self();
@@ -406,7 +405,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         */
 
         $data = ['foo' => 'bar'];
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -434,7 +433,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         |------------------------------------------------------------
         */
 
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
 
         /*
@@ -454,7 +453,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         $model
             ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
             ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type(Closure::class))->once()->andReturnUsing(function ($closure) {
+            ->shouldReceive('where')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
                 $tranform = $closure(m::self());
 
                 return m::self();
@@ -478,7 +477,7 @@ class EloquentRepositoryTest extends PHPUnit_Framework_TestCase
         | Set
         |------------------------------------------------------------
         */
-        $model = m::mock(Model::class);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
         /*
         |------------------------------------------------------------
