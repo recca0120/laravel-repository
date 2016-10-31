@@ -20,7 +20,7 @@ class EloquentCompiler extends Compiler
     protected function compileParameters($params)
     {
         return array_map(function ($param) {
-            if ($param instanceof Closure) {
+            if (is_callable($param) === true || $param instanceof Closure) {
                 $criteria = call_user_func($param, new Criteria());
 
                 return function ($query) use ($criteria) {
