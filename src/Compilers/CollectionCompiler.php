@@ -3,6 +3,7 @@
 namespace Recca0120\Repository\Compilers;
 
 use BadMethodCallException;
+use Illuminate\Support\Arr;
 
 class CollectionCompiler extends Compiler
 {
@@ -108,7 +109,7 @@ class CollectionCompiler extends Compiler
         $sort = [];
         foreach ($actions as $action) {
             $parameters = $action['parameters'];
-            $sort[$parameters[0]] = array_get($parameters, 1, 'asc');
+            $sort[$parameters[0]] = Arr::get($parameters, 1, 'asc');
         }
 
         return $model->sort($this->orderComparer($sort));
