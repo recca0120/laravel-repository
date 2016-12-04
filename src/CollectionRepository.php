@@ -2,10 +2,10 @@
 
 namespace Recca0120\Repository;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Recca0120\Repository\Compilers\CollectionCompiler;
 
 class CollectionRepository extends AbstractRepository

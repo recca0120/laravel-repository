@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use Recca0120\Repository\EloquentRepository;
 use Recca0120\Repository\DeprecatedMethod;
+use Recca0120\Repository\EloquentRepository;
 
 class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
 {

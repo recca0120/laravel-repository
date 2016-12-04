@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use Recca0120\Repository\Compilers\EloquentCompiler;
 use Recca0120\Repository\Criteria;
+use Recca0120\Repository\Compilers\EloquentCompiler;
 
 class EloquentTest extends PHPUnit_Framework_TestCase
 {

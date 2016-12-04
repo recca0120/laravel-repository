@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use Recca0120\Repository\Compilers\CollectionCompiler;
 use Recca0120\Repository\Criteria;
+use Recca0120\Repository\Compilers\CollectionCompiler;
 
 class CollectionCompilersTest extends PHPUnit_Framework_TestCase
 {

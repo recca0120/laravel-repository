@@ -3,8 +3,8 @@
 namespace Recca0120\Repository\Compilers;
 
 use Closure;
-use Illuminate\Database\Query\Expression as QueryExpression;
 use Recca0120\Repository\Criteria;
+use Illuminate\Database\Query\Expression as QueryExpression;
 
 class EloquentCompiler extends Compiler
 {
@@ -20,7 +20,7 @@ class EloquentCompiler extends Compiler
     protected function compileParameters($params)
     {
         return array_map(function ($param) {
-            if (is_callable($param) === true || $param instanceof Closure) {
+            if ($param instanceof Closure) {
                 $criteria = call_user_func($param, new Criteria());
 
                 return function ($query) use ($criteria) {

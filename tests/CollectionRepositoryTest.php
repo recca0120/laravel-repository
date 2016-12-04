@@ -1,9 +1,9 @@
 <?php
 
 use Mockery as m;
-use Recca0120\Repository\CollectionRepository;
-use Recca0120\Repository\Criteria;
 use Illuminate\Support\Fluent;
+use Recca0120\Repository\Criteria;
+use Recca0120\Repository\CollectionRepository;
 
 class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
 {
