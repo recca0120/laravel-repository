@@ -15,7 +15,6 @@ interface Repository
     /**
      * cloneModel.
      *
-     * @method cloneModel
      * @return \Illuminate\Database\Eloquent
      */
     public function cloneModel();

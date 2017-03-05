@@ -17,8 +17,6 @@ class EloquentRepository extends AbstractRepository
     /**
      * __construct.
      *
-     * @method __construct
-     *
      * @param \Illuminate\Database\Eloquent\Model $model
      */
     public function __construct(Model $model)
