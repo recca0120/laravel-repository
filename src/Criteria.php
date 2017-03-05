@@ -62,7 +62,7 @@ class Criteria
      *  _call.
      *
      * @param string $method
-     * @param mixed  $parameters
+     * @param mixed $parameters
      * @return \Recca0120\Repository\Criteria
      */
     public function __call($method, $parameters)
@@ -127,7 +127,7 @@ class Criteria
      * __callStatic.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      * @return static
      */
     public static function __callStatic($method, $parameters)

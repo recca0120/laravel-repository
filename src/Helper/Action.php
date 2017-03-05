@@ -30,7 +30,7 @@ class Action
      *
      * @param string $type
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      */
     public function __construct($type, $method, $parameters = [])
     {

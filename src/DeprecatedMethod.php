@@ -48,8 +48,8 @@ trait DeprecatedMethod
      * findBy.
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param int                                  $limit
-     * @param int                                  $offset
+     * @param int $limit
+     * @param int $offset
      * @return \Illuminate\Support\Collection
      */
     public function findBy($criteria, $limit = null, $offset = null)
@@ -62,10 +62,10 @@ trait DeprecatedMethod
     /**
      * paginatedBy.
      *
-     * @param mixed  $criteria
+     * @param mixed $criteria
      * @param string $perPage
-     * @param int    $pageName
-     * @param int    $page
+     * @param int $pageName
+     * @param int $page
      * @return \illuminate\Pagination\AbstractPaginator
      */
     public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
@@ -118,8 +118,8 @@ trait DeprecatedMethod
      * chunkBy.
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param int                                  $count
-     * @param callable                             $callback
+     * @param int $count
+     * @param callable $callback
      * @return bool
      */
     public function chunkBy($criteria, $count, callable $callback)

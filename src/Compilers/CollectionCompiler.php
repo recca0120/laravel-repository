@@ -59,8 +59,8 @@ class CollectionCompiler extends Compiler
     /**
      * checkOperator.
      *
-     * @param  mix $item
-     * @param  array $parameters
+     * @param mix $item
+     * @param array $parameters
      * @return bool
      */
     protected function checkOperator($item, $parameters)
