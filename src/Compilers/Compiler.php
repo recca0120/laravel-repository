@@ -100,7 +100,7 @@ abstract class Compiler
     /**
      * isExpression.
      *
-     * @param mix $param
+     * @param mixed$param
      * @return bool
      */
     protected function isExpression($param)

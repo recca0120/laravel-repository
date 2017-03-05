@@ -178,4 +178,19 @@ class EloquentRepository extends AbstractRepository
 
         return $model->delete();
     }
+
+    /**
+     * chunk.
+     *
+     * @param Criteria|array $criteria
+     * @param int $count
+     * @param callable $callback
+     * @return \Illuminate\Support\Collection
+     */
+    public function chunk($criteria, $count, callable $callback)
+    {
+        $model = $this->match($criteria);
+
+        return $model->chunk($count, $callback);
+    }
 }
