@@ -40,7 +40,7 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * match.
      *
-     * @param \Recca0120\Repository\Criteria|array $criteria
+     * @param Criteria|array $criteria
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public function match($criteria)
@@ -55,7 +55,7 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * count.
      *
-     * @param \Recca0120\Repository\Criteria|array $criteria
+     * @param Criteria|array $criteria
      * @return int
      */
     public function count($criteria = [])
@@ -68,7 +68,7 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * chunk.
      *
-     * @param \Recca0120\Repository\Criteria|array $criteria
+     * @param Criteria|array $criteria
      * @param int $count
      * @param callable $callback
      * @return \Illuminate\Support\Collection
