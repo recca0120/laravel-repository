@@ -7,10 +7,7 @@ interface Repository
     /**
      * match.
      *
-     * @method match
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
     public function match($criteria);
@@ -19,7 +16,6 @@ interface Repository
      * cloneModel.
      *
      * @method cloneModel
-     *
      * @return \Illuminate\Database\Eloquent
      */
     public function cloneModel();
@@ -27,26 +23,20 @@ interface Repository
     /**
      * get.
      *
-     * @method get
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param int                                  $limit
      * @param int                                  $offset
-     *
-     * @return @return \Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null);
 
     /**
      * paginate.
      *
-     * @method paginate
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
@@ -54,13 +44,10 @@ interface Repository
     /**
      * simplePaginate.
      *
-     * @method simplePaginate
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
@@ -68,10 +55,7 @@ interface Repository
     /**
      * first.
      *
-     * @method first
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return mixed
      */
     public function first($criteria = [], $columns = ['*']);
@@ -79,11 +63,8 @@ interface Repository
     /**
      * find.
      *
-     * @method find
-     *
      * @param int   $id
      * @param array $columns
-     *
      * @return mixed
      */
     public function find($id, $columns = ['*']);
@@ -91,18 +72,13 @@ interface Repository
     /**
      * count.
      *
-     * @method count
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return int
      */
     public function count($criteria = []);
 
     /**
      * newInstance.
-     *
-     * @method newInstance
      *
      * @return \Illuminate\Database\Eloquent
      */
@@ -111,11 +87,8 @@ interface Repository
     /**
      * create.
      *
-     * @method create
-     *
      * @param array $attributes
      * @param bool  $forceFill
-     *
      * @return mixed
      */
     public function create($attributes, $forceFill = false);
@@ -123,12 +96,9 @@ interface Repository
     /**
      * update.
      *
-     * @method update
-     *
      * @param array $attributes
      * @param int   $id
      * @param bool  $forceFill
-     *
      * @return mixed
      */
     public function update($attributes, $id, $forceFill = false);
@@ -136,10 +106,7 @@ interface Repository
     /**
      * delete.
      *
-     * @method delete
-     *
      * @param int $id
-     *
      * @return bool
      */
     public function delete($id);
@@ -147,10 +114,7 @@ interface Repository
     /**
      * destroy.
      *
-     * @method destroy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return int
      */
     public function destroy($criteria = []);

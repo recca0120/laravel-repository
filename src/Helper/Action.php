@@ -28,8 +28,6 @@ class Action
     /**
      * __construct.
      *
-     * @method __construct
-     *
      * @param string $type
      * @param string $method
      * @param array  $parameters

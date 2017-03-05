@@ -31,8 +31,6 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * cloneModel.
      *
-     * @method cloneModel
-     *
      * @return \Illuminate\Database\Eloquent
      */
     public function cloneModel()
@@ -43,11 +41,8 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * match.
      *
-     * @method match
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public function match($criteria)
     {
@@ -61,10 +56,7 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * count.
      *
-     * @method count
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return int
      */
     public function count($criteria = [])
@@ -77,12 +69,9 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * chunk.
      *
-     * @method chunk
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param int                                  $count
      * @param callable                             $callback
-     *
      * @return bool
      */
     public function chunk($criteria, $count, callable $callback)

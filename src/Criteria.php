@@ -38,8 +38,6 @@ class Criteria
     /**
      * all.
      *
-     * @method all
-     *
      * @return array
      */
     public function all()
@@ -50,10 +48,7 @@ class Criteria
     /**
      * push.
      *
-     * @method push
-     *
      * @param \Recca0120\Repository\Core\Action $action
-     *
      * @return self
      */
     public function push(Action $action)
@@ -66,11 +61,8 @@ class Criteria
     /**
      *  _call.
      *
-     * @method __call
-     *
      * @param string $method
      * @param mixed  $parameters
-     *
      * @return \Recca0120\Repository\Criteria
      */
     public function __call($method, $parameters)
@@ -88,7 +80,6 @@ class Criteria
      * alias raw.
      *
      * @param mixed $value
-     *
      * @return \Recca0120\Repository\CriteriaExpression
      */
     public static function expr($value)
@@ -98,7 +89,6 @@ class Criteria
 
     /**
      * @param mixed $value
-     *
      * @return \Recca0120\Repository\Expression
      */
     public static function raw($value)
@@ -136,11 +126,8 @@ class Criteria
     /**
      * __callStatic.
      *
-     * @method __callStatic
-     *
      * @param string $method
      * @param array  $parameters
-     *
      * @return static
      */
     public static function __callStatic($method, $parameters)

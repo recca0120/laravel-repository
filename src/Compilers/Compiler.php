@@ -24,8 +24,6 @@ abstract class Compiler
     /**
      * __construct.
      *
-     * @method __construct
-     *
      * @param \Illuminate\Database\Eloquent\Model $model
      */
     public function __construct($model)
@@ -36,11 +34,8 @@ abstract class Compiler
     /**
      * push.
      *
-     * @method push
-     *
      * @param \Recca0120\Repository\Criteria $criteria
-     *
-     * @return self
+     * @return static
      */
     public function push($criteria)
     {
@@ -56,17 +51,13 @@ abstract class Compiler
             }
         }
 
-        // $this->items[] = $criteria;
-
         return $this;
     }
 
     /**
      * apply.
      *
-     * @method apply
-     *
-     * @return mixed $model
+     * @return mixed
      */
     public function apply()
     {
@@ -93,11 +84,8 @@ abstract class Compiler
     /**
      * defaults apply.
      *
-     * @method defaults
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function defaults($model, $actions)
@@ -112,7 +100,6 @@ abstract class Compiler
     /**
      * isExpression.
      *
-     * @method isExpression
      * @param  mix              $param
      * @return bool
      */
@@ -124,10 +111,7 @@ abstract class Compiler
     /**
      * transformParameters.
      *
-     * @method transformParameters
-     *
      * @param array $parameters
-     *
      * @return array
      */
     abstract protected function compileParameters($parameters);

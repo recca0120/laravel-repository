@@ -9,10 +9,7 @@ trait DeprecatedMethod
     /**
      * factory.
      *
-     * @method factory
-     *
      * @param array $data
-     *
      * @return \Illuminate\Database\Eloquent
      */
     public function factory($data = [])
@@ -25,10 +22,7 @@ trait DeprecatedMethod
     /**
      * match.
      *
-     * @method match
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
     public function matching($criteria)
@@ -40,8 +34,6 @@ trait DeprecatedMethod
 
     /**
      * findAll.
-     *
-     * @method findAll
      *
      * @return \Illuminate\Support\Collection
      */
@@ -55,13 +47,10 @@ trait DeprecatedMethod
     /**
      * findBy.
      *
-     * @method findBy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param array                                $orderBy
      * @param int                                  $limit
      * @param int                                  $offset
-     *
      * @return \Illuminate\Support\Collection
      */
     public function findBy($criteria, $limit = null, $offset = null)
@@ -74,13 +63,10 @@ trait DeprecatedMethod
     /**
      * paginatedBy.
      *
-     * @method paginatedBy
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \illuminate\Pagination\AbstractPaginator
      */
     public function paginatedBy($criteria, $perPage = null, $pageName = 'page', $page = null)
@@ -93,10 +79,7 @@ trait DeprecatedMethod
     /**
      * paginatedAll.
      *
-     * @method paginatedAll
-     *
      * @param int $perPage
-     *
      * @return \illuminate\Pagination\AbstractPaginator
      */
     public function paginatedAll($perPage = null, $pageName = 'page', $page = null)
@@ -109,10 +92,7 @@ trait DeprecatedMethod
     /**
      * findOneBy.
      *
-     * @method findOneBy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return mixed
      */
     public function findOneBy($criteria)
@@ -125,10 +105,7 @@ trait DeprecatedMethod
     /**
      * countBy.
      *
-     * @method countBy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return int
      */
     public function countBy($criteria)
@@ -141,12 +118,9 @@ trait DeprecatedMethod
     /**
      * chunkBy.
      *
-     * @method chunkBy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param int                                  $count
      * @param callable                             $callback
-     *
      * @return bool
      */
     public function chunkBy($criteria, $count, callable $callback)
@@ -158,8 +132,6 @@ trait DeprecatedMethod
 
     /**
      * deprecated.
-     *
-     * @method deprecated
      */
     protected function deprecated($method)
     {

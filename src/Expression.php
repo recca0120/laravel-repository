@@ -14,8 +14,6 @@ class Expression
     /**
      * __construct.
      *
-     * @method __construct
-     *
      * @param mixed $value
      */
     public function __construct($value)
@@ -26,8 +24,6 @@ class Expression
     /**
      * getValue.
      *
-     * @method getValue
-     *
      * @return mixed
      */
     public function getValue()
@@ -37,8 +33,6 @@ class Expression
 
     /**
      * __toString.
-     *
-     * @method __toString
      *
      * @return string
      */

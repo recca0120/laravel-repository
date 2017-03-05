@@ -11,10 +11,7 @@ class EloquentCompiler extends Compiler
     /**
      * compileParameters.
      *
-     * @method compileParameters
-     *
      * @param array $params
-     *
      * @return array
      */
     protected function compileParameters($params)

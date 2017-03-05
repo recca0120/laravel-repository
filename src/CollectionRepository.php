@@ -27,8 +27,6 @@ class CollectionRepository extends AbstractRepository
     /**
      * __construct.
      *
-     * @method __construct
-     *
      * @param \Illuminate\Support\Collection $model
      */
     public function __construct(Collection $model)
@@ -41,13 +39,9 @@ class CollectionRepository extends AbstractRepository
     /**
      * get.
      *
-     * @method get
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param array                                $orderBy
      * @param int                                  $limit
      * @param int                                  $offset
-     *
      * @return \Illuminate\Support\Collection
      */
     public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null)
@@ -68,13 +62,10 @@ class CollectionRepository extends AbstractRepository
     /**
      * paginate.
      *
-     * @method paginate
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \illuminate\Pagination\AbstractPaginator
      */
     public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -94,13 +85,10 @@ class CollectionRepository extends AbstractRepository
     /**
      * simplePaginate.
      *
-     * @method simplePaginate
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -119,10 +107,7 @@ class CollectionRepository extends AbstractRepository
     /**
      * first.
      *
-     * @method first
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return mixed
      */
     public function first($criteria = [], $columns = ['*'])
@@ -135,10 +120,7 @@ class CollectionRepository extends AbstractRepository
     /**
      * find.
      *
-     * @method find
-     *
      * @param int $id
-     *
      * @return mixed
      */
     public function find($id, $columns = ['*'])
@@ -149,10 +131,7 @@ class CollectionRepository extends AbstractRepository
     /**
      * newInstance.
      *
-     * @method newInstance
-     *
      * @param array $attributes
-     *
      * @return \Illuminate\Support\Fluent
      */
     public function newInstance($attributes = [])
@@ -163,11 +142,8 @@ class CollectionRepository extends AbstractRepository
     /**
      * create.
      *
-     * @method create
-     *
      * @param array $attributes
      * @param bool  $forceFill
-     *
      * @return mixed
      */
     public function create($attributes, $forceFill = false)
@@ -181,12 +157,9 @@ class CollectionRepository extends AbstractRepository
     /**
      * update.
      *
-     * @method update
-     *
      * @param array $attributes
      * @param int   $id
      * @param bool  $forceFill
-     *
      * @return mixed
      */
     public function update($attributes, $id, $forceFill = false)
@@ -203,10 +176,7 @@ class CollectionRepository extends AbstractRepository
     /**
      * delete.
      *
-     * @method delete
-     *
      * @param int $id
-     *
      * @return bool
      */
     public function delete($id)
@@ -219,10 +189,7 @@ class CollectionRepository extends AbstractRepository
     /**
      * destroy.
      *
-     * @method destroy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return int
      */
     public function destroy($criteria = [])

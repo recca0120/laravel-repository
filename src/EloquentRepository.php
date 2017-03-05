@@ -29,13 +29,10 @@ class EloquentRepository extends AbstractRepository
     /**
      * get.
      *
-     * @method get
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param array                                $orderBy
      * @param int                                  $limit
      * @param int                                  $offset
-     *
      * @return \Illuminate\Support\Collection
      */
     public function get($criteria = [], $columns = ['*'], $limit = null, $offset = null)
@@ -56,13 +53,10 @@ class EloquentRepository extends AbstractRepository
     /**
      * paginate.
      *
-     * @method paginate
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -76,13 +70,10 @@ class EloquentRepository extends AbstractRepository
     /**
      * simplePaginate.
      *
-     * @method simplePaginate
-     *
      * @param mixed  $criteria
      * @param string $perPage
      * @param int    $pageName
      * @param int    $page
-     *
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -96,10 +87,7 @@ class EloquentRepository extends AbstractRepository
     /**
      * first.
      *
-     * @method first
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return mixed
      */
     public function first($criteria = [], $columns = ['*'])
@@ -112,10 +100,7 @@ class EloquentRepository extends AbstractRepository
     /**
      * find.
      *
-     * @method find
-     *
      * @param int $id
-     *
      * @return mixed
      */
     public function find($id, $columns = ['*'])
@@ -129,10 +114,7 @@ class EloquentRepository extends AbstractRepository
     /**
      * newInstance.
      *
-     * @method newInstance
-     *
      * @param array $attributes
-     *
      * @return \Illuminate\Database\Eloquent
      */
     public function newInstance($attributes = [])
@@ -146,11 +128,8 @@ class EloquentRepository extends AbstractRepository
     /**
      * create.
      *
-     * @method create
-     *
      * @param array $attributes
      * @param bool  $forceFill
-     *
      * @return mixed
      */
     public function create($attributes, $forceFill = false)
@@ -165,12 +144,9 @@ class EloquentRepository extends AbstractRepository
     /**
      * update.
      *
-     * @method update
-     *
      * @param array $attributes
      * @param int   $id
      * @param bool  $forceFill
-     *
      * @return mixed
      */
     public function update($attributes, $id, $forceFill = false)
@@ -185,10 +161,7 @@ class EloquentRepository extends AbstractRepository
     /**
      * delete.
      *
-     * @method delete
-     *
      * @param int $id
-     *
      * @return bool
      */
     public function delete($id)
@@ -199,10 +172,7 @@ class EloquentRepository extends AbstractRepository
     /**
      * destroy.
      *
-     * @method destroy
-     *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     *
      * @return int
      */
     public function destroy($criteria = [])

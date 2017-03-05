@@ -4,17 +4,15 @@ namespace Recca0120\Repository\Compilers;
 
 use BadMethodCallException;
 use Illuminate\Support\Arr;
+use Recca0120\Repository\Expression;
 
 class CollectionCompiler extends Compiler
 {
     /**
      * where.
      *
-     * @method where
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function where($model, $actions)
@@ -49,7 +47,6 @@ class CollectionCompiler extends Compiler
                         break;
                     default:
                         throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
-                        break;
                 }
             }
 
@@ -59,21 +56,36 @@ class CollectionCompiler extends Compiler
         return $model;
     }
 
+    /**
+     * checkOperator.
+     *
+     * @param  mix $item
+     * @param  array $parameters
+     * @return bool
+     */
     protected function checkOperator($item, $parameters)
     {
         list($key, $operator, $value) = $parameters;
         $retrieved = $item[$key];
         switch ($operator) {
             case '=':
-            case '==':  return $retrieved == $value;
+            case '==':
+                return $retrieved == $value;
             case '!=':
-            case '<>':  return $retrieved != $value;
-            case '<':   return $retrieved < $value;
-            case '>':   return $retrieved > $value;
-            case '<=':  return $retrieved <= $value;
-            case '>=':  return $retrieved >= $value;
-            case '===': return $retrieved === $value;
-            case '!==': return $retrieved !== $value;
+            case '<>':
+                return $retrieved != $value;
+            case '<':
+                return $retrieved < $value;
+            case '>':
+                return $retrieved > $value;
+            case '<=':
+                return $retrieved <= $value;
+            case '>=':
+                return $retrieved >= $value;
+            case '===':
+                return $retrieved === $value;
+            case '!==':
+                return $retrieved !== $value;
         }
 
         return false;
@@ -82,11 +94,8 @@ class CollectionCompiler extends Compiler
     /**
      * having.
      *
-     * @method having
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function having($model, $actions)
@@ -97,11 +106,8 @@ class CollectionCompiler extends Compiler
     /**
      * order.
      *
-     * @method order
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function order($model, $actions)
@@ -118,11 +124,8 @@ class CollectionCompiler extends Compiler
     /**
      * with.
      *
-     * @method with
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function with($model, $actions)
@@ -133,11 +136,8 @@ class CollectionCompiler extends Compiler
     /**
      * join.
      *
-     * @method join
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function join($model, $actions)
@@ -148,11 +148,8 @@ class CollectionCompiler extends Compiler
     /**
      * select.
      *
-     * @method select
-     *
      * @param mixed $model
      * @param array $actions
-     *
      * @return mixed
      */
     public function select($model, $actions)
@@ -163,10 +160,7 @@ class CollectionCompiler extends Compiler
     /**
      * orderComparer.
      *
-     * @method orderComparer
-     *
      * @param array $sort
-     *
      * @return \Closure
      */
     protected function orderComparer($sort)
@@ -189,10 +183,7 @@ class CollectionCompiler extends Compiler
     /**
      * compileParameters.
      *
-     * @method compileParameters
-     *
      * @param array $parameters
-     *
      * @return array
      */
     protected function compileParameters($parameters)
