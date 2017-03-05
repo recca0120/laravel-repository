@@ -69,15 +69,23 @@ class CollectionCompiler extends Compiler
         $retrieved = $item[$key];
         switch ($operator) {
             case '=':
-            case '==': return $retrieved == $value;
+            case '==':
+                return $retrieved == $value;
             case '!=':
-            case '<>': return $retrieved != $value;
-            case '<': return $retrieved < $value;
-            case '>': return $retrieved > $value;
-            case '<=': return $retrieved <= $value;
-            case '>=': return $retrieved >= $value;
-            case '===': return $retrieved === $value;
-            case '!==': return $retrieved !== $value;
+            case '<>':
+                return $retrieved != $value;
+            case '<':
+                return $retrieved < $value;
+            case '>':
+                return $retrieved > $value;
+            case '<=':
+                return $retrieved <= $value;
+            case '>=':
+                return $retrieved >= $value;
+            case '===':
+                return $retrieved === $value;
+            case '!==':
+                return $retrieved !== $value;
         }
 
         return false;
