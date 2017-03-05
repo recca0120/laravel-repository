@@ -48,7 +48,6 @@ trait DeprecatedMethod
      * findBy.
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param array                                $orderBy
      * @param int                                  $limit
      * @param int                                  $offset
      * @return \Illuminate\Support\Collection
@@ -132,6 +131,8 @@ trait DeprecatedMethod
 
     /**
      * deprecated.
+     *
+     * @param string $method
      */
     protected function deprecated($method)
     {

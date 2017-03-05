@@ -48,8 +48,8 @@ class Criteria
     /**
      * push.
      *
-     * @param \Recca0120\Repository\Core\Action $action
-     * @return self
+     * @param Action $action
+     * @return static
      */
     public function push(Action $action)
     {
@@ -80,7 +80,7 @@ class Criteria
      * alias raw.
      *
      * @param mixed $value
-     * @return \Recca0120\Repository\CriteriaExpression
+     * @return Expression
      */
     public static function expr($value)
     {

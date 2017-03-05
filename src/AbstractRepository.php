@@ -2,7 +2,6 @@
 
 namespace Recca0120\Repository;
 
-use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Contracts\Repository as RepositoryContract;
 
 abstract class AbstractRepository implements RepositoryContract
@@ -72,7 +71,7 @@ abstract class AbstractRepository implements RepositoryContract
      * @param \Recca0120\Repository\Criteria|array $criteria
      * @param int                                  $count
      * @param callable                             $callback
-     * @return bool
+     * @return \Illuminate\Support\Collection
      */
     public function chunk($criteria, $count, callable $callback)
     {

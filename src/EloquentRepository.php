@@ -30,7 +30,6 @@ class EloquentRepository extends AbstractRepository
      * get.
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     * @param array                                $orderBy
      * @param int                                  $limit
      * @param int                                  $offset
      * @return \Illuminate\Support\Collection
