@@ -35,7 +35,7 @@ abstract class Compiler
      * push.
      *
      * @param \Recca0120\Repository\Criteria $criteria
-     * @return static
+     * @return $this
      */
     public function push($criteria)
     {

@@ -49,7 +49,7 @@ class Criteria
      * push.
      *
      * @param Action $action
-     * @return static
+     * @return $this
      */
     public function push(Action $action)
     {
