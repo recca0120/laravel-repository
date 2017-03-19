@@ -25,7 +25,13 @@
             "Recca0120\\Repository\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Recca0120\\Repository\\Tests\\": "tests/"
+        }
+    },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }

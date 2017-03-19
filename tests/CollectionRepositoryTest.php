@@ -1,11 +1,14 @@
 <?php
 
+namespace Recca0120\Repository\Tests;
+
 use Mockery as m;
 use Illuminate\Support\Fluent;
+use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\CollectionRepository;
 
-class CollectionRepositoryTest extends PHPUnit_Framework_TestCase
+class CollectionRepositoryTest extends TestCase
 {
     public function tearDown()
     {

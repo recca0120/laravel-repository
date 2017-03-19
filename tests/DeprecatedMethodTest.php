@@ -1,10 +1,13 @@
 <?php
 
+namespace Recca0120\Repository\Tests;
+
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\DeprecatedMethod;
 use Recca0120\Repository\EloquentRepository;
 
-class DeprecatedMethodTest extends PHPUnit_Framework_TestCase
+class DeprecatedMethodTest extends TestCase
 {
     public function tearDown()
     {

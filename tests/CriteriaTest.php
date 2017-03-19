@@ -1,10 +1,13 @@
 <?php
 
+namespace Recca0120\Repository\Tests;
+
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\EloquentRepository;
 
-class CriteriaTest extends PHPUnit_Framework_TestCase
+class CriteriaTest extends TestCase
 {
     public function tearDown()
     {
