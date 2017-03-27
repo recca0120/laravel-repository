@@ -57,41 +57,6 @@ class CollectionCompiler extends Compiler
     }
 
     /**
-     * checkOperator.
-     *
-     * @param mixed$item
-     * @param array $parameters
-     * @return bool
-     */
-    protected function checkOperator($item, $parameters)
-    {
-        list($key, $operator, $value) = $parameters;
-        $retrieved = $item[$key];
-        switch ($operator) {
-            case '=':
-            case '==':
-                return $retrieved == $value;
-            case '!=':
-            case '<>':
-                return $retrieved != $value;
-            case '<':
-                return $retrieved < $value;
-            case '>':
-                return $retrieved > $value;
-            case '<=':
-                return $retrieved <= $value;
-            case '>=':
-                return $retrieved >= $value;
-            case '===':
-                return $retrieved === $value;
-            case '!==':
-                return $retrieved !== $value;
-        }
-
-        return false;
-    }
-
-    /**
      * having.
      *
      * @param mixed $model
@@ -155,6 +120,41 @@ class CollectionCompiler extends Compiler
     public function select($model, $actions)
     {
         return $model;
+    }
+
+    /**
+     * checkOperator.
+     *
+     * @param mixed$item
+     * @param array $parameters
+     * @return bool
+     */
+    protected function checkOperator($item, $parameters)
+    {
+        list($key, $operator, $value) = $parameters;
+        $retrieved = $item[$key];
+        switch ($operator) {
+            case '=':
+            case '==':
+                return $retrieved == $value;
+            case '!=':
+            case '<>':
+                return $retrieved != $value;
+            case '<':
+                return $retrieved < $value;
+            case '>':
+                return $retrieved > $value;
+            case '<=':
+                return $retrieved <= $value;
+            case '>=':
+                return $retrieved >= $value;
+            case '===':
+                return $retrieved === $value;
+            case '!==':
+                return $retrieved !== $value;
+        }
+
+        return false;
     }
 
     /**

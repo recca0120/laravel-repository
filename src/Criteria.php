@@ -36,6 +36,38 @@ class Criteria
     ];
 
     /**
+     *  _call.
+     *
+     * @param string $method
+     * @param mixed $parameters
+     * @return \Recca0120\Repository\Criteria
+     */
+    public function __call($method, $parameters)
+    {
+        if (preg_match('/'.implode('|', $this->allowTypes).'/i', $method, $match)) {
+            $this->push(new Action($match[0], $method, $parameters));
+
+            return $this;
+        }
+
+        throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
+    }
+
+    /**
+     * __callStatic.
+     *
+     * @param string $method
+     * @param array $parameters
+     * @return static
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        $criteria = new static();
+
+        return call_user_func_array([$criteria, $method], $parameters);
+    }
+
+    /**
      * all.
      *
      * @return array
@@ -56,24 +88,6 @@ class Criteria
         array_push($this->actions, $action);
 
         return $this;
-    }
-
-    /**
-     *  _call.
-     *
-     * @param string $method
-     * @param mixed $parameters
-     * @return \Recca0120\Repository\Criteria
-     */
-    public function __call($method, $parameters)
-    {
-        if (preg_match('/'.implode('|', $this->allowTypes).'/i', $method, $match)) {
-            $this->push(new Action($match[0], $method, $parameters));
-
-            return $this;
-        }
-
-        throw new BadMethodCallException('Call to undefined method '.static::class."::{$method}()");
     }
 
     /**
@@ -121,19 +135,5 @@ class Criteria
 
                 return $reflectionClass->newInstanceArgs(func_get_args());
         }
-    }
-
-    /**
-     * __callStatic.
-     *
-     * @param string $method
-     * @param array $parameters
-     * @return static
-     */
-    public static function __callStatic($method, $parameters)
-    {
-        $criteria = new static();
-
-        return call_user_func_array([$criteria, $method], $parameters);
     }
 }

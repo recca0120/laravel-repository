@@ -7,6 +7,12 @@ use Recca0120\Repository\Contracts\Repository as RepositoryContract;
 abstract class AbstractRepository implements RepositoryContract
 {
     /**
+     * $perPage.
+     *
+     * @var int
+     */
+    public $perPage = 15;
+    /**
      * $model.
      *
      * @var mixed
@@ -19,13 +25,6 @@ abstract class AbstractRepository implements RepositoryContract
      * @var string
      */
     protected $compiler;
-
-    /**
-     * $perPage.
-     *
-     * @var int
-     */
-    public $perPage = 15;
 
     /**
      * cloneModel.

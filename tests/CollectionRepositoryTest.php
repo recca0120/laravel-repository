@@ -15,19 +15,6 @@ class CollectionRepositoryTest extends TestCase
         m::close();
     }
 
-    protected function mockCollection($data = [])
-    {
-        return m::mock('Illuminate\Support\Collection')
-            ->shouldReceive('make')->once()->andReturnSelf()
-            ->shouldReceive('map')->andReturnUsing(function ($closure) use ($data) {
-                $closure($data);
-
-                return m::self();
-            })
-            ->shouldReceive('keyBy')->andReturnSelf()
-            ->mock();
-    }
-
     public function test_new_instance()
     {
         /*
@@ -327,5 +314,18 @@ class CollectionRepositoryTest extends TestCase
 
         // $this->assertSame($repository->destroy($criteria), $excepted);
         $repository->destroy($criteria);
+    }
+
+    protected function mockCollection($data = [])
+    {
+        return m::mock('Illuminate\Support\Collection')
+            ->shouldReceive('make')->once()->andReturnSelf()
+            ->shouldReceive('map')->andReturnUsing(function ($closure) use ($data) {
+                $closure($data);
+
+                return m::self();
+            })
+            ->shouldReceive('keyBy')->andReturnSelf()
+            ->mock();
     }
 }

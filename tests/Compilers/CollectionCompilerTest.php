@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
 use Recca0120\Repository\Compilers\CollectionCompiler;
 
-class CollectionCompilersTest extends TestCase
+class CollectionCompilerTest extends TestCase
 {
     public function tearDown()
     {
