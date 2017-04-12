@@ -21,6 +21,7 @@ class Criteria
      * @var array
      */
     protected $allowTypes = [
+        'from',
         'select',
         'where',
         'join',
