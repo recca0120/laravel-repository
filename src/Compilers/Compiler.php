@@ -72,9 +72,7 @@ abstract class Compiler
         }
 
         foreach ($allowTypes as $type => $actions) {
-            $method = (method_exists($this, $type) === true) ?
-                $type : 'defaults';
-
+            $method = method_exists($this, $type) === true ? $type : 'defaults';
             $this->model = call_user_func_array([$this, $method], [$this->model, $actions]);
         }
 
@@ -90,11 +88,9 @@ abstract class Compiler
      */
     public function defaults($model, $actions)
     {
-        foreach ($actions as $action) {
-            $model = call_user_func_array([$model, $action['method']], $action['parameters']);
-        }
-
-        return $model;
+        return array_reduce($actions, function($model, $action) {
+            return call_user_func_array([$model, $action['method']], $action['parameters']);
+        }, $model);
     }
 
     /**
