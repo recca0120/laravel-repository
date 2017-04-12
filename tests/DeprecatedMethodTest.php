@@ -9,300 +9,103 @@ use Recca0120\Repository\EloquentRepository;
 
 class DeprecatedMethodTest extends TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
 
-    public function test_find_by()
+    public function testFindBy()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('take')->once()->with(10)->andReturnSelf()
-            ->shouldReceive('skip')->once()->with(5)->andReturnSelf()
-            ->shouldReceive('get')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('take')->once()->with(10)->andReturnSelf();
+        $model->shouldReceive('skip')->once()->with(5)->andReturnSelf();
+        $model->shouldReceive('get')->once()->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->findBy([], 10, 5));
     }
 
-    public function test_find_all()
+    public function testFindAll()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('get')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('get')->once()->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->findAll());
     }
 
-    public function test_paginated_by()
+    public function testPaginatedBy()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('paginate')->with(1, ['*'], 'page', 1)->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('paginate')->once()->with(1, ['*'], 'page', 1)->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->paginatedBy([], 1, 'page', 1));
     }
 
-    public function test_paginated_all()
+    public function testPaginatedAll()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
         $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
         $model->shouldReceive('paginate')->with(1, ['*'], 'page', 1)->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $this->assertSame($data, $repository->paginatedAll(1, 'page', 1));
     }
 
-    public function test_chunk_by()
+    public function testChunkBy()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-        $callable = function () {
-        };
-        $count = 100;
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('chunk')->with($count, $callable)->once()->andReturn(true);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('chunk')->once()->with($count = 100, $callable = function () {
+        })->andReturn(true);
         $this->assertSame(true, $repository->chunkBy([], $count, $callable));
     }
 
-    public function test_count_all()
+    public function testCountAll()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $excepted = 10;
-        $model->shouldReceive('count')->once()->andReturn($excepted);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('count')->once()->andReturn($excepted = 10);
         $this->assertSame($repository->countBy([]), $excepted);
     }
 
-    public function test_find_one_by()
+    public function testFindOneBy()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('first')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('first')->once()->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->findOneBy([]));
     }
 
-    public function test_matching()
+    public function testMatching()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $repository->matching([]));
     }
 
-    public function test_factory()
+    public function testFactory()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
         $model->shouldReceive('forceFill')->once();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $repository->factory([]);
     }
 
     /**
      * @expectedException BadMethodCallException
      */
-    public function test_deprecated()
+    public function testDeprecated()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new DeprecatedRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new DeprecatedRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
         $repository->disableDeprecated()->factory([]);
     }
 }

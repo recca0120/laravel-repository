@@ -9,7 +9,7 @@ use Recca0120\Repository\EloquentRepository;
 
 class CriteriaTest extends TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
@@ -17,108 +17,33 @@ class CriteriaTest extends TestCase
     /**
      * @expectedException BadMethodCallException
      */
-    public function test_call_undefined_criteria()
+    public function testCallUndefinedCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
         $criteria = new Criteria();
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $criteria->test();
     }
 
-    public function test_echo_criteria_expression()
+    public function testEchoCriteriaExpression()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $this->assertTrue(is_string((string) Criteria::expr('test')));
     }
 
-    public function test_custom_criteria()
+    public function testCustomCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf();
+        $model->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf();
+        $model->shouldReceive('get')->once();
         $repository->get([
             CustomCriteria::create('foo', 'bar'),
             (new CustomCriteria('fuzz', 'buzz')),
         ]);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
     }
 
-    public function test_criteria_arguments()
+    public function testCriteriaArguments()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         CustomCriteria2::create(1);
         CustomCriteria2::create(1, 2);
         CustomCriteria2::create(1, 2, 3);
@@ -126,26 +51,8 @@ class CriteriaTest extends TestCase
         CustomCriteria2::create(1, 2, 3, 4, 5);
     }
 
-    public function test_static_call()
+    public function testStaticCall()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         Criteria::where(1, '=', 1);
     }
 }

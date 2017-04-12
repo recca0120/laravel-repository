@@ -9,442 +9,157 @@ use Recca0120\Repository\EloquentRepository;
 
 class EloquentRepositoryTest extends TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
 
-    public function test_new_instance()
+    public function testNewInstance()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
         $model->shouldReceive('forceFill')->once();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $repository->newInstance();
     }
 
-    public function test_create()
+    public function testCreate()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('forceFill')->with([])->once()->andReturnSelf()
-            ->shouldReceive('fill')->with($data)->once()->andReturnSelf()
-            ->shouldReceive('save')->once(true);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('forceFill')->once()->with([])->andReturnSelf();
+        $model->shouldReceive('fill')->once()->with($data = ['foo' => 'bar'])->andReturnSelf();
+        $model->shouldReceive('save')->once();
         $this->assertSame($model, $repository->create($data));
     }
 
-    public function test_create_force_fill()
+    public function testCreateForceFill()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('forceFill')->with([])->once()->andReturnSelf()
-            ->shouldReceive('forceFill')->with($data)->once()->andReturnSelf()
-            ->shouldReceive('save')->once(true);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('forceFill')->once()->with([])->andReturnSelf();
+        $model->shouldReceive('forceFill')->once()->with($data = ['foo' => 'bar'])->andReturnSelf();
+        $model->shouldReceive('save')->once();
         $this->assertSame($model, $repository->create($data, true));
     }
 
-    public function test_find()
+    public function testFind()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('find')->with($id)->once()->andReturnSelf();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('find')->with($id = 1)->once()->andReturnSelf();
         $this->assertSame($model, $repository->find($id));
     }
 
-    public function test_update()
+    public function testUpdate()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('find')->with($id)->once()->andReturnSelf()
-            ->shouldReceive('fill')->with($data)->once()->andReturnSelf()
-            ->shouldReceive('save')->once();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('find')->once()->with($id = 1)->andReturnSelf();
+        $model->shouldReceive('fill')->once()->with($data = ['foo' => 'bar'])->andReturnSelf();
+        $model->shouldReceive('save')->once();
         $this->assertSame($model, $repository->update($data, $id));
     }
 
-    public function test_update_force_fill()
+    public function testUpdateForceFill()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('find')->with($id)->once()->andReturnSelf()
-            ->shouldReceive('forceFill')->with($data)->once()->andReturnSelf()
-            ->shouldReceive('save')->once();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('find')->once()->with($id = 1)->andReturnSelf();
+        $model->shouldReceive('forceFill')->once()->with($data = ['foo' => 'bar'])->andReturnSelf();
+        $model->shouldReceive('save')->once();
         $this->assertSame($model, $repository->update($data, $id, true));
     }
 
-    public function test_delete()
+    public function testDelete()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('find')->with($id)->once()->andReturnSelf()
-            ->shouldReceive('delete')->once()->andReturn(true);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('find')->once()->with($id = 1)->andReturnSelf();
+        $model->shouldReceive('delete')->once()->andReturn(true);
         $this->assertTrue($repository->delete($id));
     }
 
-    public function test_get_by_criteria()
+    public function testGetByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('take')->once()->with(10)->andReturnSelf()
-            ->shouldReceive('skip')->once()->with(5)->andReturnSelf()
-            ->shouldReceive('get')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $this->assertSame($data, $repository->get([], ['*'], 10, 5));
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('take')->once()->with($take = 10)->andReturnSelf();
+        $model->shouldReceive('skip')->once()->with($skip = 5)->andReturnSelf();
+        $model->shouldReceive('get')->once()->andReturn($data = ['foo' => 'bar']);
+        $this->assertSame($data, $repository->get([], ['*'], $take, $skip));
     }
 
-    public function test_paginate_by_criteria()
+    public function testPaginateByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('paginate')->with(1, ['*'], 'page', 1)->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('paginate')->once()->with(1, ['*'], 'page', 1)->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->paginate([], 1, ['*'], 'page', 1));
     }
 
-    public function test_simple_paginate_by_criteria()
+    public function testSimplePaginateByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('simplePaginate')->with(1, ['*'], 'page', 1)->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('simplePaginate')->once()->with(1, ['*'], 'page', 1)->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->simplePaginate([], 1, ['*'], 'page', 1));
     }
 
-    public function test_chunk_by_criteria()
+    public function testChunkByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
         $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
-        $callable = function () {
-        };
-        $count = 100;
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('chunk')->with($count, $callable)->once()->andReturn(true);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $model->shouldReceive('chunk')->with($count = 100, $callable = function () {
+        })->once()->andReturn(true);
         $this->assertSame(true, $repository->chunk([], $count, $callable));
     }
 
-    public function test_count_by_criteria()
+    public function testCountByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
         $criteria = Criteria::create()
             ->where('foo', '=', 'bar')
             ->orWhere('buzz', '=', 'fuzz')
             ->where(function (Criteria $criteria) {
                 return $criteria->where('id', '=', 'closure');
             });
+        $model->shouldReceive('where')->once()->with('foo', '=', 'bar')->andReturnSelf();
+        $model->shouldReceive('orWhere')->once()->with('buzz', '=', 'fuzz')->andReturnSelf();
+        $model->shouldReceive('where')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
+            $tranform = $closure(m::self());
 
-        $excepted = 10;
-        $model
-            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
-                $tranform = $closure(m::self());
-
-                return m::self();
-            })
-            ->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf()
-            ->shouldReceive('count')->once()->andReturn($excepted);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+            return m::self();
+        });
+        $model->shouldReceive('where')->once()->with('id', '=', 'closure')->andReturnSelf();
+        $model->shouldReceive('count')->once()->andReturn($excepted = 10);
         $this->assertSame($repository->count($criteria), $excepted);
     }
 
-    public function test_first_by_criteria()
+    public function testFirstByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model->shouldReceive('first')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('first')->once()->andReturn($data = ['foo' => 'bar']);
         $this->assertSame($data, $repository->first([]));
     }
 
-    public function destroy_by_criteria()
+    public function destroyByCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
         $model = m::mock('Illuminate\Database\Eloquent\Model');
         $repository = new EloquentRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
         $criteria = Criteria::create()
             ->where('foo', '=', 'bar')
             ->orWhere('buzz', '=', 'fuzz')
@@ -452,54 +167,30 @@ class EloquentRepositoryTest extends TestCase
                 return $criteria->where('id', '=', 'closure');
             });
 
-        $excepted = 10;
-        $model
-            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('orWhere')->with('buzz', '=', 'fuzz')->once()->andReturnSelf()
-            ->shouldReceive('where')->with(m::type('Closure'))->once()->andReturnUsing(function ($closure) {
-                $tranform = $closure(m::self());
+        $model->shouldReceive('where')->once()->with('foo', '=', 'bar')->andReturnSelf();
+        $model->shouldReceive('orWhere')->once()->with('buzz', '=', 'fuzz')->andReturnSelf();
+        $model->shouldReceive('where')->once()->with(m::type('Closure'))->andReturnUsing(function ($closure) {
+            $tranform = $closure(m::self());
 
-                return m::self();
-            })
-            ->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf()
-            ->shouldReceive('delete')->once()->andReturn($excepted);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+            return m::self();
+        });
+        $model->shouldReceive('where')->with('id', '=', 'closure')->once()->andReturnSelf();
+        $model->shouldReceive('delete')->once()->andReturn($excepted = 10);
         $this->assertSame($repository->destroy($criteria), $excepted);
     }
 
-    public function test_custom_criteria()
+    public function testCustomCriteria()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new EloquentRepository($model);
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-        $model
-            ->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf()
-            ->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf()
-            ->shouldReceive('get')->once();
+        $repository = new EloquentRepository(
+            $model = m::mock('Illuminate\Database\Eloquent\Model')
+        );
+        $model->shouldReceive('where')->once()->with('foo', '=', 'bar')->andReturnSelf();
+        $model->shouldReceive('where')->once()->with('fuzz', '=', 'buzz')->andReturnSelf();
+        $model->shouldReceive('get')->once();
         $repository->get([
             CustomEloquentCriteria::create('foo', 'bar'),
             (new CustomEloquentCriteria('fuzz', 'buzz')),
         ]);
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
     }
 }
 

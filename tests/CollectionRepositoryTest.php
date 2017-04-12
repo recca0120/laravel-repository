@@ -10,308 +10,107 @@ use Recca0120\Repository\CollectionRepository;
 
 class CollectionRepositoryTest extends TestCase
 {
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
 
-    public function test_new_instance()
+    public function testNewInstance()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $model = $this->mockCollection();
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $repository->newInstance();
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection()
+        );
+        $this->isInstanceOf('Illuminate\Support\Fluent', $repository->newInstance());
     }
 
-    public function test_create()
+    public function testCreate()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('push')->once()->andReturnSelf();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
+        $model->shouldReceive('push')->once()->andReturnSelf();
         $this->assertSame((new Fluent($data))->toArray(), $repository->create($data)->toArray());
     }
 
-    public function test_find()
+    public function testFind()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
         $id = 1;
-        $model = $this->mockCollection();
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection()
+        );
         $model->shouldReceive('get')->with($id)->andReturnSelf();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $this->assertSame($model, $repository->find($id));
     }
 
-    public function test_update()
+    public function testUpdate()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $id = 1;
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('get')->with($id)->andReturnSelf()
-            ->shouldReceive('put')->andReturnSelf();
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
+        $model->shouldReceive('get')->with($id = 1)->andReturnSelf();
+        $model->shouldReceive('put')->andReturnSelf();
         $this->assertSame($model, $repository->update($data, $id));
     }
 
-    public function test_delete()
+    public function testDelete()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
         $id = 1;
-        $model = $this->mockCollection();
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('forget')->with($id)
-            ->shouldReceive('has')->andReturn(true);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection()
+        );
+        $model->shouldReceive('forget')->with($id);
+        $model->shouldReceive('has')->andReturn(true);
         $this->assertTrue($repository->delete($id));
     }
 
-    public function test_get_by_criteria()
+    public function testGet()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('take')->with(10)->once()->andReturnSelf()
-            ->shouldReceive('skip')->with(5)->once()->andReturnSelf()
-            ->shouldReceive('toArray')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
-        $this->assertSame($data, $repository->get([], ['*'], 10, 5)->toArray());
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
+        $model->shouldReceive('take')->once()->with($take = 10)->andReturnSelf();
+        $model->shouldReceive('skip')->once()->with($skip = 5)->andReturnSelf();
+        $model->shouldReceive('toArray')->once()->andReturn($data);
+        $this->assertSame($data, $repository->get([], ['*'], $take, $skip)->toArray());
     }
 
-    public function test_paginate_by_criteria()
+    public function testPaginate()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
 
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
-        $model
-            ->shouldReceive('count')->once()->andReturn(10)
-            ->shouldReceive('forPage')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
+        $model->shouldReceive('count')->once()->andReturn(10);
+        $model->shouldReceive('forPage')->once()->andReturn($data);
 
         $this->assertSame($data, $repository->paginate([], 1, ['*'], 'page', 1)->items());
     }
 
-    public function test_simple_paginate_by_criteria()
+    public function testSimplePaginate()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
         $model->shouldReceive('forPage')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $this->assertSame($data, $repository->simplePaginate([], 1, ['*'], 'page', 1)->items());
     }
 
-    public function test_first_by_criteria()
+    public function testFirst()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
         $model->shouldReceive('first')->once()->andReturn($data);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         $this->assertSame($data, $repository->first([]));
     }
 
-    public function test_destroy_by_criteria()
+    public function testDestroy()
     {
-        /*
-        |------------------------------------------------------------
-        | Set
-        |------------------------------------------------------------
-        */
-
-        $data = ['foo' => 'bar'];
-        $model = $this->mockCollection($data);
-        $repository = new CollectionRepository($model);
-
-        /*
-        |------------------------------------------------------------
-        | Expectation
-        |------------------------------------------------------------
-        */
-
+        $repository = new CollectionRepository(
+            $model = $this->mockCollection($data = ['foo' => 'bar'])
+        );
+        $criteria = Criteria::create()->where('id', '=', 1);
         $excepted = 1;
-        $criteria = Criteria::create()
-            ->where('id', '=', 1);
-
-        /*
-        |------------------------------------------------------------
-        | Assertion
-        |------------------------------------------------------------
-        */
-
         // $this->assertSame($repository->destroy($criteria), $excepted);
         $repository->destroy($criteria);
     }
