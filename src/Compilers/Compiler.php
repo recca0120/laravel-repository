@@ -61,15 +61,16 @@ abstract class Compiler
      */
     public function apply()
     {
-        $allowTypes = [];
-        foreach ($this->items as $criteria) {
+        $allowTypes = array_reduce($this->items, function($allows, $criteria) {
             foreach ($criteria->all() as $action) {
-                $allowTypes[$action->type][] = [
+                $allows[$action->type][] = [
                     'method' => $action->method,
                     'parameters' => $this->compileParameters($action->parameters),
                 ];
             }
-        }
+
+            return $allows;
+        }, []);
 
         foreach ($allowTypes as $type => $actions) {
             $method = method_exists($this, $type) === true ? $type : 'defaults';
