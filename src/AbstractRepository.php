@@ -30,7 +30,7 @@ abstract class AbstractRepository implements RepositoryContract
     /**
      * cloneModel.
      *
-     * @return \Illuminate\Database\Eloquent
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function cloneModel()
     {
@@ -41,7 +41,9 @@ abstract class AbstractRepository implements RepositoryContract
      * match.
      *
      * @param Criteria|array $criteria
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Builder |
+     *         \Illuminate\Database\Eloquent\Collection |
+     *         \Illuminate\Support\Collection
      */
     public function match($criteria)
     {
