@@ -58,10 +58,9 @@ class EloquentRepository extends AbstractRepository
      */
     public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
-        $model = $this->match($criteria);
         $perPage = $perPage ?: $this->perPage;
 
-        return $model->paginate($perPage, $columns, $pageName, $page);
+        return $this->match($criteria)->paginate($perPage, $columns, $pageName, $page);
     }
 
     /**
@@ -75,10 +74,9 @@ class EloquentRepository extends AbstractRepository
      */
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
-        $model = $this->match($criteria);
         $perPage = $perPage ?: $this->perPage;
 
-        return $model->simplePaginate($perPage, $columns, $pageName, $page);
+        return $this->match($criteria)->simplePaginate($perPage, $columns, $pageName, $page);
     }
 
     /**
@@ -89,9 +87,7 @@ class EloquentRepository extends AbstractRepository
      */
     public function first($criteria = [], $columns = ['*'])
     {
-        $model = $this->match($criteria);
-
-        return $model->first($columns);
+        return $this->match($criteria)->first($columns);
     }
 
     /**
@@ -102,8 +98,8 @@ class EloquentRepository extends AbstractRepository
      */
     public function find($id, $columns = ['*'])
     {
-        $model = $this->cloneModel();
-        $model = ($model instanceof Model) ? $model : $model->getModel();
+        $clone = $this->cloneModel();
+        $model = ($clone instanceof Model) ? $clone : $clone->getModel();
 
         return $model->find($id);
     }
@@ -112,12 +108,12 @@ class EloquentRepository extends AbstractRepository
      * newInstance.
      *
      * @param array $attributes
-     * @return \Illuminate\Database\Eloquent
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function newInstance($attributes = [])
     {
-        $model = $this->cloneModel();
-        $model = ($model instanceof Model) ? $model : $model->getModel();
+        $clone = $this->cloneModel();
+        $model = ($clone instanceof Model) ? $clone : $clone->getModel();
 
         return $model->forceFill($attributes);
     }
@@ -174,9 +170,7 @@ class EloquentRepository extends AbstractRepository
      */
     public function destroy($criteria = [])
     {
-        $model = $this->match($criteria);
-
-        return $model->delete();
+        return $this->match($criteria)->delete();
     }
 
     /**
@@ -189,8 +183,6 @@ class EloquentRepository extends AbstractRepository
      */
     public function chunk($criteria, $count, callable $callback)
     {
-        $model = $this->match($criteria);
-
-        return $model->chunk($count, $callback);
+        return $this->match($criteria)->chunk($count, $callback);
     }
 }

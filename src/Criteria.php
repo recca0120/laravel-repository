@@ -4,7 +4,6 @@ namespace Recca0120\Repository;
 
 use ReflectionClass;
 use BadMethodCallException;
-use Recca0120\Repository\Helper\Action;
 
 class Criteria
 {
@@ -46,7 +45,7 @@ class Criteria
     public function __call($method, $parameters)
     {
         if (preg_match('/'.implode('|', $this->allowTypes).'/i', $method, $match)) {
-            $this->push(new Action($match[0], $method, $parameters));
+            $this->actions[] = new Action($match[0], $method, $parameters);
 
             return $this;
         }
@@ -76,19 +75,6 @@ class Criteria
     public function all()
     {
         return $this->actions;
-    }
-
-    /**
-     * push.
-     *
-     * @param Action $action
-     * @return $this
-     */
-    public function push(Action $action)
-    {
-        array_push($this->actions, $action);
-
-        return $this;
     }
 
     /**

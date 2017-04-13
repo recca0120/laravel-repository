@@ -78,7 +78,7 @@ abstract class Compiler
      */
     public function defaults($model, $actions)
     {
-        return array_reduce($actions, function($model, $action) {
+        return array_reduce($actions, function ($model, $action) {
             return call_user_func_array([$model, $action['method']], $action['parameters']);
         }, $model);
     }
@@ -99,8 +99,9 @@ abstract class Compiler
      *
      * @return array
      */
-    protected function group() {
-        return array_reduce($this->items, function($allows, $criteria) {
+    protected function group()
+    {
+        return array_reduce($this->items, function ($allows, $criteria) {
             foreach ($criteria->all() as $action) {
                 $allows[$action->type][] = [
                     'method' => $action->method,

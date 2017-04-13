@@ -1,6 +1,6 @@
 <?php
 
-namespace Recca0120\Repository\Helper;
+namespace Recca0120\Repository;
 
 class Action
 {

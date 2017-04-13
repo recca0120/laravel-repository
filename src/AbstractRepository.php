@@ -12,6 +12,7 @@ abstract class AbstractRepository implements RepositoryContract
      * @var int
      */
     public $perPage = 15;
+
     /**
      * $model.
      *

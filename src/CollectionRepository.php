@@ -112,9 +112,7 @@ class CollectionRepository extends AbstractRepository
      */
     public function first($criteria = [], $columns = ['*'])
     {
-        $model = $this->match($criteria);
-
-        return $model->first();
+        return $this->match($criteria)->first();
     }
 
     /**
