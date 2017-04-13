@@ -169,9 +169,14 @@ class CollectionCompiler extends Compiler
             foreach ($sort as $key => $orderType) {
                 // normalize sort direction
                 $orderType = strtolower($orderType);
-                if (data_get($first, $key) < data_get($second, $key)) {
+                $value1 = data_get($first, $key);
+                $value2 = data_get($second, $key);
+
+                if ($value1 < $value2) {
                     return $orderType === 'asc' ? -1 : 1;
-                } elseif (data_get($first, $key) > data_get($second, $key)) {
+                }
+
+                if ($value1 > $value2) {
                     return $orderType === 'asc' ? 1 : -1;
                 }
             }
