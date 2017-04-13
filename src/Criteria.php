@@ -120,7 +120,7 @@ class Criteria
             default:
                 $reflectionClass = new ReflectionClass(static::class);
 
-                return $reflectionClass->newInstanceArgs(func_get_args());
+                return $reflectionClass->newInstanceArgs($args);
         }
     }
 }
