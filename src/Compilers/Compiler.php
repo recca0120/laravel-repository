@@ -40,15 +40,9 @@ abstract class Compiler
     public function push($criteria)
     {
         $items = is_array($criteria) ? $criteria : [$criteria];
-
         foreach ($items as $key => $value) {
-            if (($value instanceof Criteria) === true) {
-                $this->items[] = $value;
-            } else {
-                $value = is_array($value) ? $value : [$key, $value];
-                $criteria = call_user_func_array([Criteria::create(), 'where'], $value);
-                $this->items[] = $criteria;
-            }
+            $this->items[] = $value instanceof Criteria ?
+                $value : $this->convertToCriteria($value, $key);
         }
 
         return $this;
@@ -61,7 +55,7 @@ abstract class Compiler
      */
     public function apply()
     {
-        foreach ($this->group() as $type => $actions) {
+        foreach ($this->groupByType() as $type => $actions) {
             $method = method_exists($this, $type) === true ? $type : 'defaults';
             $this->model = call_user_func_array([$this, $method], [$this->model, $actions]);
         }
@@ -95,11 +89,11 @@ abstract class Compiler
     }
 
     /**
-     * group.
+     * groupByType.
      *
      * @return array
      */
-    protected function group()
+    protected function groupByType()
     {
         return array_reduce($this->items, function ($allows, $criteria) {
             foreach ($criteria->all() as $action) {
@@ -111,6 +105,20 @@ abstract class Compiler
 
             return $allows;
         }, []);
+    }
+
+    /**
+     * convertToCriteria.
+     *
+     * @param array $value
+     * @return \Recca0120\Repository\Criteria
+     */
+    protected function convertToCriteria($value, $key)
+    {
+        return call_user_func_array(
+            [Criteria::create(), 'where'],
+            is_array($value) ? $value : [$key, $value]
+        );
     }
 
     /**
