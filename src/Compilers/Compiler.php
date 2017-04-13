@@ -61,18 +61,7 @@ abstract class Compiler
      */
     public function apply()
     {
-        $allowTypes = array_reduce($this->items, function($allows, $criteria) {
-            foreach ($criteria->all() as $action) {
-                $allows[$action->type][] = [
-                    'method' => $action->method,
-                    'parameters' => $this->compileParameters($action->parameters),
-                ];
-            }
-
-            return $allows;
-        }, []);
-
-        foreach ($allowTypes as $type => $actions) {
+        foreach ($this->group() as $type => $actions) {
             $method = method_exists($this, $type) === true ? $type : 'defaults';
             $this->model = call_user_func_array([$this, $method], [$this->model, $actions]);
         }
@@ -103,6 +92,24 @@ abstract class Compiler
     protected function isExpression($param)
     {
         return $param instanceof Expression;
+    }
+
+    /**
+     * group.
+     *
+     * @return array
+     */
+    protected function group() {
+        return array_reduce($this->items, function($allows, $criteria) {
+            foreach ($criteria->all() as $action) {
+                $allows[$action->type][] = [
+                    'method' => $action->method,
+                    'parameters' => $this->compileParameters($action->parameters),
+                ];
+            }
+
+            return $allows;
+        }, []);
     }
 
     /**
