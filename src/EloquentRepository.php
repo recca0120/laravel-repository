@@ -83,7 +83,7 @@ class EloquentRepository extends AbstractRepository
      * first.
      *
      * @param \Recca0120\Repository\Criteria|array $criteria
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function first($criteria = [], $columns = ['*'])
     {
@@ -94,12 +94,12 @@ class EloquentRepository extends AbstractRepository
      * find.
      *
      * @param int $id
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id, $columns = ['*'])
     {
         $clone = $this->cloneModel();
-        $model = ($clone instanceof Model) ? $clone : $clone->getModel();
+        $model = $clone instanceof Model ? $clone : $clone->getModel();
 
         return $model->find($id);
     }
@@ -113,7 +113,7 @@ class EloquentRepository extends AbstractRepository
     public function newInstance($attributes = [])
     {
         $clone = $this->cloneModel();
-        $model = ($clone instanceof Model) ? $clone : $clone->getModel();
+        $model = $clone instanceof Model ? $clone : $clone->getModel();
 
         return $model->forceFill($attributes);
     }
@@ -128,7 +128,7 @@ class EloquentRepository extends AbstractRepository
     public function create($attributes, $forceFill = false)
     {
         $model = $this->newInstance();
-        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
+        $model = $forceFill === false ? $model->fill($attributes) : $model->forceFill($attributes);
         $model->save();
 
         return $model;
@@ -145,7 +145,7 @@ class EloquentRepository extends AbstractRepository
     public function update($attributes, $id, $forceFill = false)
     {
         $model = $this->find($id);
-        $model = ($forceFill === false) ? $model->fill($attributes) : $model->forceFill($attributes);
+        $model = $forceFill === false ? $model->fill($attributes) : $model->forceFill($attributes);
         $model->save();
 
         return $model;
