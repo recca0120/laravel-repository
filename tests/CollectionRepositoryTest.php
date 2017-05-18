@@ -12,6 +12,7 @@ class CollectionRepositoryTest extends TestCase
 {
     protected function tearDown()
     {
+        parent::tearDown();
         m::close();
     }
 
@@ -20,7 +21,7 @@ class CollectionRepositoryTest extends TestCase
         $repository = new CollectionRepository(
             $model = $this->mockCollection()
         );
-        $this->isInstanceOf('Illuminate\Support\Fluent', $repository->newInstance());
+        $this->assertInstanceOf('Illuminate\Support\Fluent', $repository->newInstance());
     }
 
     public function testCreate()
@@ -112,7 +113,7 @@ class CollectionRepositoryTest extends TestCase
         $criteria = Criteria::create()->where('id', '=', 1);
         $excepted = 1;
         // $this->assertSame($repository->destroy($criteria), $excepted);
-        $repository->destroy($criteria);
+        $this->assertNull($repository->destroy($criteria));
     }
 
     protected function mockCollection($data = [])

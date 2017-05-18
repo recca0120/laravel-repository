@@ -11,6 +11,7 @@ class CollectionCompilerTest extends TestCase
 {
     protected function tearDown()
     {
+        parent::tearDown();
         m::close();
     }
 

@@ -11,6 +11,7 @@ class CriteriaTest extends TestCase
 {
     protected function tearDown()
     {
+        parent::tearDown();
         m::close();
     }
 
@@ -35,25 +36,27 @@ class CriteriaTest extends TestCase
         );
         $model->shouldReceive('where')->with('foo', '=', 'bar')->once()->andReturnSelf();
         $model->shouldReceive('where')->with('fuzz', '=', 'buzz')->once()->andReturnSelf();
-        $model->shouldReceive('get')->once();
-        $repository->get([
+        $model->shouldReceive('get')->once()->andReturn(
+            $results = m::mock('stdClass')
+        );
+        $this->assertSame($results, $repository->get([
             CustomCriteria::create('foo', 'bar'),
             (new CustomCriteria('fuzz', 'buzz')),
-        ]);
+        ]));
     }
 
     public function testCriteriaArguments()
     {
-        CustomCriteria2::create(1);
-        CustomCriteria2::create(1, 2);
-        CustomCriteria2::create(1, 2, 3);
-        CustomCriteria2::create(1, 2, 3, 4);
-        CustomCriteria2::create(1, 2, 3, 4, 5);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', CustomCriteria2::create(1));
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', CustomCriteria2::create(1, 2));
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', CustomCriteria2::create(1, 2, 3));
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', CustomCriteria2::create(1, 2, 3, 4));
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', CustomCriteria2::create(1, 2, 3, 4, 5));
     }
 
     public function testStaticCall()
     {
-        Criteria::where(1, '=', 1);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', Criteria::where(1, '=', 1));
     }
 }
 

@@ -11,6 +11,7 @@ class EloquentRepositoryTest extends TestCase
 {
     protected function tearDown()
     {
+        parent::tearDown();
         m::close();
     }
 
@@ -19,8 +20,8 @@ class EloquentRepositoryTest extends TestCase
         $repository = new EloquentRepository(
             $model = m::mock('Illuminate\Database\Eloquent\Model')
         );
-        $model->shouldReceive('forceFill')->once();
-        $repository->newInstance();
+        $model->shouldReceive('forceFill')->once()->andReturnSelf();
+        $this->assertSame($model, $repository->newInstance());
     }
 
     public function testCreate()
@@ -186,11 +187,13 @@ class EloquentRepositoryTest extends TestCase
         );
         $model->shouldReceive('where')->once()->with('foo', '=', 'bar')->andReturnSelf();
         $model->shouldReceive('where')->once()->with('fuzz', '=', 'buzz')->andReturnSelf();
-        $model->shouldReceive('get')->once();
-        $repository->get([
+        $model->shouldReceive('get')->once()->andReturn(
+            $results = m::mock('stdClass')
+        );
+        $this->assertSame($results, $repository->get([
             CustomEloquentCriteria::create('foo', 'bar'),
             (new CustomEloquentCriteria('fuzz', 'buzz')),
-        ]);
+        ]));
     }
 }
 

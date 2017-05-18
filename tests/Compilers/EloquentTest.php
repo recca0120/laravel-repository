@@ -11,6 +11,7 @@ class EloquentTest extends TestCase
 {
     protected function tearDown()
     {
+        parent::tearDown();
         m::close();
     }
 

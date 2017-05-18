@@ -11,6 +11,7 @@ class DeprecatedMethodTest extends TestCase
 {
     protected function tearDown()
     {
+        parent::tearDown();
         m::close();
     }
 
@@ -94,8 +95,8 @@ class DeprecatedMethodTest extends TestCase
         $repository = new DeprecatedRepository(
             $model = m::mock('Illuminate\Database\Eloquent\Model')
         );
-        $model->shouldReceive('forceFill')->once();
-        $repository->factory([]);
+        $model->shouldReceive('forceFill')->once()->with([])->andReturnSelf();
+        $this->assertSame($model, $repository->factory([]));
     }
 
     /**
