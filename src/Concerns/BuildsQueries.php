@@ -710,9 +710,9 @@ trait BuildsQueries
      * @param  array  ...$groups
      * @return $this
      */
-    public function groupBy(...$groups)
+    public function groupBy()
     {
-        $this->methods[] = new Method(__FUNCTION__, $groups);
+        $this->methods[] = new Method(__FUNCTION__, func_get_args());
 
         return $this;
     }
