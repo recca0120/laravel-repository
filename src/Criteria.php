@@ -4,8 +4,9 @@ namespace Recca0120\Repository;
 
 class Criteria
 {
-    use Concerns\BuildsQueries;
-    use Concerns\QueriesRelationships;
+    use Concerns\BuildsQueries,
+        Concerns\QueriesRelationships,
+        Concerns\EloquentBuildsQueries;
 
     /**
      * $methods.
