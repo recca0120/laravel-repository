@@ -2,15 +2,8 @@
 
 namespace Recca0120\Repository;
 
-class Action
+class Method
 {
-    /**
-     * $type.
-     *
-     * @var string
-     */
-    public $type;
-
     /**
      * $method.
      *
@@ -26,15 +19,11 @@ class Action
     public $parameters;
 
     /**
-     * __construct.
-     *
-     * @param string $type
      * @param string $method
-     * @param array $parameters
+     * @param mixed  $parameters
      */
-    public function __construct($type, $method, $parameters = [])
+    public function __construct($method, $parameters = null)
     {
-        $this->type = $type;
         $this->method = $method;
         $this->parameters = $parameters;
     }
