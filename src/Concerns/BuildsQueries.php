@@ -205,6 +205,20 @@ trait BuildsQueries
     }
 
     /**
+     * Merge an array of where clauses and bindings.
+     *
+     * @param  array  $wheres
+     * @param  array  $bindings
+     * @return void
+     */
+    public function mergeWheres($wheres, $bindings)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$wheres, $bindings]);
+
+        return $this;
+    }
+
+    /**
      * Pass the query to a given callback.
      *
      * @param  \Closure  $callback

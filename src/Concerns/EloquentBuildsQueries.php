@@ -8,6 +8,32 @@ use Illuminate\Database\Eloquent\Model;
 trait EloquentBuildsQueries
 {
     /**
+     * Add a where clause on the primary key to the query.
+     *
+     * @param  mixed  $id
+     * @return $this
+     */
+    public function whereKey($id)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$id]);
+
+        return $this;
+    }
+
+    /**
+     * Add a where clause on the primary key to the query.
+     *
+     * @param  mixed  $id
+     * @return $this
+     */
+    public function whereKeyNot($id)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$id]);
+
+        return $this;
+    }
+
+    /**
      * Set the relationships that should be eager loaded.
      *
      * @param  mixed  $relations

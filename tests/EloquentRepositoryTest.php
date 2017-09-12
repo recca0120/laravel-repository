@@ -3,42 +3,219 @@
 namespace Recca0120\Repository\Tests;
 
 use Mockery as m;
+use Faker\Generator;
 use PHPUnit\Framework\TestCase;
+use Faker\Factory as FakerFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factory;
 use Recca0120\Repository\EloquentRepository;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class EloquentRepositoryTest extends TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Capsule::schema()->create('fake_models', function ($table) {
+            $table->increments('id');
+            $table->string('foo');
+            $table->timestamps();
+        });
+
+        $faker = FakerFactory::create();
+        $factory = new Factory($faker);
+        $factory->define(FakeModel::class, function (Generator $faker) {
+            return [
+                'foo' => $faker->name,
+            ];
+        });
+
+        $factory->of(FakeModel::class)->times(50)->create();
+    }
+
     protected function tearDown()
     {
         parent::tearDown();
         m::close();
+        Capsule::schema()->dropIfExists('fake_models');
     }
 
     public function testInstance()
     {
         $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new Repository($model);
-        $this->assertInstanceOf('Recca0120\Repository\EloquentRepository', $repository);
+        $fakeRepository = new FakeRepository($model);
+        $this->assertInstanceOf('Recca0120\Repository\EloquentRepository', $fakeRepository);
     }
 
-    public function testNewInstance() {
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new Repository($model);
-        $model->shouldReceive('forceFill')->once()->with(
-            $attributes = ['foo' => 'bar']
-        )->andReturnSelf();
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $repository->newInstance($attributes));
+    public function testFind()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->find(1);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testFindMany()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instances = $fakeRepository->findMany([1, 2]);
+        $instances->each(function ($instance) {
+            $this->assertInstanceOf(FakeModel::class, $instance);
+            $this->assertTrue($instance->exists);
+        });
+    }
+
+    public function testFindOrFail()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->findOrFail(1);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testFindOrNew()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->findOrNew(1000000);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertFalse($instance->exists);
+    }
+
+    public function testFirstOrNew()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->firstOrNew(['id' => 10000], ['foo' => 'bar']);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertFalse($instance->exists);
+    }
+
+    public function testFirstOrCreate()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->firstOrCreate(['id' => 10000], ['foo' => 'bar']);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testUpdateOrCreate()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->updateOrCreate(['id' => 1], ['foo' => 'bar']);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testFirstOrFail()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->firstOrFail();
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertTrue($instance->exists);
     }
 
     public function testCreate()
     {
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $repository = new Repository($model);
-        $model->shouldReceive('create')->once()->with(
-            $attributes = ['foo' => 'bar']
-        )->andReturnSelf();
-        $repository->create($attributes);
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->create(['foo' => 'bar']);
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testForceCreate()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->forceCreate(['foo' => 'bar']);
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testUpdate()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->update(1, ['id' => 50000, 'foo' => 'bar']);
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertSame(1, $instance->id);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testForceUpdate()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+        $instance = $fakeRepository->forceUpdate(1, ['id' => 50000, 'foo' => 'bar']);
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertSame(50000, $instance->id);
+        $this->assertTrue($instance->exists);
+    }
+
+    public function testDelete()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+        $this->assertTrue($fakeRepository->delete(1));
+        $this->assertNull($fakeRepository->find(1));
+    }
+
+    public function testForceDelete()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+        $this->assertTrue($fakeRepository->forceDelete(1));
+    }
+
+    public function testNewInstance()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $instance = $fakeRepository->newInstance(['foo' => 'bar']);
+        $this->assertInstanceOf(FakeModel::class, $instance);
+        $this->assertSame('bar', $instance->foo);
+        $this->assertFalse($instance->exists);
     }
 }
 
-class Repository extends EloquentRepository {}
+class FakeModel extends Model
+{
+    protected $fillable = [
+        'foo',
+    ];
+}
+
+class FakeRepository extends EloquentRepository
+{
+}

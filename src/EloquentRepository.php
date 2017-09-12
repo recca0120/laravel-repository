@@ -24,16 +24,132 @@ abstract class EloquentRepository
     }
 
     /**
-     * newInstance.
+     * Find a model by its primary key.
      *
-     * @param  array  $attributes
+     * @param  mixed  $id
+     * @param  array  $columns
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
+     */
+    public function find($id, $columns = ['*'])
+    {
+        return $this->newQuery()->find($id, $columns);
+    }
+
+    /**
+     * Find multiple models by their primary keys.
+     *
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
+     * @param  array  $columns
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function findMany($ids, $columns = ['*'])
+    {
+        return $this->newQuery()->findMany($ids, $columns);
+    }
+
+    /**
+     * Find a model by its primary key or throw an exception.
+     *
+     * @param  mixed  $id
+     * @param  array  $columns
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findOrFail($id, $columns = ['*'])
+    {
+        return $this->newQuery()->findOrFail($id, $columns);
+    }
+
+    /**
+     * Find a model by its primary key or return fresh model instance.
+     *
+     * @param  mixed  $id
+     * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function newInstance($attributes = [])
+    public function findOrNew($id, $columns = ['*'])
     {
-        $model = $this->cloneModel();
+        return $this->newQuery()->findOrNew($id, $columns);
+    }
 
-        return $model->forceFill($attributes);
+    /**
+     * Get the first record matching the attributes or instantiate it.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function firstOrNew(array $attributes, array $values = [])
+    {
+        return $this->newQuery()->firstOrNew($attributes, $values);
+    }
+
+    /**
+     * Get the first record matching the attributes or create it.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function firstOrCreate(array $attributes, array $values = [])
+    {
+        return $this->newQuery()->firstOrCreate($attributes, $values);
+    }
+
+    /**
+     * Create or update a record matching the attributes, and fill it with values.
+     *
+     * @param  array  $attributes
+     * @param  array  $values
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function updateOrCreate(array $attributes, array $values = [])
+    {
+        return $this->newQuery()->updateOrCreate($attributes, $values);
+    }
+
+    /**
+     * Execute the query and get the first result or throw an exception.
+     *
+     * @param  array  $columns
+     * @return \Illuminate\Database\Eloquent\Model|static
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function firstOrFail($columns = ['*'])
+    {
+        return $this->newQuery()->firstOrFail($columns);
+    }
+
+    /**
+     * Paginate the given query.
+     *
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        return $this->newQuery()->paginate($perPage, $columns, $pageName, $page);
+    }
+
+    /**
+     * Paginate the given query into a simple paginator.
+     *
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        return $this->newQuery()->simplePaginate($perPage, $columns, $pageName, $page);
     }
 
     /**
@@ -41,12 +157,29 @@ abstract class EloquentRepository
      *
      * @param  array $attributes
      * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Throwable
      */
     public function create($attributes)
     {
-        $model = $this->cloneModel();
+        return tap($this->newInstance(), function ($instance) use ($attributes) {
+            $instance->fill($attributes)->saveOrFail();
+        });
+    }
 
-        return $this->model->create($attributes);
+    /**
+     * Save a new model and return the instance.
+     *
+     * @param  array $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Throwable
+     */
+    public function forceCreate($attributes)
+    {
+        return tap($this->newInstance(), function ($instance) use ($attributes) {
+            $instance->forceFill($attributes)->saveOrFail();
+        });
     }
 
     /**
@@ -55,12 +188,63 @@ abstract class EloquentRepository
      * @param  mixed $id
      * @param  array $attributes
      * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Throwable
      */
     public function update($id, $attributes)
     {
-        $model = $this->cloneModel();
+        return tap($this->findOrFail($id), function ($instance) use ($attributes) {
+            $instance->fill($attributes)->saveOrFail();
+        });
+    }
 
-        return $this->model->update($attributes);
+    /**
+     * forceCreate.
+     *
+     * @param  array $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     *
+     * @throws \Throwable
+     */
+    public function forceUpdate($id, $attributes)
+    {
+        return tap($this->findOrFail($id), function ($instance) use ($attributes) {
+            $instance->forceFill($attributes)->saveOrFail();
+        });
+    }
+
+    /**
+     * delete.
+     *
+     * @param  mixed $id
+     */
+    public function delete($id)
+    {
+        return $this->find($id)->delete();
+    }
+
+    /**
+     * Force a hard delete on a soft deleted model.
+     *
+     * This method protects developers from running forceDelete when trait is missing.
+     *
+     * @param  mixed $id
+     * @return bool|null
+     */
+    public function forceDelete($id)
+    {
+        return $this->findOrFail($id)->forceDelete();
+    }
+
+    /**
+     * Create a new model instance that is existing.
+     *
+     * @param  array  $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function newInstance($attributes = [], $exists = false)
+    {
+        return $this->cloneModel()->newInstance($attributes, $exists);
     }
 
     /**
@@ -68,7 +252,18 @@ abstract class EloquentRepository
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function cloneModel() {
+    protected function cloneModel()
+    {
         return clone $this->model;
+    }
+
+    /**
+     * Get a new query builder for the model's table.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function newQuery()
+    {
+        return $this->cloneModel()->newQuery();
     }
 }

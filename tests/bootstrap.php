@@ -14,6 +14,7 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use Carbon\Carbon;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 if (class_exists('PHPUnit\Framework\TestCase') === false) {
     class_alias('PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
@@ -33,6 +34,14 @@ if (class_exists('PHPUnit\Framework\TestCase') === false) {
 date_default_timezone_set('UTC');
 
 Carbon::setTestNow(Carbon::now());
+
+$capsule = new Capsule;
+$capsule->addConnection([
+    'driver' => 'sqlite',
+    'database' => ':memory:',
+]);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
 
 if (function_exists('env') === false) {
     function env($env)

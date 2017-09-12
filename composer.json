@@ -16,9 +16,10 @@
         "illuminate/pagination": "^5.1"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.7",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.8|~5.4|~6.1",
-        "nesbot/carbon": "~1.20"
+        "nesbot/carbon": "~1.20",
+        "phpunit/phpunit": "~4.8|~5.4|~6.1"
     },
     "autoload": {
         "psr-4": {
