@@ -2,7 +2,6 @@
 
 namespace Recca0120\Repository;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class EloquentRepository
@@ -309,7 +308,7 @@ abstract class EloquentRepository
      */
     public function count($criteria = [], $columns = '*')
     {
-        return (int) $this->aggregate(__FUNCTION__, Arr::wrap($columns));
+        return (int) $this->matching($criteria)->count($columns);
     }
 
     /**
@@ -321,7 +320,7 @@ abstract class EloquentRepository
      */
     public function min($criteria, $column)
     {
-        return $this->aggregate(__FUNCTION__, [$column]);
+        return $this->matching($criteria)->min($column);
     }
 
     /**
@@ -333,7 +332,7 @@ abstract class EloquentRepository
      */
     public function max($criteria, $column)
     {
-        return $this->aggregate(__FUNCTION__, [$column]);
+        return $this->matching($criteria)->max($column);
     }
 
     /**
@@ -345,7 +344,7 @@ abstract class EloquentRepository
      */
     public function sum($criteria, $column)
     {
-        $result = $this->aggregate(__FUNCTION__, [$column]);
+        $result = $this->matching($criteria)->sum($column);
 
         return $result ?: 0;
     }
@@ -359,7 +358,7 @@ abstract class EloquentRepository
      */
     public function avg($criteria, $column)
     {
-        return $this->aggregate(__FUNCTION__, [$column]);
+        return $this->matching($criteria)->avg($column);
     }
 
     /**

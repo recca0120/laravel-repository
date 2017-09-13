@@ -225,10 +225,116 @@ class EloquentRepositoryTest extends TestCase
             FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
         );
     }
+
+    public function testGet()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame(
+            $fakeRepository->get([
+                Criteria::create()->where(function ($query) {
+                    $query->whereIn('id', [1, 3])
+                        ->orWhereIn('id', [5, 9]);
+                }),
+                Criteria::create()->orderBy('id'),
+            ])
+            ->toArray(),
+            FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
+        );
+    }
+
+    public function testChunk()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $fakeRepository->chunk([
+            Criteria::create()->where('id', '>', 0),
+        ], 10, function ($collection) {
+            $this->assertSame(10, $collection->count());
+        });
+    }
+
+    public function testPaginate()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $paginate = $fakeRepository->paginate([
+            Criteria::create()->where('id', '>', 0),
+        ]);
+
+        $this->assertSame(1, $paginate->currentPage());
+    }
+
+    public function testSimplePaginate()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $paginate = $fakeRepository->simplePaginate([
+            Criteria::create()->where('id', '>', 0),
+        ]);
+
+        $this->assertSame(1, $paginate->currentPage());
+    }
+
+    public function testCount()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame($fakeRepository->count([
+            Criteria::create()->where('id', '>', 0),
+        ]), 50);
+    }
+
+    public function testMin()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame($fakeRepository->min([
+            Criteria::create()->where('id', '>=', 10),
+        ], 'id'), '10');
+    }
+
+    public function testMax()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame($fakeRepository->max([
+            Criteria::create()->where('id', '<=', 10),
+        ], 'id'), '10');
+    }
+
+    public function testSum()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame($fakeRepository->sum([
+            Criteria::create()->whereBetween('id', [1, 10]),
+        ], 'id'), '55');
+    }
+
+    public function testAvg()
+    {
+        $fakeModel = m::mock(new FakeModel);
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame($fakeRepository->avg([
+            Criteria::create()->whereBetween('id', [1, 10]),
+        ], 'id'), '5.5');
+    }
 }
 
 class FakeModel extends Model
 {
+    protected $table = 'fake_models';
+
     protected $fillable = [
         'foo',
     ];
