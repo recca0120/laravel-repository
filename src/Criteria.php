@@ -59,7 +59,7 @@ class Criteria
     {
         return array_map(function ($method) {
             return [
-                'method' => $method->method,
+                'method' => $method->name,
                 'parameters' => $method->parameters,
             ];
         }, $this->methods);

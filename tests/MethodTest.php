@@ -18,7 +18,7 @@ class MethodTest extends TestCase
     {
         $method = new Method('run', ['foo', 'bar']);
         $this->assertInstanceOf('Recca0120\Repository\Method', $method);
-        $this->assertSame('run', $method->method);
+        $this->assertSame('run', $method->name);
         $this->assertSame(['foo', 'bar'], $method->parameters);
     }
 }
