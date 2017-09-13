@@ -2,6 +2,8 @@
 
 namespace Recca0120\Repository;
 
+use Closure;
+
 class Criteria
 {
     use Concerns\BuildsQueries,
@@ -23,6 +25,19 @@ class Criteria
     public static function create()
     {
         return new static;
+    }
+
+    /**
+     * each.
+     *
+     * @param  Closure $callback
+     * @return void
+     */
+    public function each(Closure $callback)
+    {
+        foreach ($this->methods as $method) {
+            $callback($method);
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ use Mockery as m;
 use Faker\Generator;
 use PHPUnit\Framework\TestCase;
 use Faker\Factory as FakerFactory;
+use Recca0120\Repository\Criteria;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factory;
 use Recca0120\Repository\EloquentRepository;
@@ -206,6 +207,23 @@ class EloquentRepositoryTest extends TestCase
         $this->assertInstanceOf(FakeModel::class, $instance);
         $this->assertSame('bar', $instance->foo);
         $this->assertFalse($instance->exists);
+    }
+
+    public function testMatching()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertSame(
+            $fakeRepository->matching([
+                Criteria::create()->whereIn('id', [5, 9]),
+                Criteria::create()->orWhereIn('id', [1, 3]),
+                Criteria::create()->orderBy('id'),
+            ])
+            ->get()
+            ->toArray(),
+            FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
+        );
     }
 }
 

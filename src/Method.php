@@ -27,4 +27,9 @@ class Method
         $this->method = $method;
         $this->parameters = $parameters;
     }
+
+    public function exec($object)
+    {
+        return call_user_func_array([$object, $this->method], $this->parameters);
+    }
 }

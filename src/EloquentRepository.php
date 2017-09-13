@@ -2,6 +2,7 @@
 
 namespace Recca0120\Repository;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class EloquentRepository
@@ -123,36 +124,6 @@ abstract class EloquentRepository
     }
 
     /**
-     * Paginate the given query.
-     *
-     * @param  int  $perPage
-     * @param  array  $columns
-     * @param  string  $pageName
-     * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        return $this->newQuery()->paginate($perPage, $columns, $pageName, $page);
-    }
-
-    /**
-     * Paginate the given query into a simple paginator.
-     *
-     * @param  int  $perPage
-     * @param  array  $columns
-     * @param  string  $pageName
-     * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\Paginator
-     */
-    public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        return $this->newQuery()->simplePaginate($perPage, $columns, $pageName, $page);
-    }
-
-    /**
      * create.
      *
      * @param  array $attributes
@@ -245,6 +216,180 @@ abstract class EloquentRepository
     public function newInstance($attributes = [], $exists = false)
     {
         return $this->cloneModel()->newInstance($attributes, $exists);
+    }
+
+    /**
+     * Execute the query as a "select" statement.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  array  $columns
+     * @return \Illuminate\Support\Collection
+     */
+    public function get($criteria = [], $columns = ['*'])
+    {
+        return $this->matching($criteria)->get($columns);
+    }
+
+    /**
+     * Chunk the results of the query.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  int  $count
+     * @param  callable  $callback
+     * @return bool
+     */
+    public function chunk($criteria, $count, callable $callback)
+    {
+        return $this->matching($criteria)->chunk($count, $callback);
+    }
+
+    /**
+     * Execute a callback over each item while chunking.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  callable  $callback
+     * @param  int  $count
+     * @return bool
+     */
+    public function each($criteria, callable $callback, $count = 1000)
+    {
+        return $this->matching($criteria)->each($each, $callback, $count);
+    }
+
+    /**
+     * Execute the query and get the first result.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  array  $columns
+     * @return \Illuminate\Database\Eloquent\Model|static|null
+     */
+    public function first($criteria = [], $columns = ['*'])
+    {
+        return $this->matching($criteria)->first($columns);
+    }
+
+    /**
+     * Paginate the given query.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        return $this->matching($criteria)->paginate($perPage, $columns, $pageName, $page);
+    }
+
+    /**
+     * Paginate the given query into a simple paginator.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        return $this->matching($criteria)->simplePaginate($perPage, $columns, $pageName, $page);
+    }
+
+    /**
+     * Retrieve the "count" result of the query.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  string  $columns
+     * @return int
+     */
+    public function count($criteria = [], $columns = '*')
+    {
+        return (int) $this->aggregate(__FUNCTION__, Arr::wrap($columns));
+    }
+
+    /**
+     * Retrieve the minimum value of a given column.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  string  $column
+     * @return mixed
+     */
+    public function min($criteria, $column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
+     * Retrieve the maximum value of a given column.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  string  $column
+     * @return mixed
+     */
+    public function max($criteria, $column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
+     * Retrieve the sum of the values of a given column.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  string  $column
+     * @return mixed
+     */
+    public function sum($criteria, $column)
+    {
+        $result = $this->aggregate(__FUNCTION__, [$column]);
+
+        return $result ?: 0;
+    }
+
+    /**
+     * Retrieve the average of the values of a given column.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  string  $column
+     * @return mixed
+     */
+    public function avg($criteria, $column)
+    {
+        return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
+     * Execute an aggregate function on the database.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @param  string  $function
+     * @param  array   $columns
+     * @return mixed
+     */
+    public function aggregate($criteria, $function, $columns = ['*'])
+    {
+        return $this->matching($criteria)->aggregate($function, $columns);
+    }
+
+    /**
+     * matching.
+     *
+     * @param  \Recca0120\Repository\Criteria[] $criteria
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function matching($criteria)
+    {
+        return array_reduce($criteria, function ($query, $criteria) {
+            $criteria->each(function ($method) use ($query) {
+                $method->exec($query);
+            });
+
+            return $query;
+        }, $this->newQuery());
     }
 
     /**
