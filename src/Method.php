@@ -5,11 +5,11 @@ namespace Recca0120\Repository;
 class Method
 {
     /**
-     * $method.
+     * $name.
      *
      * @var string
      */
-    public $method;
+    public $name;
 
     /**
      * $parameters.
@@ -19,12 +19,12 @@ class Method
     public $parameters;
 
     /**
-     * @param string $method
+     * @param string $name
      * @param mixed  $parameters
      */
-    public function __construct($method, $parameters = null)
+    public function __construct($name, $parameters = null)
     {
-        $this->method = $method;
+        $this->name = $name;
         $this->parameters = $parameters;
     }
 

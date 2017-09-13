@@ -384,7 +384,7 @@ abstract class EloquentRepository
     {
         return array_reduce($criteria, function ($query, $criteria) {
             $criteria->each(function ($method) use ($query) {
-                $method->exec($query);
+                call_user_func_array([$query, $method->name], $method->parameters);
             });
 
             return $query;

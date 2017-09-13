@@ -246,7 +246,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testChunk()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $fakeRepository->chunk([
@@ -258,7 +258,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testPaginate()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $paginate = $fakeRepository->paginate([
@@ -270,7 +270,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testSimplePaginate()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $paginate = $fakeRepository->simplePaginate([
@@ -282,7 +282,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testCount()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $this->assertSame($fakeRepository->count([
@@ -292,7 +292,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testMin()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $this->assertSame($fakeRepository->min([
@@ -302,7 +302,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testMax()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $this->assertSame($fakeRepository->max([
@@ -312,7 +312,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testSum()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $this->assertSame($fakeRepository->sum([
@@ -322,7 +322,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testAvg()
     {
-        $fakeModel = m::mock(new FakeModel);
+        $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
         $this->assertSame($fakeRepository->avg([
