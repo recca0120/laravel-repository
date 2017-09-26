@@ -2,7 +2,9 @@
 
 namespace Recca0120\Repository;
 
-class Expression
+use Illuminate\Database\Query\Expression as QueryExpression;
+
+class Expression extends QueryExpression
 {
     /**
      * The value of the expression.

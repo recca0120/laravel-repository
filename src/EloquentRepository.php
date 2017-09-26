@@ -3,7 +3,6 @@
 namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Expression as QueryExpression;
 
 abstract class EloquentRepository
 {
@@ -385,11 +384,7 @@ abstract class EloquentRepository
 
         return array_reduce($criteria, function ($query, $criteria) {
             $criteria->each(function ($method) use ($query) {
-                call_user_func_array([$query, $method->name], array_map(function ($parameter) {
-                    return $parameter instanceof Expression
-                        ? new QueryExpression($parameter->getValue())
-                        : $parameter;
-                }, $method->parameters));
+                call_user_func_array([$query, $method->name], $method->parameters);
             });
 
             return $query;
