@@ -7,11 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Connectors\ConnectionFactory;
 
-class Sqlite extends Model
+abstract class Sqlite extends Model
 {
-    protected static $connector;
-
+    /**
+     * $database
+     *
+     * @var string
+     */
     protected $database = ':memory:';
+
+    /**
+     * $connector
+     *
+     * @var \Illuminate\Database\Connection
+     */
+    protected static $connector;
 
     /**
      * Get a schema builder instance.
@@ -42,6 +52,11 @@ class Sqlite extends Model
         return $this->getConnector();
     }
 
+    /**
+     * Establish a PDO connection based on the configuration.
+     *
+     * @return \Illuminate\Database\Connection
+     */
     public function getConnector()
     {
         if (self::$connector) {
@@ -57,6 +72,12 @@ class Sqlite extends Model
         ], $connectionName);
     }
 
+    /**
+     * createSchema
+     *
+     * @param  Blueprint $table
+     * @return void
+     */
     protected function createSchema(Blueprint $table)
     {
         $table->increments('id');
