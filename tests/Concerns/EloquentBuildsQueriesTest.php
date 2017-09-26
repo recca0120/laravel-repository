@@ -14,6 +14,30 @@ class EloquentBuildsQueriesTest extends TestCase
         m::close();
     }
 
+    public function testWhereKey()
+    {
+        $criteria = Criteria::create()->whereKey($id = 'foo');
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'whereKey',
+            'parameters' => [
+                $id,
+            ],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
+
+    public function testWhereKeyNot()
+    {
+        $criteria = Criteria::create()->whereKeyNot($id = 'foo');
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'whereKeyNot',
+            'parameters' => [
+                $id,
+            ],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
+
     public function testWith()
     {
         $criteria = Criteria::create()->with(
@@ -58,11 +82,11 @@ class EloquentBuildsQueriesTest extends TestCase
 
     public function testSetModel()
     {
-        $criteria = Criteria::create()->setQuery(
+        $criteria = Criteria::create()->setModel(
             $model = m::mock('Illuminate\Database\Eloquent\Model')
         );
         $this->assertSame($criteria->toArray(), [[
-            'method' => 'setQuery',
+            'method' => 'setModel',
             'parameters' => [
                 $model,
             ],

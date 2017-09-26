@@ -80,7 +80,7 @@ trait EloquentBuildsQueries
      */
     public function setModel(Model $model)
     {
-        $this->methods[] = new Method(__FUNCTION__, [$query]);
+        $this->methods[] = new Method(__FUNCTION__, [$model]);
 
         return $this;
     }

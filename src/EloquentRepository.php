@@ -3,6 +3,7 @@
 namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Expression as QueryExpression;
 
 abstract class EloquentRepository
 {
@@ -252,7 +253,7 @@ abstract class EloquentRepository
      */
     public function each($criteria, callable $callback, $count = 1000)
     {
-        return $this->matching($criteria)->each($each, $callback, $count);
+        return $this->matching($criteria)->each($callback, $count);
     }
 
     /**
@@ -362,16 +363,14 @@ abstract class EloquentRepository
     }
 
     /**
-     * Execute an aggregate function on the database.
+     * Alias for the "avg" method.
      *
-     * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  string  $function
-     * @param  array   $columns
+     * @param  string  $column
      * @return mixed
      */
-    public function aggregate($criteria, $function, $columns = ['*'])
+    public function average($criteria, $column)
     {
-        return $this->matching($criteria)->aggregate($function, $columns);
+        return $this->avg($criteria, $column);
     }
 
     /**
@@ -382,9 +381,15 @@ abstract class EloquentRepository
      */
     public function matching($criteria)
     {
+        $criteria = is_array($criteria) === false ? [$criteria] : $criteria;
+
         return array_reduce($criteria, function ($query, $criteria) {
             $criteria->each(function ($method) use ($query) {
-                call_user_func_array([$query, $method->name], $method->parameters);
+                call_user_func_array([$query, $method->name], array_map(function ($parameter) {
+                    return $parameter instanceof Expression
+                        ? new QueryExpression($parameter->getValue())
+                        : $parameter;
+                }, $method->parameters));
             });
 
             return $query;

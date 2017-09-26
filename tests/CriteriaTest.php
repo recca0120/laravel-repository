@@ -18,4 +18,17 @@ class CriteriaTest extends TestCase
     {
         $this->assertInstanceOf('Recca0120\Repository\Criteria', new Criteria);
     }
+
+    public function testCreate()
+    {
+        $criteria = Criteria::create();
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
+
+    public function testExpr()
+    {
+        $expression = Criteria::expr('foo = bar');
+        $this->assertInstanceOf('Recca0120\Repository\Expression', $expression);
+        $this->assertSame((string) $expression, 'foo = bar');
+    }
 }

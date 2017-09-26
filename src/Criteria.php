@@ -24,7 +24,27 @@ class Criteria
      */
     public static function create()
     {
-        return new static;
+        return new static();
+    }
+
+    /**
+     * alias raw.
+     *
+     * @param mixed $value
+     * @return Expression
+     */
+    public static function expr($value)
+    {
+        return static::raw($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return \Recca0120\Repository\Expression
+     */
+    public static function raw($value)
+    {
+        return new Expression($value);
     }
 
     /**
@@ -38,16 +58,6 @@ class Criteria
         foreach ($this->methods as $method) {
             $callback($method);
         }
-    }
-
-    /**
-     * all.
-     *
-     * @return  \Recca0120\Repository\Method[]
-     */
-    public function all()
-    {
-        return $this->methods;
     }
 
     /**

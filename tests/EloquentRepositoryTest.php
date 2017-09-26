@@ -249,11 +249,28 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $fakeRepository->chunk([
-            Criteria::create()->where('id', '>', 0),
-        ], 10, function ($collection) {
+        $fakeRepository->chunk(Criteria::create()->where('id', '>', Criteria::expr(0)), 10, function ($collection) {
             $this->assertSame(10, $collection->count());
         });
+    }
+
+    public function testEach()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $fakeRepository->each(Criteria::create()->where('id', '>', Criteria::raw(0)), function ($model) {
+            $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
+        });
+    }
+
+    public function testFirst()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $model = $fakeRepository->first(Criteria::create()->where('id', '>', 0));
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
     }
 
     public function testPaginate()
@@ -261,9 +278,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $paginate = $fakeRepository->paginate([
-            Criteria::create()->where('id', '>', 0),
-        ]);
+        $paginate = $fakeRepository->paginate(Criteria::create()->where('id', '>', 0));
 
         $this->assertSame(1, $paginate->currentPage());
     }
@@ -273,9 +288,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $paginate = $fakeRepository->simplePaginate([
-            Criteria::create()->where('id', '>', 0),
-        ]);
+        $paginate = $fakeRepository->simplePaginate(Criteria::create()->where('id', '>', 0));
 
         $this->assertSame(1, $paginate->currentPage());
     }
@@ -285,9 +298,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->count([
-            Criteria::create()->where('id', '>', 0),
-        ]), 50);
+        $this->assertSame($fakeRepository->count(Criteria::create()->where('id', '>', 0)), 50);
     }
 
     public function testMin()
@@ -295,9 +306,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->min([
-            Criteria::create()->where('id', '>=', 10),
-        ], 'id'), '10');
+        $this->assertSame($fakeRepository->min(Criteria::create()->where('id', '>=', 10), 'id'), '10');
     }
 
     public function testMax()
@@ -305,9 +314,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->max([
-            Criteria::create()->where('id', '<=', 10),
-        ], 'id'), '10');
+        $this->assertSame($fakeRepository->max(Criteria::create()->where('id', '<=', 10), 'id'), '10');
     }
 
     public function testSum()
@@ -315,19 +322,15 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->sum([
-            Criteria::create()->whereBetween('id', [1, 10]),
-        ], 'id'), '55');
+        $this->assertSame($fakeRepository->sum(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '55');
     }
 
-    public function testAvg()
+    public function testAverage()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->avg([
-            Criteria::create()->whereBetween('id', [1, 10]),
-        ], 'id'), '5.5');
+        $this->assertSame($fakeRepository->average(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '5.5');
     }
 }
 
