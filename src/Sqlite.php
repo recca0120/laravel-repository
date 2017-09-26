@@ -11,6 +11,8 @@ class Sqlite extends Model
 {
     protected static $connector;
 
+    protected $database = ':memory:';
+
     /**
      * Get a schema builder instance.
      *
@@ -51,7 +53,7 @@ class Sqlite extends Model
 
         return static::$connector = $connectionFactory->make([
             'driver' => 'sqlite',
-            'database' => ':memory:',
+            'database' => $this->database,
         ], $connectionName);
     }
 
