@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Sqlite;
 use Faker\Factory as FakerFactory;
 use Recca0120\Repository\Criteria;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Recca0120\Repository\EloquentRepository;
@@ -36,13 +37,6 @@ class EloquentRepositoryTest extends TestCase
 
         $fakeModel = new FakeModel();
         $fakeModel->schema()->dropIfExists($fakeModel->getTable());
-    }
-
-    public function testInstance()
-    {
-        $model = m::mock('Illuminate\Database\Eloquent\Model');
-        $fakeRepository = new FakeRepository($model);
-        $this->assertInstanceOf('Recca0120\Repository\EloquentRepository', $fakeRepository);
     }
 
     public function testFind()
@@ -348,4 +342,8 @@ class FakeModel extends Sqlite
 
 class FakeRepository extends EloquentRepository
 {
+    public function __construct(Model $model)
+    {
+        $this->model = $model->newQuery();
+    }
 }

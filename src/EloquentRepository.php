@@ -214,7 +214,7 @@ abstract class EloquentRepository
      */
     public function newInstance($attributes = [], $exists = false)
     {
-        return $this->cloneModel()->newInstance($attributes, $exists);
+        return $this->getModel()->newInstance($attributes, $exists);
     }
 
     /**
@@ -392,13 +392,15 @@ abstract class EloquentRepository
     }
 
     /**
-     * cloneModel.
+     * getModel.
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function cloneModel()
+    protected function getModel()
     {
-        return clone $this->model;
+        return $this->model instanceof Model
+            ? clone $this->model
+            : clone $this->model->getModel();
     }
 
     /**
@@ -408,6 +410,6 @@ abstract class EloquentRepository
      */
     protected function newQuery()
     {
-        return $this->cloneModel()->newQuery();
+        return $this->getModel()->newQuery();
     }
 }
