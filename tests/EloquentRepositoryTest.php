@@ -5,24 +5,18 @@ namespace Recca0120\Repository\Tests;
 use Mockery as m;
 use Faker\Generator;
 use PHPUnit\Framework\TestCase;
+use Recca0120\Repository\Sqlite;
 use Faker\Factory as FakerFactory;
 use Recca0120\Repository\Criteria;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Schema\Blueprint;
 use Recca0120\Repository\EloquentRepository;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 class EloquentRepositoryTest extends TestCase
 {
     protected function setUp()
     {
         parent::setUp();
-
-        Capsule::schema()->create('fake_models', function ($table) {
-            $table->increments('id');
-            $table->string('foo');
-            $table->timestamps();
-        });
 
         $faker = FakerFactory::create();
         $factory = new Factory($faker);
@@ -39,7 +33,9 @@ class EloquentRepositoryTest extends TestCase
     {
         parent::tearDown();
         m::close();
-        Capsule::schema()->dropIfExists('fake_models');
+
+        $fakeModel = new FakeModel();
+        $fakeModel->schema()->dropIfExists($fakeModel->getTable());
     }
 
     public function testInstance()
@@ -334,13 +330,20 @@ class EloquentRepositoryTest extends TestCase
     }
 }
 
-class FakeModel extends Model
+class FakeModel extends Sqlite
 {
     protected $table = 'fake_models';
 
     protected $fillable = [
         'foo',
     ];
+
+    protected function createSchema(Blueprint $table)
+    {
+        $table->increments('id');
+        $table->string('foo');
+        $table->timestamps();
+    }
 }
 
 class FakeRepository extends EloquentRepository
