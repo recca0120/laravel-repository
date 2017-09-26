@@ -153,7 +153,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $instance = $fakeRepository->update(1, ['id' => 50000, 'foo' => 'bar']);
+        $instance = $fakeRepository->update(['id' => 50000, 'foo' => 'bar'], 1);
 
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
         $this->assertSame('bar', $instance->foo);
@@ -165,7 +165,7 @@ class EloquentRepositoryTest extends TestCase
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
-        $instance = $fakeRepository->forceUpdate(1, ['id' => 50000, 'foo' => 'bar']);
+        $instance = $fakeRepository->forceUpdate(['id' => 50000, 'foo' => 'bar'], 1);
 
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
         $this->assertSame('bar', $instance->foo);

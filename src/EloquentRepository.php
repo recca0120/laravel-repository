@@ -155,13 +155,13 @@ abstract class EloquentRepository
     /**
      * update.
      *
-     * @param  mixed $id
      * @param  array $attributes
+     * @param  mixed $id
      * @return \Illuminate\Database\Eloquent\Model
      *
      * @throws \Throwable
      */
-    public function update($id, $attributes)
+    public function update($attributes, $id)
     {
         return tap($this->findOrFail($id), function ($instance) use ($attributes) {
             $instance->fill($attributes)->saveOrFail();
@@ -172,11 +172,12 @@ abstract class EloquentRepository
      * forceCreate.
      *
      * @param  array $attributes
+     * @param  mixed $id
      * @return \Illuminate\Database\Eloquent\Model
      *
      * @throws \Throwable
      */
-    public function forceUpdate($id, $attributes)
+    public function forceUpdate($attributes, $id)
     {
         return tap($this->findOrFail($id), function ($instance) use ($attributes) {
             $instance->forceFill($attributes)->saveOrFail();
