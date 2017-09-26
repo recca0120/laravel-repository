@@ -44,14 +44,14 @@ class Sqlite extends Model
 
     public function getConnector()
     {
-        if (static::$connector) {
-            return static::$connector;
+        if (self::$connector) {
+            return self::$connector;
         }
 
         $connectionFactory = new ConnectionFactory(Container::getInstance());
         $connectionName = md5(__NAMESPACE__);
 
-        return static::$connector = $connectionFactory->make([
+        return self::$connector = $connectionFactory->make([
             'driver' => 'sqlite',
             'database' => $this->database,
         ], $connectionName);
