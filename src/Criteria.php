@@ -15,7 +15,7 @@ class Criteria
      *
      * @var \Recca0120\Repository\Method[]
      */
-    protected $methods;
+    protected $methods = [];
 
     /**
      * create.
