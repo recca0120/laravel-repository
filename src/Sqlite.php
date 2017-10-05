@@ -2,27 +2,11 @@
 
 namespace Recca0120\Repository;
 
-use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Connectors\ConnectionFactory;
 
 abstract class Sqlite extends Model
 {
-    /**
-     * $database
-     *
-     * @var string
-     */
-    protected $database = ':memory:';
-
-    /**
-     * $connector
-     *
-     * @var \Illuminate\Database\Connection
-     */
-    protected static $connector;
-
     /**
      * Get a schema builder instance.
      *
@@ -30,50 +14,22 @@ abstract class Sqlite extends Model
      */
     public function schema()
     {
-        return $this->getConnector()->getSchemaBuilder();
+        return $this->getConnection()->getSchemaBuilder();
     }
 
     /**
-     * Get the database connection for the model.
+     * Resolve a connection instance.
      *
+     * @param  string|null  $connection
      * @return \Illuminate\Database\Connection
      */
-    public function getConnection()
+    public static function resolveConnection($connection = null)
     {
-        $table = $this->getTable();
-        $schema = $this->schema();
-
-        if ($schema->hasTable($table) === false) {
-            $schema->create($table, function (Blueprint $table) {
-                $this->createSchema($table);
-            });
-        }
-
-        return $this->getConnector();
+        return SqliteConnectionFactory::getInstance()->make();
     }
 
     /**
-     * Establish a PDO connection based on the configuration.
-     *
-     * @return \Illuminate\Database\Connection
-     */
-    public function getConnector()
-    {
-        if (self::$connector) {
-            return self::$connector;
-        }
-
-        $connectionFactory = new ConnectionFactory(Container::getInstance());
-        $connectionName = md5(__NAMESPACE__);
-
-        return self::$connector = $connectionFactory->make([
-            'driver' => 'sqlite',
-            'database' => $this->database,
-        ], $connectionName);
-    }
-
-    /**
-     * createSchema
+     * createSchema.
      *
      * @param  Blueprint $table
      * @return void
@@ -83,5 +39,28 @@ abstract class Sqlite extends Model
         $table->increments('id');
         $table->string('foo');
         $table->timestamps();
+    }
+
+    /**
+     * Fire the given event for the model.
+     *
+     * @param  string  $event
+     * @param  bool  $halt
+     * @return mixed
+     */
+    protected function fireModelEvent($event, $halt = true)
+    {
+        if ($event === 'booting') {
+            $table = $this->getTable();
+            $schema = $this->schema();
+
+            if ($schema->hasTable($table) === false) {
+                $schema->create($table, function (Blueprint $table) {
+                    $this->createSchema($table);
+                });
+            }
+        }
+
+        return parent::fireModelEvent($event, $halt);
     }
 }

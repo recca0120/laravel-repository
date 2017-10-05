@@ -36,7 +36,7 @@ class EloquentRepositoryTest extends TestCase
         m::close();
 
         $fakeModel = new FakeModel();
-        $fakeModel->schema()->dropIfExists($fakeModel->getTable());
+        $fakeModel->truncate();
     }
 
     public function testFind()
