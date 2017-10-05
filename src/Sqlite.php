@@ -34,12 +34,7 @@ abstract class Sqlite extends Model
      * @param  Blueprint $table
      * @return void
      */
-    protected function createSchema(Blueprint $table)
-    {
-        $table->increments('id');
-        $table->string('foo');
-        $table->timestamps();
-    }
+    abstract protected function createSchema(Blueprint $table);
 
     /**
      * Fire the given event for the model.

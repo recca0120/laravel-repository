@@ -401,7 +401,7 @@ abstract class EloquentRepository
     {
         return $this->model instanceof Model
             ? clone $this->model
-            : clone $this->model->getModel();
+            : $this->model->getModel();
     }
 
     /**
@@ -411,6 +411,8 @@ abstract class EloquentRepository
      */
     protected function newQuery()
     {
-        return $this->getModel()->newQuery();
+        return $this->model instanceof Model
+            ? $this->model->newQuery()
+            : clone $this->model;
     }
 }

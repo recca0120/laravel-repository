@@ -322,6 +322,14 @@ class EloquentRepositoryTest extends TestCase
 
         $this->assertSame($fakeRepository->average(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '5.5');
     }
+
+    public function testModelIsQuery()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository2($fakeModel);
+
+        $this->assertSame($fakeRepository->average([], 'id'), '5.5');
+    }
 }
 
 class FakeModel extends Sqlite
@@ -342,8 +350,12 @@ class FakeModel extends Sqlite
 
 class FakeRepository extends EloquentRepository
 {
+}
+
+class FakeRepository2 extends EloquentRepository
+{
     public function __construct(Model $model)
     {
-        $this->model = $model->newQuery();
+        $this->model = $model->whereBetween('id', [1, 10]);
     }
 }
