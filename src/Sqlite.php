@@ -25,7 +25,7 @@ abstract class Sqlite extends Model
      */
     public static function resolveConnection($connection = null)
     {
-        return SqliteConnectionFactory::getInstance()->make();
+        return SqliteConnectionResolver::getInstance()->connection($connection);
     }
 
     /**
