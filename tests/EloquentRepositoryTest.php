@@ -330,6 +330,22 @@ class EloquentRepositoryTest extends TestCase
 
         $this->assertSame($fakeRepository->average([], 'id'), '5.5');
     }
+
+    public function testGetQuery() {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $this->assertEquals(
+            $fakeRepository->getQuery([
+                Criteria::create()->where(function ($query) {
+                    $query->whereIn('id', [1, 3])
+                        ->orWhereIn('id', [5, 9]);
+                }),
+                Criteria::create()->orderBy('id'),
+            ])->get()->toArray(),
+            FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->getQuery()->get()->toArray()
+        );
+    }
 }
 
 class FakeModel extends Sqlite

@@ -392,12 +392,24 @@ abstract class EloquentRepository
         }, $this->newQuery());
     }
 
+
+    /**
+     * getQuery.
+     *
+     * @param \Recca0120\Repository\Criteria[] $criteria
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getQuery($criteria = [])
+    {
+        return $this->matching($criteria)->getQuery();
+    }
+
     /**
      * getModel.
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function getModel()
+    public function getModel()
     {
         return $this->model instanceof Model
             ? clone $this->model
@@ -409,7 +421,7 @@ abstract class EloquentRepository
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function newQuery()
+    public function newQuery()
     {
         return $this->model instanceof Model
             ? $this->model->newQuery()
