@@ -161,7 +161,7 @@ abstract class EloquentRepository
      *
      * @throws \Throwable
      */
-    public function update($attributes, $id)
+    public function update($id, $attributes)
     {
         return tap($this->findOrFail($id), function ($instance) use ($attributes) {
             $instance->fill($attributes)->saveOrFail();
@@ -177,7 +177,7 @@ abstract class EloquentRepository
      *
      * @throws \Throwable
      */
-    public function forceUpdate($attributes, $id)
+    public function forceUpdate($id, $attributes)
     {
         return tap($this->findOrFail($id), function ($instance) use ($attributes) {
             $instance->forceFill($attributes)->saveOrFail();
