@@ -1,29 +1,9 @@
 <?php
 
-namespace Recca0120\Repository;
+namespace Recca0120\Repository\Contracts;
 
-use Illuminate\Database\Eloquent\Model;
-use Recca0120\Repository\Contracts\EloquentRepository as EloquentRepositoryContract;
-
-abstract class EloquentRepository implements EloquentRepositoryContract
+interface EloquentRepository
 {
-    /**
-     * $model.
-     *
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
-
-    /**
-     * __construct.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $model
-     */
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     /**
      * Find a model by its primary key.
      *
@@ -31,10 +11,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
      */
-    public function find($id, $columns = ['*'])
-    {
-        return $this->newQuery()->find($id, $columns);
-    }
+    public function find($id, $columns = ['*']);
 
     /**
      * Find multiple models by their primary keys.
@@ -43,10 +20,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function findMany($ids, $columns = ['*'])
-    {
-        return $this->newQuery()->findMany($ids, $columns);
-    }
+    public function findMany($ids, $columns = ['*']);
 
     /**
      * Find a model by its primary key or throw an exception.
@@ -57,10 +31,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findOrFail($id, $columns = ['*'])
-    {
-        return $this->newQuery()->findOrFail($id, $columns);
-    }
+    public function findOrFail($id, $columns = ['*']);
 
     /**
      * Find a model by its primary key or return fresh model instance.
@@ -69,10 +40,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function findOrNew($id, $columns = ['*'])
-    {
-        return $this->newQuery()->findOrNew($id, $columns);
-    }
+    public function findOrNew($id, $columns = ['*']);
 
     /**
      * Get the first record matching the attributes or instantiate it.
@@ -81,10 +49,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $values
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function firstOrNew(array $attributes, array $values = [])
-    {
-        return $this->newQuery()->firstOrNew($attributes, $values);
-    }
+    public function firstOrNew(array $attributes, array $values = []);
 
     /**
      * Get the first record matching the attributes or create it.
@@ -93,10 +58,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $values
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function firstOrCreate(array $attributes, array $values = [])
-    {
-        return $this->newQuery()->firstOrCreate($attributes, $values);
-    }
+    public function firstOrCreate(array $attributes, array $values = []);
 
     /**
      * Create or update a record matching the attributes, and fill it with values.
@@ -105,10 +67,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $values
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateOrCreate(array $attributes, array $values = [])
-    {
-        return $this->newQuery()->updateOrCreate($attributes, $values);
-    }
+    public function updateOrCreate(array $attributes, array $values = []);
 
     /**
      * Execute the query and get the first result or throw an exception.
@@ -118,10 +77,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function firstOrFail($columns = ['*'])
-    {
-        return $this->newQuery()->firstOrFail($columns);
-    }
+    public function firstOrFail($columns = ['*']);
 
     /**
      * create.
@@ -131,12 +87,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \Throwable
      */
-    public function create($attributes)
-    {
-        return tap($this->newInstance(), function ($instance) use ($attributes) {
-            $instance->fill($attributes)->saveOrFail();
-        });
-    }
+    public function create($attributes);
 
     /**
      * Save a new model and return the instance.
@@ -146,12 +97,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \Throwable
      */
-    public function forceCreate($attributes)
-    {
-        return tap($this->newInstance(), function ($instance) use ($attributes) {
-            $instance->forceFill($attributes)->saveOrFail();
-        });
-    }
+    public function forceCreate($attributes);
 
     /**
      * update.
@@ -162,12 +108,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \Throwable
      */
-    public function update($id, $attributes)
-    {
-        return tap($this->findOrFail($id), function ($instance) use ($attributes) {
-            $instance->fill($attributes)->saveOrFail();
-        });
-    }
+    public function update($id, $attributes);
 
     /**
      * forceCreate.
@@ -178,33 +119,14 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \Throwable
      */
-    public function forceUpdate($id, $attributes)
-    {
-        return tap($this->findOrFail($id), function ($instance) use ($attributes) {
-            $instance->forceFill($attributes)->saveOrFail();
-        });
-    }
+    public function forceUpdate($id, $attributes);
 
     /**
      * delete.
      *
      * @param  mixed $id
      */
-    public function delete($id)
-    {
-        return $this->find($id)->delete();
-    }
-
-    /**
-     * Restore a soft-deleted model instance.
-     *
-     * @param  mixed $id
-     * @return bool|null
-     */
-    public function restore($id)
-    {
-        return $this->newQuery()->restore($id);
-    }
+    public function delete($id);
 
     /**
      * Force a hard delete on a soft deleted model.
@@ -214,10 +136,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  mixed $id
      * @return bool|null
      */
-    public function forceDelete($id)
-    {
-        return $this->findOrFail($id)->forceDelete();
-    }
+    public function forceDelete($id);
 
     /**
      * Create a new model instance that is existing.
@@ -225,10 +144,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $attributes
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function newInstance($attributes = [], $exists = false)
-    {
-        return $this->getModel()->newInstance($attributes, $exists);
-    }
+    public function newInstance($attributes = [], $exists = false);
 
     /**
      * Execute the query as a "select" statement.
@@ -237,10 +153,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $columns
      * @return \Illuminate\Support\Collection
      */
-    public function get($criteria = [], $columns = ['*'])
-    {
-        return $this->matching($criteria)->get($columns);
-    }
+    public function get($criteria = [], $columns = ['*']);
 
     /**
      * Chunk the results of the query.
@@ -250,10 +163,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  callable  $callback
      * @return bool
      */
-    public function chunk($criteria, $count, callable $callback)
-    {
-        return $this->matching($criteria)->chunk($count, $callback);
-    }
+    public function chunk($criteria, $count, callable $callback);
 
     /**
      * Execute a callback over each item while chunking.
@@ -263,10 +173,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  int  $count
      * @return bool
      */
-    public function each($criteria, callable $callback, $count = 1000)
-    {
-        return $this->matching($criteria)->each($callback, $count);
-    }
+    public function each($criteria, callable $callback, $count = 1000);
 
     /**
      * Execute the query and get the first result.
@@ -275,10 +182,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Model|static|null
      */
-    public function first($criteria = [], $columns = ['*'])
-    {
-        return $this->matching($criteria)->first($columns);
-    }
+    public function first($criteria = [], $columns = ['*']);
 
     /**
      * Paginate the given query.
@@ -292,10 +196,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @throws \InvalidArgumentException
      */
-    public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        return $this->matching($criteria)->paginate($perPage, $columns, $pageName, $page);
-    }
+    public function paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
 
     /**
      * Paginate the given query into a simple paginator.
@@ -307,10 +208,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  int|null  $page
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
-    {
-        return $this->matching($criteria)->simplePaginate($perPage, $columns, $pageName, $page);
-    }
+    public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
 
     /**
      * Retrieve the "count" result of the query.
@@ -319,10 +217,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  string  $columns
      * @return int
      */
-    public function count($criteria = [], $columns = '*')
-    {
-        return (int) $this->matching($criteria)->count($columns);
-    }
+    public function count($criteria = [], $columns = '*');
 
     /**
      * Retrieve the minimum value of a given column.
@@ -331,10 +226,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  string  $column
      * @return mixed
      */
-    public function min($criteria, $column)
-    {
-        return $this->matching($criteria)->min($column);
-    }
+    public function min($criteria, $column);
 
     /**
      * Retrieve the maximum value of a given column.
@@ -343,10 +235,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  string  $column
      * @return mixed
      */
-    public function max($criteria, $column)
-    {
-        return $this->matching($criteria)->max($column);
-    }
+    public function max($criteria, $column);
 
     /**
      * Retrieve the sum of the values of a given column.
@@ -355,12 +244,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  string  $column
      * @return mixed
      */
-    public function sum($criteria, $column)
-    {
-        $result = $this->matching($criteria)->sum($column);
-
-        return $result ?: 0;
-    }
+    public function sum($criteria, $column);
 
     /**
      * Retrieve the average of the values of a given column.
@@ -369,10 +253,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  string  $column
      * @return mixed
      */
-    public function avg($criteria, $column)
-    {
-        return $this->matching($criteria)->avg($column);
-    }
+    public function avg($criteria, $column);
 
     /**
      * Alias for the "avg" method.
@@ -380,10 +261,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  string  $column
      * @return mixed
      */
-    public function average($criteria, $column)
-    {
-        return $this->avg($criteria, $column);
-    }
+    public function average($criteria, $column);
 
     /**
      * matching.
@@ -391,18 +269,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param  \Recca0120\Repository\Criteria[] $criteria
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function matching($criteria)
-    {
-        $criteria = is_array($criteria) === false ? [$criteria] : $criteria;
-
-        return array_reduce($criteria, function ($query, $criteria) {
-            $criteria->each(function ($method) use ($query) {
-                call_user_func_array([$query, $method->name], $method->parameters);
-            });
-
-            return $query;
-        }, $this->newQuery());
-    }
+    public function matching($criteria);
 
     /**
      * getQuery.
@@ -410,32 +277,19 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * @param \Recca0120\Repository\Criteria[] $criteria
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getQuery($criteria = [])
-    {
-        return $this->matching($criteria)->getQuery();
-    }
+    public function getQuery($criteria = []);
 
     /**
      * getModel.
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getModel()
-    {
-        return $this->model instanceof Model
-            ? clone $this->model
-            : $this->model->getModel();
-    }
+    public function getModel();
 
     /**
      * Get a new query builder for the model's table.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function newQuery()
-    {
-        return $this->model instanceof Model
-            ? $this->model->newQuery()
-            : clone $this->model;
-    }
+    public function newQuery();
 }

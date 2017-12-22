@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Recca0120\Repository\EloquentRepository;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EloquentRepositoryTest extends TestCase
 {
@@ -181,6 +182,22 @@ class EloquentRepositoryTest extends TestCase
         $this->assertNull($fakeRepository->find(1));
     }
 
+    public function testRestore()
+    {
+        $fakeModel = new FakeModel;
+        $fakeRepository = new FakeRepository($fakeModel);
+
+        $fakeRepository->delete(1);
+        $this->assertNull($fakeRepository->find(1));
+
+        $this->assertSame(1, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2]))->count());
+        $this->assertSame(2, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2])->withTrashed())->count());
+        $this->assertSame(1, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2])->onlyTrashed())->count());
+
+        $fakeRepository->restore(1);
+        $this->assertNotNull($fakeRepository->find(1));
+    }
+
     public function testForceDelete()
     {
         $fakeModel = new FakeModel;
@@ -331,7 +348,8 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->average([], 'id'), '5.5');
     }
 
-    public function testGetQuery() {
+    public function testGetQuery()
+    {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
@@ -350,6 +368,8 @@ class EloquentRepositoryTest extends TestCase
 
 class FakeModel extends Sqlite
 {
+    use SoftDeletes;
+
     protected $table = 'fake_models';
 
     protected $fillable = [
@@ -361,6 +381,7 @@ class FakeModel extends Sqlite
         $table->increments('id');
         $table->string('foo');
         $table->timestamps();
+        $table->softDeletes();
     }
 }
 

@@ -77,7 +77,7 @@ class BuildsQueriesTest extends TestCase
         $criteria = Criteria::create()->distinct();
         $this->assertSame($criteria->toArray(), [[
             'method' => 'distinct',
-            'parameters' => null,
+            'parameters' => [],
         ]]);
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
@@ -1153,7 +1153,7 @@ class BuildsQueriesTest extends TestCase
         $criteria = Criteria::create()->lockForUpdate();
         $this->assertSame($criteria->toArray(), [[
             'method' => 'lockForUpdate',
-            'parameters' => null,
+            'parameters' => [],
         ]]);
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
@@ -1163,7 +1163,7 @@ class BuildsQueriesTest extends TestCase
         $criteria = Criteria::create()->sharedLock();
         $this->assertSame($criteria->toArray(), [[
             'method' => 'sharedLock',
-            'parameters' => null,
+            'parameters' => [],
         ]]);
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }

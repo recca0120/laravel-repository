@@ -8,7 +8,8 @@ class Criteria
 {
     use Concerns\BuildsQueries,
         Concerns\QueriesRelationships,
-        Concerns\EloquentBuildsQueries;
+        Concerns\EloquentBuildsQueries,
+        Concerns\SoftDeletingScope;
 
     /**
      * $methods.

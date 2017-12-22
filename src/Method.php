@@ -22,7 +22,7 @@ class Method
      * @param string $name
      * @param mixed  $parameters
      */
-    public function __construct($name, $parameters = null)
+    public function __construct($name, $parameters = [])
     {
         $this->name = $name;
         $this->parameters = $parameters;
