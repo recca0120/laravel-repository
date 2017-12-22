@@ -24,26 +24,141 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "recca0120/repository": "~1.2.0"
+        "recca0120/repository": "~2.0.0"
     }
 }
 ```
 
 ## Methods
 
-### Recca0120\Repository\Contracts\Repository
+### Recca0120\Repository\EloquentRepository
 
-- match($criteria);
-- get($criteria = [], $columns = ['*'], $limit = null, $offset = null);
-- first($criteria = [], $columns = ['*']);
-- count($criteria = []);
-- paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
-- find($id);
-- create($attributes, $forceFill = false);
-- update($attributes, $id, $forceFill = false);
+- find($id, $columns = ['*']);
+- findMany($ids, $columns = ['*']);
+- findOrFail($id, $columns = ['*']);
+- findOrNew($id, $columns = ['*']);
+- firstOrNew(array $attributes, array $values = []);
+- firstOrCreate(array $attributes, array $values = []);
+- updateOrCreate(array $attributes, array $values = []);
+- firstOrFail($columns = ['*']);
+- create($attributes);
+- forceCreate($attributes);
+- update($id, $attributes);
+- forceUpdate($id, $attributes);
 - delete($id);
-- cloneModel();
-- newInstance($attributes = []);
+- forceDelete($id);
+- newInstance($attributes = [], $exists = false);
+- get($criteria = [], $columns = ['*']);
+- chunk($criteria, $count, callable $callback);
+- each($criteria, callable $callback, $count = 1000);
+- first($criteria = [], $columns = ['*']);
+- paginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
+- simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
+- count($criteria = [], $columns = '*');
+- min($criteria, $column);
+- max($criteria, $column);
+- sum($criteria, $column);
+- avg($criteria, $column);
+- average($criteria, $column);
+- matching($criteria);
+- getQuery($criteria = []);
+- getModel();
+- newQuery();
+
+### Recca0120\Repository\Criteria
+
+- static create()
+- static expr($value)
+- static raw($value)
+- select($columns = ['*'])
+- selectRaw($expression, array $bindings = [])
+- selectSub($query, $as)
+- addSelect($column)
+- distinct()
+- from($table)
+- join($table, $first, $operator = null, $second = null, $type = 'inner', $where = false)
+- joinWhere($table, $first, $operator, $second, $type = 'inner')
+- leftJoin($table, $first, $operator = null, $second = null)
+- leftJoinWhere($table, $first, $operator, $second)
+- rightJoin($table, $first, $operator = null, $second = null)
+- rightJoinWhere($table, $first, $operator, $second)
+- crossJoin($table, $first = null, $operator = null, $second = null)
+- mergeWheres($wheres, $bindings)
+- tap($callback)
+- where($column, $operator = null, $value = null, $boolean = 'and')
+- orWhere($column, $operator = null, $value = null)
+- whereColumn($first, $operator = null, $second = null, $boolean = 'and')
+- orWhereColumn($first, $operator = null, $second = null)
+- whereRaw($sql, $bindings = [], $boolean = 'and')
+- orWhereRaw($sql, array $bindings = [])
+- whereIn($column, $values, $boolean = 'and', $not = false)
+- orWhereIn($column, $values)
+- whereNotIn($column, $values, $boolean = 'and')
+- orWhereNotIn($column, $values)
+- whereNull($column, $boolean = 'and', $not = false)
+- orWhereNull($column)
+- whereNotNull($column, $boolean = 'and')
+- whereBetween($column, array $values, $boolean = 'and', $not = false)
+- orWhereBetween($column, array $values)
+- whereNotBetween($column, array $values, $boolean = 'and')
+- orWhereNotBetween($column, array $values)
+- orWhereNotNull($column)
+- whereDate($column, $operator, $value = null, $boolean = 'and')
+- orWhereDate($column, $operator, $value)
+- whereTime($column, $operator, $value, $boolean = 'and')
+- orWhereTime($column, $operator, $value)
+- whereDay($column, $operator, $value = null, $boolean = 'and')
+- whereMonth($column, $operator, $value = null, $boolean = 'and')
+- whereYear($column, $operator, $value = null, $boolean = 'and')
+- whereNested(Closure $callback, $boolean = 'and')
+- addNestedWhereQuery($query, $boolean = 'and')
+- whereExists(Closure $callback, $boolean = 'and', $not = false)
+- orWhereExists(Closure $callback, $not = false)
+- whereNotExists(Closure $callback, $boolean = 'and')
+- orWhereNotExists(Closure $callback)
+- addWhereExistsQuery(Builder $query, $boolean = 'and', $not = false)
+- dynamicWhere($method, $parameters)
+- groupBy()
+- having($column, $operator = null, $value = null, $boolean = 'and')
+- orHaving($column, $operator = null, $value = null)
+- havingRaw($sql, array $bindings = [], $boolean = 'and')
+- orHavingRaw($sql, array $bindings = [])
+- orderBy($column, $direction = 'asc')
+- orderByDesc($column)
+- latest($column = 'created_at')
+- oldest($column = 'created_at')
+- inRandomOrder($seed = '')
+- orderByRaw($sql, $bindings = [])
+- skip($value)
+- offset($value)
+- take($value)
+- limit($value)
+- forPage($page, $perPage = 15)
+- forPageAfterId($perPage = 15, $lastId = 0, $column = 'id')
+- union($query, $all = false)
+- unionAll($query)
+- lock($value = true)
+- lockForUpdate()
+- sharedLock()
+- when($value, $callback, $default = null)
+- unless($value, $callback, $default = null)
+- whereKey($id)
+- whereKeyNot($id)
+- with($relations)
+- without($relations)
+- setQuery($query)
+- setModel(Model $model)
+- has($relation, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
+- orHas($relation, $operator = '>=', $count = 1)
+- doesntHave($relation, $boolean = 'and', Closure $callback = null)
+- whereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
+- orWhereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
+- whereDoesntHave($relation, Closure $callback = null)
+- withCount($relations)
+- mergeConstraintsFrom(Builder $from)
+- withTrashed()
+- withoutTrashed()
+- onlyTrashed()
 
 ## Usage
 
@@ -243,8 +358,8 @@ $this->repository->get($criteria);
 use Recca0120\Repository\Criteria;
 
 $criteria = Criteria::create()
-    ->with('author', function(Criteria $criteria) {
-        return $criteria->where('author', '=', 'author');
+    ->with('author', function($criteria) {
+        $criteria->where('author', 'author');
     });
 
 $this->repository->get($criteria);
@@ -258,8 +373,8 @@ $this->repository->get($criteria);
 use Recca0120\Repository\Criteria;
 
 $criteria = Criteria::create()
-    ->join('author', function (Criteria $criteria) {
-        return $criteria->on('posts.author_id', '=', 'author.id');
+    ->join('author', function ($criteria) {
+        $criteria->on('posts.author_id', '=', 'author.id');
     });
 
 $this->repository->get($criteria);
@@ -279,20 +394,6 @@ $this->repository->get($criteria);
 // $this->repository->paginate($criteria);
 ```
 
-## Find results by array
-
-```php
-
-use Recca0120\Repository\Criteria;
-
-$posts = $this->repository->get([
-    'author' => 'author',
-    ['title', '=', 'title'],
-    Criteria::create()
-        ->where('created_at', '<=', Criteria::expr('NOW()'))
-]);
-```
-
 #### Custom Criteria
 
 ```php
@@ -307,45 +408,8 @@ class CustomCriteria extends Criteria
     }
 }
 
-$this->repository->get(CustomCriteria::create(1));
-$this->repository->get((new CustomCriteria::create(2))->where('autor', '=', 'autor'));
+$this->repository->get((new CustomCriteria(1))->where('autor', 'autor'));
 ```
 
-
-### Illuminte\Support\Collection
-
-#### Create a Collection
-
-You can use Collection to be your model
-
-```php
-
-namespace App;
-
-use Illuminate\Support\Collection;
-
-class Post extends Collection
-{
-    public static function make($items = [])
-    {
-        // it will cast to \Illuminate\Support\Fluent;
-        return parent::make([
-            [
-                'id' => 1,
-                'title' => 'title',
-                'autor' => 'author'
-            ],
-            [
-                'id' => 2,
-                'title' => 'title2',
-                'autor' => 'author2'
-            ],
-        ]);
-    }
-}
-```
-
-#### Support Criteria
-
-- where
-- orderBy
+## ToDo
+- Cache
