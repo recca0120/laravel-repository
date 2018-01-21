@@ -8,13 +8,20 @@ use Illuminate\Database\Schema\Blueprint;
 abstract class Sqlite extends Model
 {
     /**
-     * Get a schema builder instance.
+     * $tableCreated.
      *
-     * @return \Illuminate\Database\Schema\Builder
+     * @var array
      */
-    public function schema()
+    protected static $tableCreated = [];
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getTable()
     {
-        return $this->getConnection()->getSchemaBuilder();
+        return $this->createTable(parent::getTable());
     }
 
     /**
@@ -29,33 +36,33 @@ abstract class Sqlite extends Model
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @param string $table
+     * @return string
+     */
+    protected function createTable($table)
+    {
+        if (isset(static::$tableCreated[$table]) === true) {
+            return $table;
+        }
+
+        $schema = $this->getConnection()->getSchemaBuilder();
+        if ($schema->hasTable($table) === false) {
+            $schema->create($table, function (Blueprint $table) {
+                $this->createSchema($table);
+            });
+            static::$tableCreated[$table] = true;
+        }
+
+        return $table;
+    }
+
+    /**
      * createSchema.
      *
      * @param  Blueprint $table
      * @return void
      */
     abstract protected function createSchema(Blueprint $table);
-
-    /**
-     * Fire the given event for the model.
-     *
-     * @param  string  $event
-     * @param  bool  $halt
-     * @return mixed
-     */
-    protected function fireModelEvent($event, $halt = true)
-    {
-        if ($event === 'booting') {
-            $table = $this->getTable();
-            $schema = $this->schema();
-
-            if ($schema->hasTable($table) === false) {
-                $schema->create($table, function (Blueprint $table) {
-                    $this->createSchema($table);
-                });
-            }
-        }
-
-        return parent::fireModelEvent($event, $halt);
-    }
 }
