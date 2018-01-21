@@ -31,4 +31,28 @@ class CriteriaTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Expression', $expression);
         $this->assertSame((string) $expression, 'foo = bar');
     }
+
+    public function testDynamicWhere()
+    {
+        $criteria = Criteria::create()
+            ->whereUrl('http://foo.com')
+            ->whereName('foo');
+
+        $this->assertEquals([
+            [
+                'method' => 'dynamicWhere',
+                'parameters' => [
+                    'whereUrl',
+                    ['http://foo.com'],
+                ],
+            ],
+            [
+                'method' => 'dynamicWhere',
+                'parameters' => [
+                    'whereName',
+                    ['foo'],
+                ],
+            ],
+        ], $criteria->toArray());
+    }
 }

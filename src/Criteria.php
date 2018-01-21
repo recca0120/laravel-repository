@@ -3,6 +3,8 @@
 namespace Recca0120\Repository;
 
 use Closure;
+use BadMethodCallException;
+use Illuminate\Support\Str;
 
 class Criteria
 {
@@ -17,6 +19,26 @@ class Criteria
      * @var \Recca0120\Repository\Method[]
      */
     protected $methods = [];
+
+    /**
+     * Handle dynamic method calls into the method.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     *
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        if (Str::startsWith($method, 'where')) {
+            return $this->dynamicWhere($method, $parameters);
+        }
+
+        $className = static::class;
+
+        throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
+    }
 
     /**
      * create.
