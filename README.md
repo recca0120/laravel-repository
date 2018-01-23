@@ -281,7 +281,7 @@ $post = $this->repository->create(request()->all());
 Update entry in Repository
 
 ```php
-$post = $this->repository->update(request()->all(), $id);
+$post = $this->repository->update($id, request()->all());
 ```
 
 Delete entry in Repository
@@ -301,7 +301,7 @@ $post = $this->repository->newInstance([
 Return Model With Conditions
 
 ```
-$model = $this->repository->match(Criteria::create()->where('title', '=', 'title'));
+$model = $this->repository->matching(Criteria::create()->where('title', '=', 'title'));
 ```
 
 Find result by id
