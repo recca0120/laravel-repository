@@ -40,7 +40,7 @@ Instead, you may of course manually update your require block and run `composer 
 - firstOrNew(array $attributes, array $values = []);
 - firstOrCreate(array $attributes, array $values = []);
 - updateOrCreate(array $attributes, array $values = []);
-- firstOrFail($columns = ['*']);
+- firstOrFail($criteria = [], $columns = ['*']);
 - create($attributes);
 - forceCreate($attributes);
 - update($id, $attributes);
