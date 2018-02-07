@@ -120,9 +120,8 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $instance = $fakeRepository->firstOrFail();
-        $this->assertInstanceOf(FakeModel::class, $instance);
-        $this->assertTrue($instance->exists);
+        $model = $fakeRepository->firstOrFail(Criteria::create()->where('id', '>', 0));
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
     }
 
     public function testCreate()
