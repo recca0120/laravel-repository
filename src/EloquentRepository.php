@@ -114,13 +114,14 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Execute the query and get the first result or throw an exception.
      *
      * @param  array  $columns
+     * @param  \Recca0120\Repository\Criteria[] $criteria
      * @return \Illuminate\Database\Eloquent\Model|static
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function firstOrFail($columns = ['*'])
+    public function firstOrFail($criteria = [], $columns = ['*'])
     {
-        return $this->newQuery()->firstOrFail($columns);
+        return $this->matching($criteria)->firstOrFail($columns);
     }
 
     /**
