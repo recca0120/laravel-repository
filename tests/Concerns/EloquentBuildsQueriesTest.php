@@ -93,4 +93,14 @@ class EloquentBuildsQueriesTest extends TestCase
         ]]);
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
+
+    public function testOnWriteConnection()
+    {
+        $criteria = Criteria::create()->onWriteConnection();
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'useWritePdo',
+            'parameters' => [],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
 }

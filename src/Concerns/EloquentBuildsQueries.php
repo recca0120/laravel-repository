@@ -84,4 +84,14 @@ trait EloquentBuildsQueries
 
         return $this;
     }
+
+    /**
+     * Begin querying the model on the write connection.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function onWriteConnection()
+    {
+        return $this->useWritePdo();
+    }
 }

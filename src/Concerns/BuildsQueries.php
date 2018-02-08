@@ -1045,4 +1045,16 @@ trait BuildsQueries
 
         return $this;
     }
+
+    /**
+     * Use the write pdo for query.
+     *
+     * @return $this
+     */
+    public function useWritePdo()
+    {
+        $this->methods[] = new Method(__FUNCTION__);
+
+        return $this;
+    }
 }

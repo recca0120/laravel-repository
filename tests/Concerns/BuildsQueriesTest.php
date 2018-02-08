@@ -1207,4 +1207,14 @@ class BuildsQueriesTest extends TestCase
         ]]);
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
+
+    public function testUseWritePdo()
+    {
+        $criteria = Criteria::create()->useWritePdo();
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'useWritePdo',
+            'parameters' => [],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
 }
