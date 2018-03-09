@@ -18,7 +18,8 @@ class EloquentCompiler extends Compiler
     {
         return array_map(function ($param) {
             if ($param instanceof Closure) {
-                $criteria = call_user_func($param, new Criteria());
+                $criteria = new Criteria();
+                call_user_func($param, $criteria);
 
                 return function ($query) use ($criteria) {
                     $transform = new static($query);
