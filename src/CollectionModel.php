@@ -2,7 +2,7 @@
 
 namespace Recca0120\Repository;
 
-abstract class Collection extends Sqlite
+abstract class CollectionModel extends SqliteModel
 {
     protected $items = [];
 

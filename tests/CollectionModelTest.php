@@ -4,8 +4,8 @@ namespace Recca0120\Repository\Tests;
 
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
-use Recca0120\Repository\Collection;
 use Illuminate\Database\Schema\Blueprint;
+use Recca0120\Repository\CollectionModel;
 use Recca0120\Repository\EloquentRepository;
 
 class CollectionTest extends TestCase
@@ -27,7 +27,7 @@ class CollectionTest extends TestCase
     }
 }
 
-class FakeCollectionModel extends Collection
+class FakeCollectionModel extends CollectionModel
 {
     protected $items = [
         ['id' => 1, 'foo' => 'bar'],

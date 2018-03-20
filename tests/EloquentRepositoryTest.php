@@ -5,9 +5,9 @@ namespace Recca0120\Repository\Tests;
 use Mockery as m;
 use Faker\Generator;
 use PHPUnit\Framework\TestCase;
-use Recca0120\Repository\Sqlite;
 use Faker\Factory as FakerFactory;
 use Recca0120\Repository\Criteria;
+use Recca0120\Repository\SqliteModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Database\Schema\Blueprint;
@@ -365,7 +365,7 @@ class EloquentRepositoryTest extends TestCase
     }
 }
 
-class FakeModel extends Sqlite
+class FakeModel extends SqliteModel
 {
     use SoftDeletes;
 

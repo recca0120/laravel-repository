@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Recca0120\Repository\SqliteConnectionResolver as ConnectionResolver;
 
-abstract class Sqlite extends Model
+abstract class SqliteModel extends Model
 {
     /**
      * $tableCreated.
