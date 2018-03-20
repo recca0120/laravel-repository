@@ -4,6 +4,7 @@ namespace Recca0120\Repository;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Recca0120\Repository\SqliteConnectionResolver as ConnectionResolver;
 
 abstract class Sqlite extends Model
 {
@@ -32,7 +33,7 @@ abstract class Sqlite extends Model
      */
     public static function resolveConnection($connection = null)
     {
-        return SqliteConnectionResolver::getInstance()->connection($connection);
+        return ConnectionResolver::getInstance()->connection($connection);
     }
 
     /**
@@ -53,6 +54,9 @@ abstract class Sqlite extends Model
                 $this->createSchema($table);
             });
             static::$tableCreated[$table] = true;
+            if (method_exists($this, 'handleTableCreated') === true) {
+                $this->handleTableCreated($table);
+            }
         }
 
         return $table;
