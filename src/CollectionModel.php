@@ -2,12 +2,16 @@
 
 namespace Recca0120\Repository;
 
-abstract class CollectionModel extends SqliteModel
+use Illuminate\Support\Collection;
+
+abstract class CollectionModel extends FileModel
 {
     protected $items = [];
 
-    protected function handleTableCreated()
+    protected function loadFromResource()
     {
-        $this->newQuery()->insert($this->items);
+        return $this->items instanceof Collection
+            ? $this->items
+            : new Collection($this->items);
     }
 }

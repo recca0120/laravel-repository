@@ -54,8 +54,8 @@ abstract class SqliteModel extends Model
                 $this->createSchema($table);
             });
             static::$tableCreated[$table] = true;
-            if (method_exists($this, 'handleTableCreated') === true) {
-                $this->handleTableCreated($table);
+            if ($this instanceof FileModel === true) {
+                $this->initializeTable($table);
             }
         }
 
