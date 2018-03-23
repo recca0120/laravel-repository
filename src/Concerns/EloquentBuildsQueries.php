@@ -41,7 +41,7 @@ trait EloquentBuildsQueries
      */
     public function with($relations)
     {
-        $this->methods[] = new Method(__FUNCTION__, [$relations]);
+        $this->methods[] = new Method(__FUNCTION__, func_get_args());
 
         return $this;
     }
@@ -54,7 +54,7 @@ trait EloquentBuildsQueries
      */
     public function without($relations)
     {
-        $this->methods[] = new Method(__FUNCTION__, [$relations]);
+        $this->methods[] = new Method(__FUNCTION__, func_get_args());
 
         return $this;
     }
