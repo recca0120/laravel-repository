@@ -2,10 +2,10 @@
 
 namespace Recca0120\Repository;
 
+use RuntimeException;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Contracts\EloquentRepository as EloquentRepositoryContract;
-use RuntimeException;
 
 abstract class EloquentRepository implements EloquentRepositoryContract
 {
@@ -17,13 +17,11 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     protected $model;
 
     /**
-     *
      * @var
      */
     private $app;
 
     /**
-     *
      * EloquentRepository constructor.
      * @param Container $app
      */
@@ -34,16 +32,14 @@ abstract class EloquentRepository implements EloquentRepositoryContract
         $this->makeModel();
     }
 
-
     /**
-     *
      * @return Model|mixed
      */
     protected function makeModel()
     {
         $model = $this->app->make($this->model);
 
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             throw new RuntimeException("Class {$this->model} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }
 
@@ -348,7 +344,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function count($criteria = [], $columns = '*')
     {
-        return (int)$this->matching($criteria)->count($columns);
+        return (int) $this->matching($criteria)->count($columns);
     }
 
     /**
