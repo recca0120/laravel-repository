@@ -2,8 +2,10 @@
 
 namespace Recca0120\Repository;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Recca0120\Repository\Contracts\EloquentRepository as EloquentRepositoryContract;
+use RuntimeException;
 
 abstract class EloquentRepository implements EloquentRepositoryContract
 {
@@ -15,20 +17,44 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     protected $model;
 
     /**
-     * __construct.
      *
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @var
      */
-    public function __construct(Model $model)
+    private $app;
+
+    /**
+     *
+     * EloquentRepository constructor.
+     * @param Container $app
+     */
+    public function __construct(Container $app)
     {
-        $this->model = $model;
+        $this->app = $app;
+
+        $this->makeModel();
+    }
+
+
+    /**
+     *
+     * @return Model|mixed
+     */
+    protected function makeModel()
+    {
+        $model = $this->app->make($this->model);
+
+        if (!$model instanceof Model) {
+            throw new RuntimeException("Class {$this->model} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+        }
+
+        return $this->model = $model;
     }
 
     /**
      * Find a model by its primary key.
      *
-     * @param  mixed  $id
-     * @param  array  $columns
+     * @param  mixed $id
+     * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
      */
     public function find($id, $columns = ['*'])
@@ -39,8 +65,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Find multiple models by their primary keys.
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
-     * @param  array  $columns
+     * @param  \Illuminate\Contracts\Support\Arrayable|array $ids
+     * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function findMany($ids, $columns = ['*'])
@@ -51,8 +77,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Find a model by its primary key or throw an exception.
      *
-     * @param  mixed  $id
-     * @param  array  $columns
+     * @param  mixed $id
+     * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
      *
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
@@ -65,8 +91,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Find a model by its primary key or return fresh model instance.
      *
-     * @param  mixed  $id
-     * @param  array  $columns
+     * @param  mixed $id
+     * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function findOrNew($id, $columns = ['*'])
@@ -77,8 +103,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Get the first record matching the attributes or instantiate it.
      *
-     * @param  array  $attributes
-     * @param  array  $values
+     * @param  array $attributes
+     * @param  array $values
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function firstOrNew(array $attributes, array $values = [])
@@ -89,8 +115,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Get the first record matching the attributes or create it.
      *
-     * @param  array  $attributes
-     * @param  array  $values
+     * @param  array $attributes
+     * @param  array $values
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function firstOrCreate(array $attributes, array $values = [])
@@ -101,8 +127,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Create or update a record matching the attributes, and fill it with values.
      *
-     * @param  array  $attributes
-     * @param  array  $values
+     * @param  array $attributes
+     * @param  array $values
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateOrCreate(array $attributes, array $values = [])
@@ -113,7 +139,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Execute the query and get the first result or throw an exception.
      *
-     * @param  array  $columns
+     * @param  array $columns
      * @param  \Recca0120\Repository\Criteria[] $criteria
      * @return \Illuminate\Database\Eloquent\Model|static
      *
@@ -223,7 +249,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Create a new model instance that is existing.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function newInstance($attributes = [], $exists = false)
@@ -235,7 +261,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Execute the query as a "select" statement.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  array  $columns
+     * @param  array $columns
      * @return \Illuminate\Support\Collection
      */
     public function get($criteria = [], $columns = ['*'])
@@ -247,8 +273,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Chunk the results of the query.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  int  $count
-     * @param  callable  $callback
+     * @param  int $count
+     * @param  callable $callback
      * @return bool
      */
     public function chunk($criteria, $count, callable $callback)
@@ -260,8 +286,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Execute a callback over each item while chunking.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  callable  $callback
-     * @param  int  $count
+     * @param  callable $callback
+     * @param  int $count
      * @return bool
      */
     public function each($criteria, callable $callback, $count = 1000)
@@ -273,7 +299,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Execute the query and get the first result.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  array  $columns
+     * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Model|static|null
      */
     public function first($criteria = [], $columns = ['*'])
@@ -285,10 +311,10 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Paginate the given query.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  int  $perPage
-     * @param  array  $columns
-     * @param  string  $pageName
-     * @param  int|null  $page
+     * @param  int $perPage
+     * @param  array $columns
+     * @param  string $pageName
+     * @param  int|null $page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      *
      * @throws \InvalidArgumentException
@@ -302,10 +328,10 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Paginate the given query into a simple paginator.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  int  $perPage
-     * @param  array  $columns
-     * @param  string  $pageName
-     * @param  int|null  $page
+     * @param  int $perPage
+     * @param  array $columns
+     * @param  string $pageName
+     * @param  int|null $page
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
@@ -317,19 +343,19 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Retrieve the "count" result of the query.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  string  $columns
+     * @param  string $columns
      * @return int
      */
     public function count($criteria = [], $columns = '*')
     {
-        return (int) $this->matching($criteria)->count($columns);
+        return (int)$this->matching($criteria)->count($columns);
     }
 
     /**
      * Retrieve the minimum value of a given column.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  string  $column
+     * @param  string $column
      * @return mixed
      */
     public function min($criteria, $column)
@@ -341,7 +367,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Retrieve the maximum value of a given column.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  string  $column
+     * @param  string $column
      * @return mixed
      */
     public function max($criteria, $column)
@@ -353,7 +379,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Retrieve the sum of the values of a given column.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  string  $column
+     * @param  string $column
      * @return mixed
      */
     public function sum($criteria, $column)
@@ -367,7 +393,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Retrieve the average of the values of a given column.
      *
      * @param  \Recca0120\Repository\Criteria[] $criteria
-     * @param  string  $column
+     * @param  string $column
      * @return mixed
      */
     public function avg($criteria, $column)
@@ -378,7 +404,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Alias for the "avg" method.
      *
-     * @param  string  $column
+     * @param  string $column
      * @return mixed
      */
     public function average($criteria, $column)
