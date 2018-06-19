@@ -5,14 +5,11 @@ namespace Recca0120\Repository\Tests;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class EloquentBuildsQueriesTest extends TestCase
 {
-    protected function tearDown()
-    {
-        parent::tearDown();
-        m::close();
-    }
+    use MockeryPHPUnitIntegration;
 
     public function testWhereKey()
     {

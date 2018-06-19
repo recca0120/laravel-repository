@@ -2,7 +2,6 @@
 
 namespace Recca0120\Repository\Tests;
 
-use Mockery as m;
 use Faker\Generator;
 use PHPUnit\Framework\TestCase;
 use Faker\Factory as FakerFactory;
@@ -34,8 +33,6 @@ class EloquentRepositoryTest extends TestCase
     protected function tearDown()
     {
         parent::tearDown();
-        m::close();
-
         $fakeModel = new FakeModel();
         $fakeModel->truncate();
     }

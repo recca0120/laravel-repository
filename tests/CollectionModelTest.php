@@ -2,7 +2,6 @@
 
 namespace Recca0120\Repository\Tests;
 
-use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Database\Schema\Blueprint;
 use Recca0120\Repository\CollectionModel;
@@ -10,12 +9,6 @@ use Recca0120\Repository\EloquentRepository;
 
 class CollectionTest extends TestCase
 {
-    protected function tearDown()
-    {
-        parent::tearDown();
-        m::close();
-    }
-
     public function testFind()
     {
         $fakeModel = new FakeCollectionModel;
