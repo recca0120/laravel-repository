@@ -36,6 +36,22 @@ trait BuildsQueries
     }
 
     /**
+     * Makes "from" fetch from a subquery.
+     *
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
+     * @param  string  $as
+     * @return \Illuminate\Database\Query\Builder|static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function fromSub($query, $as)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$query, $as]);
+
+        return $this;
+    }
+
+    /**
      * Add a subselect expression to the query.
      *
      * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
@@ -125,6 +141,27 @@ trait BuildsQueries
     }
 
     /**
+     * Add a subquery join clause to the query.
+     *
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
+     * @param  string  $as
+     * @param  string  $first
+     * @param  string|null  $operator
+     * @param  string|null  $second
+     * @param  string  $type
+     * @param  bool    $where
+     * @return \Illuminate\Database\Query\Builder|static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function joinSub($query, $as, $first, $operator = null, $second = null, $type = 'inner', $where = false)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$query, $as, $first, $operator, $second, $type, $where]);
+
+        return $this;
+    }
+
+    /**
      * Add a left join to the query.
      *
      * @param  string  $table
@@ -157,6 +194,23 @@ trait BuildsQueries
     }
 
     /**
+     * Add a subquery left join to the query.
+     *
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
+     * @param  string  $as
+     * @param  string  $first
+     * @param  string|null  $operator
+     * @param  string|null  $second
+     * @return \Illuminate\Database\Query\Builder|static
+     */
+    public function leftJoinSub($query, $as, $first, $operator = null, $second = null)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$query, $as, $first, $operator, $second]);
+
+        return $this;
+    }
+
+    /**
      * Add a right join to the query.
      *
      * @param  string  $table
@@ -184,6 +238,23 @@ trait BuildsQueries
     public function rightJoinWhere($table, $first, $operator, $second)
     {
         $this->methods[] = new Method(__FUNCTION__, [$table, $first, $operator, $second]);
+
+        return $this;
+    }
+
+    /**
+     * Add a subquery right join to the query.
+     *
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
+     * @param  string  $as
+     * @param  string  $first
+     * @param  string|null  $operator
+     * @param  string|null  $second
+     * @return \Illuminate\Database\Query\Builder|static
+     */
+    public function rightJoinSub($query, $as, $first, $operator = null, $second = null)
+    {
+        $this->methods[] = new Method(__FUNCTION__, [$query, $as, $first, $operator, $second]);
 
         return $this;
     }
