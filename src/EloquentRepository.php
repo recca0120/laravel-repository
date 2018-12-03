@@ -134,9 +134,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function create($attributes)
     {
-        return tap($this->newInstance(), function ($instance) use ($attributes) {
-            $instance->fill($attributes)->saveOrFail();
-        });
+        return $this->newQuery()->create($attributes);
     }
 
     /**
@@ -149,9 +147,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function forceCreate($attributes)
     {
-        return tap($this->newInstance(), function ($instance) use ($attributes) {
-            $instance->forceFill($attributes)->saveOrFail();
-        });
+        return $this->newQuery()->forceCreate($attributes);
     }
 
     /**
