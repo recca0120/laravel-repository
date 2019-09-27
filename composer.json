@@ -13,9 +13,9 @@
         "php": ">=5.5.9",
         "illuminate/cache": "^5.1|^6.0",
         "illuminate/database": "^5.1|^6.0"",
-        "illuminate/events": "^5.1|^6.0"",
-        "illuminate/pagination": "^5.1|^6.0"",
-        "illuminate/support": "^5.1|^6.0""
+        "illuminate/events": "^5.1|^6.0",
+        "illuminate/pagination": "^5.1|^6.0",
+        "illuminate/support": "^5.1|^6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.7",
