@@ -19,9 +19,9 @@
     },
     "require-dev": {
         "fzaninotto/faker": "^1.7",
-        "mockery/mockery": "0.9.*|~1.0",
-        "nesbot/carbon": "~1.20",
-        "phpunit/phpunit": "~4.8|~5.4|~6.1|~7.0"
+        "mockery/mockery": "^0.9|^1.0",
+        "nesbot/carbon": "^1.20|^2.0",
+        "phpunit/phpunit": "^4.8|^5.4|^6.1|^7.0|^8.0"
     },
     "autoload": {
         "files": [
