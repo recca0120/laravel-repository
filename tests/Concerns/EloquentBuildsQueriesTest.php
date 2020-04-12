@@ -1,17 +1,17 @@
 <?php
 
-namespace Recca0120\Repository\Tests;
+namespace Recca0120\Repository\Tests\Concerns;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class EloquentBuildsQueriesTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function testWhereKey()
+    public function test_where_key()
     {
         $criteria = Criteria::create()->whereKey($id = 'foo');
         $this->assertSame($criteria->toArray(), [[
@@ -23,7 +23,7 @@ class EloquentBuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereKeyNot()
+    public function test_where_key_not()
     {
         $criteria = Criteria::create()->whereKeyNot($id = 'foo');
         $this->assertSame($criteria->toArray(), [[
@@ -35,7 +35,7 @@ class EloquentBuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWith()
+    public function test_with()
     {
         $criteria = Criteria::create()->with(
             $relations = 'foo'
@@ -49,7 +49,7 @@ class EloquentBuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWithout()
+    public function test_without()
     {
         $criteria = Criteria::create()->without(
             $relations = 'foo'
@@ -63,7 +63,7 @@ class EloquentBuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testSetQuery()
+    public function test_set_query()
     {
         $criteria = Criteria::create()->setQuery(
             $query = m::mock('Illuminate\Database\Query\Builder')
@@ -77,7 +77,7 @@ class EloquentBuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testSetModel()
+    public function test_set_model()
     {
         $criteria = Criteria::create()->setModel(
             $model = m::mock('Illuminate\Database\Eloquent\Model')
@@ -91,7 +91,7 @@ class EloquentBuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOnWriteConnection()
+    public function test_on_write_connection()
     {
         $criteria = Criteria::create()->onWriteConnection();
         $this->assertSame($criteria->toArray(), [[

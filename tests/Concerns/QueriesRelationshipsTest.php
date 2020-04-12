@@ -1,17 +1,17 @@
 <?php
 
-namespace Recca0120\Repository\Tests;
+namespace Recca0120\Repository\Tests\Concerns;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class QueriesRelationshipsTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function testHas()
+    public function test_has()
     {
         $criteria = Criteria::create()->has(
             $relation = 'foo',
@@ -34,7 +34,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrHas()
+    public function test_or_has()
     {
         $criteria = Criteria::create()->orHas(
             $relation = 'foo',
@@ -52,7 +52,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testDoesntHave()
+    public function test_doesnt_have()
     {
         $criteria = Criteria::create()->doesntHave(
             $relation = 'foo',
@@ -71,7 +71,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereHas()
+    public function test_where_has()
     {
         $criteria = Criteria::create()->whereHas(
             $relation = 'foo',
@@ -92,7 +92,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereHas()
+    public function test_or_where_has()
     {
         $criteria = Criteria::create()->orWhereHas(
             $relation = 'foo',
@@ -113,7 +113,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereDoesntHave()
+    public function test_where_doesnt_have()
     {
         $criteria = Criteria::create()->whereDoesntHave(
             $relation = 'foo',
@@ -130,7 +130,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWithCount()
+    public function test_with_count()
     {
         $criteria = Criteria::create()->withCount(
             $relation = 'foo'
@@ -144,7 +144,7 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testMergeConstraintsFrom()
+    public function test_merge_constraints_from()
     {
         $criteria = Criteria::create()->mergeConstraintsFrom(
             $from = m::mock('Illuminate\Database\Eloquent\Builder')

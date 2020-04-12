@@ -3,8 +3,8 @@
 namespace Recca0120\Repository\Concerns;
 
 use Closure;
-use Recca0120\Repository\Method;
 use Illuminate\Database\Query\Builder;
+use Recca0120\Repository\Method;
 
 trait BuildsQueries
 {

@@ -2,8 +2,8 @@
 
 namespace Recca0120\Repository;
 
-use Closure;
 use BadMethodCallException;
+use Closure;
 use Illuminate\Support\Str;
 
 class Criteria

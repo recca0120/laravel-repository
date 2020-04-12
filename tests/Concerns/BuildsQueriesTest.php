@@ -1,17 +1,17 @@
 <?php
 
-namespace Recca0120\Repository\Tests;
+namespace Recca0120\Repository\Tests\Concerns;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class BuildsQueriesTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    public function testSelect()
+    public function test_select()
     {
         $criteria = Criteria::create()->select($columns = ['foo', 'bar']);
         $this->assertSame($criteria->toArray(), [[
@@ -23,7 +23,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testSelectRaw()
+    public function test_select_raw()
     {
         $criteria = Criteria::create()->selectRaw(
             $expression = 'MAX(id)',
@@ -39,7 +39,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testSelectSub()
+    public function test_select_sub()
     {
         $criteria = Criteria::create()->selectSub(
             $query = 'SELECT * FROM table',
@@ -55,7 +55,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testAddSelect()
+    public function test_add_select()
     {
         $criteria = Criteria::create()->addSelect(
             $column = ['foo']
@@ -69,7 +69,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testDistinct()
+    public function test_distinct()
     {
         $criteria = Criteria::create()->distinct();
         $this->assertSame($criteria->toArray(), [[
@@ -79,7 +79,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testFrom()
+    public function test_from()
     {
         $criteria = Criteria::create()->from(
             $table = 'table'
@@ -91,7 +91,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testJoin()
+    public function test_join()
     {
         $criteria = Criteria::create()->join(
             $table = 'table',
@@ -115,7 +115,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testJoinWhere()
+    public function test_join_where()
     {
         $criteria = Criteria::create()->joinWhere(
             $table = 'table',
@@ -137,7 +137,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testLeftJoin()
+    public function test_left_join()
     {
         $criteria = Criteria::create()->leftJoin(
             $table = 'table',
@@ -157,7 +157,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testLeftJoinWhere()
+    public function test_left_join_where()
     {
         $criteria = Criteria::create()->leftJoinWhere(
             $table = 'table',
@@ -177,7 +177,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testRightJoin()
+    public function test_right_join()
     {
         $criteria = Criteria::create()->rightJoin(
             $table = 'table',
@@ -197,7 +197,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testRightJoinWhere()
+    public function test_right_join_where()
     {
         $criteria = Criteria::create()->rightJoinWhere(
             $table = 'table',
@@ -217,7 +217,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testCrossJoin()
+    public function test_cross_join()
     {
         $criteria = Criteria::create()->crossJoin(
             $table = 'table',
@@ -237,7 +237,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testTap()
+    public function test_tap()
     {
         $criteria = Criteria::create()->tap($callback = function () {
         });
@@ -250,7 +250,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhere()
+    public function test_where()
     {
         $criteria = Criteria::create()->where(
             $column = 'foo',
@@ -270,7 +270,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhere()
+    public function test_or_where()
     {
         $criteria = Criteria::create()->orWhere(
             $column = 'foo',
@@ -288,7 +288,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereColumn()
+    public function test_where_column()
     {
         $criteria = Criteria::create()->whereColumn(
             $first = 'foo',
@@ -308,7 +308,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereColumn()
+    public function test_or_where_column()
     {
         $criteria = Criteria::create()->orWhereColumn(
             $first = 'foo',
@@ -326,7 +326,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereRaw()
+    public function test_where_raw()
     {
         $criteria = Criteria::create()->whereRaw(
             $sql = 'SELECT * FROM table',
@@ -344,7 +344,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereRaw()
+    public function test_or_where_raw()
     {
         $criteria = Criteria::create()->orWhereRaw(
             $sql = 'SELECT * FROM table',
@@ -360,7 +360,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereIn()
+    public function test_where_in()
     {
         $criteria = Criteria::create()->whereIn(
             $column = 'foo',
@@ -380,7 +380,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereIn()
+    public function test_or_where_in()
     {
         $criteria = Criteria::create()->orWhereIn(
             $column = 'foo',
@@ -396,7 +396,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereNotIn()
+    public function test_where_not_in()
     {
         $criteria = Criteria::create()->whereNotIn(
             $column = 'foo',
@@ -414,7 +414,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereNotIn()
+    public function test_or_where_not_in()
     {
         $criteria = Criteria::create()->orWhereNotIn(
             $column = 'foo',
@@ -430,7 +430,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereNull()
+    public function test_where_null()
     {
         $criteria = Criteria::create()->whereNull(
             $column = 'foo',
@@ -448,7 +448,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereNull()
+    public function test_or_where_null()
     {
         $criteria = Criteria::create()->orWhereNull(
             $column = 'foo'
@@ -462,7 +462,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereNotNull()
+    public function test_where_not_null()
     {
         $criteria = Criteria::create()->whereNotNull(
             $column = 'foo',
@@ -478,7 +478,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereBetween()
+    public function test_where_between()
     {
         $criteria = Criteria::create()->whereBetween(
             $column = 'foo',
@@ -498,7 +498,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereBetween()
+    public function test_or_where_between()
     {
         $criteria = Criteria::create()->orWhereBetween(
             $column = 'foo',
@@ -514,7 +514,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereNotBetween()
+    public function test_where_not_between()
     {
         $criteria = Criteria::create()->whereNotBetween(
             $column = 'foo',
@@ -532,7 +532,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereNotBetween()
+    public function test_or_where_not_between()
     {
         $criteria = Criteria::create()->orWhereNotBetween(
             $column = 'foo',
@@ -548,7 +548,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereNotNull()
+    public function test_or_where_not_null()
     {
         $criteria = Criteria::create()->orWhereNotNull(
             $column = 'foo'
@@ -562,7 +562,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereDate()
+    public function test_where_date()
     {
         $criteria = Criteria::create()->whereDate(
             $column = 'foo',
@@ -582,7 +582,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereDate()
+    public function test_or_where_date()
     {
         $criteria = Criteria::create()->orWhereDate(
             $column = 'foo',
@@ -600,7 +600,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereTime()
+    public function test_where_time()
     {
         $criteria = Criteria::create()->whereTime(
             $column = 'foo',
@@ -620,7 +620,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereTime()
+    public function test_or_where_time()
     {
         $criteria = Criteria::create()->orWhereTime(
             $column = 'foo',
@@ -638,7 +638,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereDay()
+    public function test_where_day()
     {
         $criteria = Criteria::create()->whereDay(
             $column = 'foo',
@@ -658,7 +658,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereMonth()
+    public function test_where_month()
     {
         $criteria = Criteria::create()->whereMonth(
             $column = 'foo',
@@ -678,7 +678,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereYear()
+    public function test_where_year()
     {
         $criteria = Criteria::create()->whereYear(
             $column = 'foo',
@@ -698,7 +698,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereNested()
+    public function test_where_nested()
     {
         $criteria = Criteria::create()->whereNested(
             $callback = function () {
@@ -715,7 +715,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testAddNestedWhereQuery()
+    public function test_add_nested_where_query()
     {
         $criteria = Criteria::create()->addNestedWhereQuery(
             $query = m::mock('Illuminate\Database\Query\Builder'),
@@ -731,7 +731,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereExists()
+    public function test_where_exists()
     {
         $criteria = Criteria::create()->whereExists(
             $callback = function () {
@@ -750,7 +750,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereExists()
+    public function test_or_where_exists()
     {
         $criteria = Criteria::create()->orWhereExists(
             $callback = function () {
@@ -767,7 +767,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhereNotExists()
+    public function test_where_not_exists()
     {
         $criteria = Criteria::create()->whereNotExists(
             $callback = function () {
@@ -784,7 +784,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrWhereNotExists()
+    public function test_or_where_not_exists()
     {
         $criteria = Criteria::create()->orWhereNotExists(
             $callback = function () {
@@ -799,7 +799,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testAddWhereExistsQuery()
+    public function test_add_where_exists_query()
     {
         $criteria = Criteria::create()->addWhereExistsQuery(
             $query = m::mock('Illuminate\Database\Query\Builder'),
@@ -817,7 +817,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testDynamicWhere()
+    public function test_dynamic_where()
     {
         $criteria = Criteria::create()->dynamicWhere(
             $method = m::mock('Illuminate\Database\Query\Builder'),
@@ -833,7 +833,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testGroupBy()
+    public function test_group_by()
     {
         $criteria = Criteria::create()->groupBy(
             $group = 'a',
@@ -851,7 +851,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testHaving()
+    public function test_having()
     {
         $criteria = Criteria::create()->having(
             $column = 'foo',
@@ -871,7 +871,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrHaving()
+    public function test_or_having()
     {
         $criteria = Criteria::create()->orHaving(
             $column = 'foo',
@@ -889,7 +889,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testHavingRaw()
+    public function test_having_raw()
     {
         $criteria = Criteria::create()->havingRaw(
             $sql = 'SELECT * FROM ? = ?',
@@ -907,7 +907,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrHavingRaw()
+    public function test_or_having_raw()
     {
         $criteria = Criteria::create()->orHavingRaw(
             $sql = 'SELECT * FROM ? = ?',
@@ -923,7 +923,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrderBy()
+    public function test_order_by()
     {
         $criteria = Criteria::create()->orderBy(
             $column = 'foo',
@@ -939,7 +939,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrderDesc()
+    public function test_order_desc()
     {
         $criteria = Criteria::create()->orderByDesc(
             $column = 'foo'
@@ -953,7 +953,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testLatest()
+    public function test_latest()
     {
         $criteria = Criteria::create()->latest(
             $column = 'foo'
@@ -967,7 +967,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOldest()
+    public function test_oldest()
     {
         $criteria = Criteria::create()->oldest(
             $column = 'foo'
@@ -981,7 +981,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testInRandomOrder()
+    public function test_in_random_order()
     {
         $criteria = Criteria::create()->inRandomOrder(
             $column = 'foo'
@@ -995,7 +995,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOrderByRaw()
+    public function test_order_by_raw()
     {
         $criteria = Criteria::create()->orderByRaw(
             $sql = 'ORDER BY ? DESC',
@@ -1011,7 +1011,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testSkip()
+    public function test_skip()
     {
         $criteria = Criteria::create()->skip(
             $value = 5
@@ -1025,7 +1025,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testOffset()
+    public function test_offset()
     {
         $criteria = Criteria::create()->offset(
             $value = 5
@@ -1039,7 +1039,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testTake()
+    public function test_take()
     {
         $criteria = Criteria::create()->take(
             $value = 5
@@ -1053,7 +1053,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testLimit()
+    public function test_limit()
     {
         $criteria = Criteria::create()->limit(
             $value = 5
@@ -1067,7 +1067,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testforPage()
+    public function test_for_page()
     {
         $criteria = Criteria::create()->forPage(
             $page = 5,
@@ -1083,7 +1083,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testForPageAfterId()
+    public function test_for_page_after_id()
     {
         $criteria = Criteria::create()->forPageAfterId(
             $perPage = 10,
@@ -1101,7 +1101,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testUnion()
+    public function test_union()
     {
         $criteria = Criteria::create()->union(
             $query = 'SELECT * FROM table',
@@ -1117,7 +1117,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testUnionAll()
+    public function test_union_all()
     {
         $criteria = Criteria::create()->unionAll(
             $query = 'SELECT * FROM table'
@@ -1145,7 +1145,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testLockForUpdate()
+    public function test_lock_for_update()
     {
         $criteria = Criteria::create()->lockForUpdate();
         $this->assertSame($criteria->toArray(), [[
@@ -1155,7 +1155,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testSharedLock()
+    public function test_shared_lock()
     {
         $criteria = Criteria::create()->sharedLock();
         $this->assertSame($criteria->toArray(), [[
@@ -1165,7 +1165,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testWhen()
+    public function test_when()
     {
         $criteria = Criteria::create()->when(
             $value = true,
@@ -1185,7 +1185,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testUnless()
+    public function test_unless()
     {
         $criteria = Criteria::create()->unless(
             $value = true,
@@ -1205,7 +1205,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testUseWritePdo()
+    public function test_use_write_pdo()
     {
         $criteria = Criteria::create()->useWritePdo();
         $this->assertSame($criteria->toArray(), [[

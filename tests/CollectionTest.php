@@ -2,14 +2,14 @@
 
 namespace Recca0120\Repository\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Illuminate\Database\Schema\Blueprint;
+use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\CollectionModel;
 use Recca0120\Repository\EloquentRepository;
 
 class CollectionTest extends TestCase
 {
-    public function testFind()
+    public function test_find()
     {
         $fakeModel = new FakeCollectionModel;
         $fakeRepository = new FakeCollectionRepository($fakeModel);

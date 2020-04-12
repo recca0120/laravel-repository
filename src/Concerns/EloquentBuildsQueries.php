@@ -2,8 +2,8 @@
 
 namespace Recca0120\Repository\Concerns;
 
-use Recca0120\Repository\Method;
 use Illuminate\Database\Eloquent\Model;
+use Recca0120\Repository\Method;
 
 trait EloquentBuildsQueries
 {

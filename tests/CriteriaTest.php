@@ -7,25 +7,25 @@ use Recca0120\Repository\Criteria;
 
 class CriteriaTest extends TestCase
 {
-    public function testInstance()
+    public function test_instance()
     {
         $this->assertInstanceOf('Recca0120\Repository\Criteria', new Criteria);
     }
 
-    public function testCreate()
+    public function test_create()
     {
         $criteria = Criteria::create();
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
-    public function testExpr()
+    public function test_expr()
     {
         $expression = Criteria::expr('foo = bar');
         $this->assertInstanceOf('Recca0120\Repository\Expression', $expression);
         $this->assertSame((string) $expression, 'foo = bar');
     }
 
-    public function testDynamicWhere()
+    public function test_dynamic_where()
     {
         $criteria = Criteria::create()
             ->whereUrl('http://foo.com')

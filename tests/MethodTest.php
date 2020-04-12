@@ -7,7 +7,7 @@ use Recca0120\Repository\Method;
 
 class MethodTest extends TestCase
 {
-    public function testInstance()
+    public function test_instance()
     {
         $method = new Method('run', ['foo', 'bar']);
         $this->assertInstanceOf('Recca0120\Repository\Method', $method);

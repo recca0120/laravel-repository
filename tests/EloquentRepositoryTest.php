@@ -2,20 +2,20 @@
 
 namespace Recca0120\Repository\Tests;
 
-use Faker\Generator;
-use PHPUnit\Framework\TestCase;
 use Faker\Factory as FakerFactory;
-use Recca0120\Repository\Criteria;
-use Recca0120\Repository\SqliteModel;
-use Illuminate\Database\Eloquent\Model;
+use Faker\Generator;
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Database\Schema\Blueprint;
-use Recca0120\Repository\EloquentRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Schema\Blueprint;
+use PHPUnit\Framework\TestCase;
+use Recca0120\Repository\Criteria;
+use Recca0120\Repository\EloquentRepository;
+use Recca0120\Repository\SqliteModel;
 
 class EloquentRepositoryTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,14 +30,14 @@ class EloquentRepositoryTest extends TestCase
         $factory->of(FakeModel::class)->times(50)->create();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $fakeModel = new FakeModel();
         $fakeModel->truncate();
     }
 
-    public function testFind()
+    public function test_find()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -47,7 +47,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testFindMany()
+    public function test_find_many()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -59,7 +59,7 @@ class EloquentRepositoryTest extends TestCase
         });
     }
 
-    public function testFindOrFail()
+    public function test_find_or_fail()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -69,7 +69,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testFindOrNew()
+    public function test_find_or_new()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -79,7 +79,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertFalse($instance->exists);
     }
 
-    public function testFirstOrNew()
+    public function test_first_or_new()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -90,7 +90,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertFalse($instance->exists);
     }
 
-    public function testFirstOrCreate()
+    public function test_first_or_create()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -101,7 +101,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testUpdateOrCreate()
+    public function test_update_or_create()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -112,7 +112,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testFirstOrFail()
+    public function test_first_or_fail()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -121,7 +121,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
     }
 
-    public function testCreate()
+    public function test_create()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -133,7 +133,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testForceCreate()
+    public function test_force_create()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -145,7 +145,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testUpdate()
+    public function test_update()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -158,7 +158,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testForceUpdate()
+    public function test_force_update()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -170,7 +170,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($instance->exists);
     }
 
-    public function testDelete()
+    public function test_delete()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -178,7 +178,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertNull($fakeRepository->find(1));
     }
 
-    public function testRestore()
+    public function test_restore()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -194,14 +194,14 @@ class EloquentRepositoryTest extends TestCase
         $this->assertNotNull($fakeRepository->find(1));
     }
 
-    public function testForceDelete()
+    public function test_force_delete()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
         $this->assertTrue($fakeRepository->forceDelete(1));
     }
 
-    public function testNewInstance()
+    public function test_new_instance()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -212,7 +212,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertFalse($instance->exists);
     }
 
-    public function testMatching()
+    public function test_matching()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -223,13 +223,13 @@ class EloquentRepositoryTest extends TestCase
                 Criteria::create()->orWhereIn('id', [1, 3]),
                 Criteria::create()->orderBy('id'),
             ])
-            ->get()
-            ->toArray(),
+                ->get()
+                ->toArray(),
             FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
         );
     }
 
-    public function testGet()
+    public function test_get()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -242,12 +242,12 @@ class EloquentRepositoryTest extends TestCase
                 }),
                 Criteria::create()->orderBy('id'),
             ])
-            ->toArray(),
+                ->toArray(),
             FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
         );
     }
 
-    public function testChunk()
+    public function test_chunk()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -257,7 +257,7 @@ class EloquentRepositoryTest extends TestCase
         });
     }
 
-    public function testEach()
+    public function test_each()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -267,7 +267,7 @@ class EloquentRepositoryTest extends TestCase
         });
     }
 
-    public function testFirst()
+    public function test_first()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -276,7 +276,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
     }
 
-    public function testPaginate()
+    public function test_paginate()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -286,7 +286,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame(1, $paginate->currentPage());
     }
 
-    public function testSimplePaginate()
+    public function test_simple_paginate()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -296,7 +296,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame(1, $paginate->currentPage());
     }
 
-    public function testCount()
+    public function test_count()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -304,7 +304,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->count(Criteria::create()->where('id', '>', 0)), 50);
     }
 
-    public function testMin()
+    public function test_min()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -312,7 +312,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->min(Criteria::create()->where('id', '>=', 10), 'id'), '10');
     }
 
-    public function testMax()
+    public function test_max()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -320,7 +320,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->max(Criteria::create()->where('id', '<=', 10), 'id'), '10');
     }
 
-    public function testSum()
+    public function test_sum()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -328,7 +328,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->sum(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '55');
     }
 
-    public function testAverage()
+    public function test_average()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
@@ -336,7 +336,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->average(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '5.5');
     }
 
-    public function testModelIsQuery()
+    public function test_model_is_query()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository2($fakeModel);
@@ -344,7 +344,7 @@ class EloquentRepositoryTest extends TestCase
         $this->assertSame($fakeRepository->average([], 'id'), '5.5');
     }
 
-    public function testGetQuery()
+    public function test_get_query()
     {
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
