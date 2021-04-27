@@ -144,6 +144,48 @@ class QueriesRelationshipsTest extends TestCase
         $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
     }
 
+    public function test_with_max()
+    {
+        $criteria = Criteria::create()->withMax(
+            $relation = 'foo', $column = 'bar'
+        );
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'withMax',
+            'parameters' => [
+                $relation, $column,
+            ],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
+
+    public function test_with_min()
+    {
+        $criteria = Criteria::create()->withMin(
+            $relation = 'foo', $column = 'bar'
+        );
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'withMin',
+            'parameters' => [
+                $relation, $column,
+            ],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
+
+    public function test_with_sum()
+    {
+        $criteria = Criteria::create()->withSum(
+            $relation = 'foo', $column = 'bar'
+        );
+        $this->assertSame($criteria->toArray(), [[
+            'method' => 'withSum',
+            'parameters' => [
+                $relation, $column,
+            ],
+        ]]);
+        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+    }
+
     public function test_merge_constraints_from()
     {
         $criteria = Criteria::create()->mergeConstraintsFrom(
