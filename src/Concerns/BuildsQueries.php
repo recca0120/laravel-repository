@@ -4,6 +4,7 @@ namespace Recca0120\Repository\Concerns;
 
 use Closure;
 use Illuminate\Database\Query\Builder;
+use InvalidArgumentException;
 use Recca0120\Repository\Method;
 
 trait BuildsQueries
@@ -11,7 +12,7 @@ trait BuildsQueries
     /**
      * Set the columns to be selected.
      *
-     * @param  array|mixed  $columns
+     * @param array|mixed $columns
      * @return $this
      */
     public function select($columns = ['*'])
@@ -24,8 +25,8 @@ trait BuildsQueries
     /**
      * Add a new "raw" select expression to the query.
      *
-     * @param  string  $expression
-     * @param  array   $bindings
+     * @param string $expression
+     * @param array $bindings
      * @return $this
      */
     public function selectRaw($expression, array $bindings = [])
@@ -38,11 +39,11 @@ trait BuildsQueries
     /**
      * Makes "from" fetch from a subquery.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
-     * @param  string  $as
-     * @return \Illuminate\Database\Query\Builder|static
+     * @param Closure|Builder|string $query
+     * @param string $as
+     * @return static
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function fromSub($query, $as)
     {
@@ -52,13 +53,13 @@ trait BuildsQueries
     }
 
     /**
-     * Add a subselect expression to the query.
+     * Add a sub select expression to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
-     * @param  string  $as
+     * @param Closure|Builder|string $query
+     * @param string $as
      * @return $this
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function selectSub($query, $as)
     {
@@ -70,7 +71,7 @@ trait BuildsQueries
     /**
      * Add a new select column to the query.
      *
-     * @param  array|mixed  $column
+     * @param array|mixed $column
      * @return $this
      */
     public function addSelect($column)
@@ -95,7 +96,7 @@ trait BuildsQueries
     /**
      * Set the table which the query is targeting.
      *
-     * @param  string  $table
+     * @param string $table
      * @return $this
      */
     public function from($table)
@@ -108,12 +109,12 @@ trait BuildsQueries
     /**
      * Add a join clause to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
-     * @param  string  $type
-     * @param  bool    $where
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
+     * @param string $type
+     * @param bool $where
      * @return $this
      */
     public function join($table, $first, $operator = null, $second = null, $type = 'inner', $where = false)
@@ -126,11 +127,11 @@ trait BuildsQueries
     /**
      * Add a "join where" clause to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
-     * @param  string  $type
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
+     * @param string $type
      * @return $this
      */
     public function joinWhere($table, $first, $operator, $second, $type = 'inner')
@@ -143,16 +144,16 @@ trait BuildsQueries
     /**
      * Add a subquery join clause to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
-     * @param  string  $as
-     * @param  string  $first
-     * @param  string|null  $operator
-     * @param  string|null  $second
-     * @param  string  $type
-     * @param  bool    $where
-     * @return \Illuminate\Database\Query\Builder|static
+     * @param Closure|Builder|string $query
+     * @param string $as
+     * @param string $first
+     * @param string|null $operator
+     * @param string|null $second
+     * @param string $type
+     * @param bool $where
+     * @return Builder|static
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function joinSub($query, $as, $first, $operator = null, $second = null, $type = 'inner', $where = false)
     {
@@ -164,10 +165,10 @@ trait BuildsQueries
     /**
      * Add a left join to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
      * @return $this
      */
     public function leftJoin($table, $first, $operator = null, $second = null)
@@ -180,10 +181,10 @@ trait BuildsQueries
     /**
      * Add a "join where" clause to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
      * @return $this
      */
     public function leftJoinWhere($table, $first, $operator, $second)
@@ -194,14 +195,14 @@ trait BuildsQueries
     }
 
     /**
-     * Add a subquery left join to the query.
+     * Add a sub query left join to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
-     * @param  string  $as
-     * @param  string  $first
-     * @param  string|null  $operator
-     * @param  string|null  $second
-     * @return \Illuminate\Database\Query\Builder|static
+     * @param Closure|Builder|string $query
+     * @param string $as
+     * @param string $first
+     * @param string|null $operator
+     * @param string|null $second
+     * @return static
      */
     public function leftJoinSub($query, $as, $first, $operator = null, $second = null)
     {
@@ -213,10 +214,10 @@ trait BuildsQueries
     /**
      * Add a right join to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
      * @return $this
      */
     public function rightJoin($table, $first, $operator = null, $second = null)
@@ -229,10 +230,10 @@ trait BuildsQueries
     /**
      * Add a "right join where" clause to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
      * @return $this
      */
     public function rightJoinWhere($table, $first, $operator, $second)
@@ -243,14 +244,14 @@ trait BuildsQueries
     }
 
     /**
-     * Add a subquery right join to the query.
+     * Add a sub query right join to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string $query
-     * @param  string  $as
-     * @param  string  $first
-     * @param  string|null  $operator
-     * @param  string|null  $second
-     * @return \Illuminate\Database\Query\Builder|static
+     * @param Closure|Builder|string $query
+     * @param string $as
+     * @param string $first
+     * @param string|null $operator
+     * @param string|null $second
+     * @return Builder|static
      */
     public function rightJoinSub($query, $as, $first, $operator = null, $second = null)
     {
@@ -262,10 +263,10 @@ trait BuildsQueries
     /**
      * Add a "cross join" clause to the query.
      *
-     * @param  string  $table
-     * @param  string  $first
-     * @param  string  $operator
-     * @param  string  $second
+     * @param string $table
+     * @param string $first
+     * @param string $operator
+     * @param string $second
      * @return $this
      */
     public function crossJoin($table, $first = null, $operator = null, $second = null)
@@ -278,9 +279,9 @@ trait BuildsQueries
     /**
      * Merge an array of where clauses and bindings.
      *
-     * @param  array  $wheres
-     * @param  array  $bindings
-     * @return void
+     * @param array $wheres
+     * @param array $bindings
+     * @return $this
      */
     public function mergeWheres($wheres, $bindings)
     {
@@ -292,7 +293,7 @@ trait BuildsQueries
     /**
      * Pass the query to a given callback.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function tap($callback)
@@ -305,10 +306,10 @@ trait BuildsQueries
     /**
      * Add a basic where clause to the query.
      *
-     * @param  string|array|\Closure  $column
-     * @param  string  $operator
-     * @param  mixed   $value
-     * @param  string  $boolean
+     * @param string|array|Closure $column
+     * @param string $operator
+     * @param mixed $value
+     * @param string $boolean
      * @return $this
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and')
@@ -321,9 +322,9 @@ trait BuildsQueries
     /**
      * Add an "or where" clause to the query.
      *
-     * @param  \Closure|string  $column
-     * @param  string  $operator
-     * @param  mixed   $value
+     * @param Closure|string $column
+     * @param string $operator
+     * @param mixed $value
      * @return $this
      */
     public function orWhere($column, $operator = null, $value = null)
@@ -336,10 +337,10 @@ trait BuildsQueries
     /**
      * Add a "where" clause comparing two columns to the query.
      *
-     * @param  string|array  $first
-     * @param  string|null  $operator
-     * @param  string|null  $second
-     * @param  string|null  $boolean
+     * @param string|array $first
+     * @param string|null $operator
+     * @param string|null $second
+     * @param string|null $boolean
      * @return $this
      */
     public function whereColumn($first, $operator = null, $second = null, $boolean = 'and')
@@ -352,9 +353,9 @@ trait BuildsQueries
     /**
      * Add an "or where" clause comparing two columns to the query.
      *
-     * @param  string|array  $first
-     * @param  string|null  $operator
-     * @param  string|null  $second
+     * @param string|array $first
+     * @param string|null $operator
+     * @param string|null $second
      * @return $this
      */
     public function orWhereColumn($first, $operator = null, $second = null)
@@ -367,9 +368,9 @@ trait BuildsQueries
     /**
      * Add a raw where clause to the query.
      *
-     * @param  string  $sql
-     * @param  mixed   $bindings
-     * @param  string  $boolean
+     * @param string $sql
+     * @param mixed $bindings
+     * @param string $boolean
      * @return $this
      */
     public function whereRaw($sql, $bindings = [], $boolean = 'and')
@@ -382,8 +383,8 @@ trait BuildsQueries
     /**
      * Add a raw or where clause to the query.
      *
-     * @param  string  $sql
-     * @param  array   $bindings
+     * @param string $sql
+     * @param array $bindings
      * @return $this
      */
     public function orWhereRaw($sql, array $bindings = [])
@@ -396,10 +397,10 @@ trait BuildsQueries
     /**
      * Add a "where in" clause to the query.
      *
-     * @param  string  $column
-     * @param  mixed   $values
-     * @param  string  $boolean
-     * @param  bool    $not
+     * @param string $column
+     * @param mixed $values
+     * @param string $boolean
+     * @param bool $not
      * @return $this
      */
     public function whereIn($column, $values, $boolean = 'and', $not = false)
@@ -412,8 +413,8 @@ trait BuildsQueries
     /**
      * Add an "or where in" clause to the query.
      *
-     * @param  string  $column
-     * @param  mixed   $values
+     * @param string $column
+     * @param mixed $values
      * @return $this
      */
     public function orWhereIn($column, $values)
@@ -426,9 +427,9 @@ trait BuildsQueries
     /**
      * Add a "where not in" clause to the query.
      *
-     * @param  string  $column
-     * @param  mixed   $values
-     * @param  string  $boolean
+     * @param string $column
+     * @param mixed $values
+     * @param string $boolean
      * @return $this
      */
     public function whereNotIn($column, $values, $boolean = 'and')
@@ -441,8 +442,8 @@ trait BuildsQueries
     /**
      * Add an "or where not in" clause to the query.
      *
-     * @param  string  $column
-     * @param  mixed   $values
+     * @param string $column
+     * @param mixed $values
      * @return $this
      */
     public function orWhereNotIn($column, $values)
@@ -455,9 +456,9 @@ trait BuildsQueries
     /**
      * Add a "where null" clause to the query.
      *
-     * @param  string  $column
-     * @param  string  $boolean
-     * @param  bool    $not
+     * @param string $column
+     * @param string $boolean
+     * @param bool $not
      * @return $this
      */
     public function whereNull($column, $boolean = 'and', $not = false)
@@ -470,7 +471,7 @@ trait BuildsQueries
     /**
      * Add an "or where null" clause to the query.
      *
-     * @param  string  $column
+     * @param string $column
      * @return $this
      */
     public function orWhereNull($column)
@@ -483,8 +484,8 @@ trait BuildsQueries
     /**
      * Add a "where not null" clause to the query.
      *
-     * @param  string  $column
-     * @param  string  $boolean
+     * @param string $column
+     * @param string $boolean
      * @return $this
      */
     public function whereNotNull($column, $boolean = 'and')
@@ -497,10 +498,10 @@ trait BuildsQueries
     /**
      * Add a where between statement to the query.
      *
-     * @param  string  $column
-     * @param  array   $values
-     * @param  string  $boolean
-     * @param  bool  $not
+     * @param string $column
+     * @param array $values
+     * @param string $boolean
+     * @param bool $not
      * @return $this
      */
     public function whereBetween($column, array $values, $boolean = 'and', $not = false)
@@ -513,8 +514,8 @@ trait BuildsQueries
     /**
      * Add an or where between statement to the query.
      *
-     * @param  string  $column
-     * @param  array   $values
+     * @param string $column
+     * @param array $values
      * @return $this
      */
     public function orWhereBetween($column, array $values)
@@ -527,9 +528,9 @@ trait BuildsQueries
     /**
      * Add a where not between statement to the query.
      *
-     * @param  string  $column
-     * @param  array   $values
-     * @param  string  $boolean
+     * @param string $column
+     * @param array $values
+     * @param string $boolean
      * @return $this
      */
     public function whereNotBetween($column, array $values, $boolean = 'and')
@@ -542,8 +543,8 @@ trait BuildsQueries
     /**
      * Add an or where not between statement to the query.
      *
-     * @param  string  $column
-     * @param  array   $values
+     * @param string $column
+     * @param array $values
      * @return $this
      */
     public function orWhereNotBetween($column, array $values)
@@ -556,7 +557,7 @@ trait BuildsQueries
     /**
      * Add an "or where not null" clause to the query.
      *
-     * @param  string  $column
+     * @param string $column
      * @return $this
      */
     public function orWhereNotNull($column)
@@ -569,10 +570,10 @@ trait BuildsQueries
     /**
      * Add a "where date" statement to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @param string $boolean
      * @return $this
      */
     public function whereDate($column, $operator, $value = null, $boolean = 'and')
@@ -585,9 +586,9 @@ trait BuildsQueries
     /**
      * Add an "or where date" statement to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  string  $value
+     * @param string $column
+     * @param string $operator
+     * @param string $value
      * @return $this
      */
     public function orWhereDate($column, $operator, $value)
@@ -600,10 +601,10 @@ trait BuildsQueries
     /**
      * Add a "where time" statement to the query.
      *
-     * @param  string  $column
-     * @param  string   $operator
-     * @param  int   $value
-     * @param  string   $boolean
+     * @param string $column
+     * @param string $operator
+     * @param int $value
+     * @param string $boolean
      * @return $this
      */
     public function whereTime($column, $operator, $value, $boolean = 'and')
@@ -616,9 +617,9 @@ trait BuildsQueries
     /**
      * Add an "or where time" statement to the query.
      *
-     * @param  string  $column
-     * @param  string   $operator
-     * @param  int   $value
+     * @param string $column
+     * @param string $operator
+     * @param int $value
      * @return $this
      */
     public function orWhereTime($column, $operator, $value)
@@ -631,10 +632,10 @@ trait BuildsQueries
     /**
      * Add a "where day" statement to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @param string $boolean
      * @return $this
      */
     public function whereDay($column, $operator, $value = null, $boolean = 'and')
@@ -647,10 +648,10 @@ trait BuildsQueries
     /**
      * Add a "where month" statement to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @param string $boolean
      * @return $this
      */
     public function whereMonth($column, $operator, $value = null, $boolean = 'and')
@@ -663,10 +664,10 @@ trait BuildsQueries
     /**
      * Add a "where year" statement to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @param string $boolean
      * @return $this
      */
     public function whereYear($column, $operator, $value = null, $boolean = 'and')
@@ -679,8 +680,8 @@ trait BuildsQueries
     /**
      * Add a nested where statement to the query.
      *
-     * @param  \Closure $callback
-     * @param  string   $boolean
+     * @param Closure $callback
+     * @param string $boolean
      * @return $this
      */
     public function whereNested(Closure $callback, $boolean = 'and')
@@ -694,7 +695,7 @@ trait BuildsQueries
      * Add another query builder as a nested where to the query builder.
      *
      * @param  $this $query
-     * @param  string  $boolean
+     * @param string $boolean
      * @return $this
      */
     public function addNestedWhereQuery($query, $boolean = 'and')
@@ -707,9 +708,9 @@ trait BuildsQueries
     /**
      * Add an exists clause to the query.
      *
-     * @param  \Closure $callback
-     * @param  string   $boolean
-     * @param  bool     $not
+     * @param Closure $callback
+     * @param string $boolean
+     * @param bool $not
      * @return $this
      */
     public function whereExists(Closure $callback, $boolean = 'and', $not = false)
@@ -722,8 +723,8 @@ trait BuildsQueries
     /**
      * Add an or exists clause to the query.
      *
-     * @param  \Closure $callback
-     * @param  bool     $not
+     * @param Closure $callback
+     * @param bool $not
      * @return $this
      */
     public function orWhereExists(Closure $callback, $not = false)
@@ -736,8 +737,8 @@ trait BuildsQueries
     /**
      * Add a where not exists clause to the query.
      *
-     * @param  \Closure $callback
-     * @param  string   $boolean
+     * @param Closure $callback
+     * @param string $boolean
      * @return $this
      */
     public function whereNotExists(Closure $callback, $boolean = 'and')
@@ -750,7 +751,7 @@ trait BuildsQueries
     /**
      * Add a where not exists clause to the query.
      *
-     * @param  \Closure  $callback
+     * @param Closure $callback
      * @return $this
      */
     public function orWhereNotExists(Closure $callback)
@@ -763,9 +764,9 @@ trait BuildsQueries
     /**
      * Add an exists clause to the query.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
-     * @param  string  $boolean
-     * @param  bool  $not
+     * @param Builder $query
+     * @param string $boolean
+     * @param bool $not
      * @return $this
      */
     public function addWhereExistsQuery(Builder $query, $boolean = 'and', $not = false)
@@ -778,8 +779,8 @@ trait BuildsQueries
     /**
      * Handles dynamic "where" clauses to the query.
      *
-     * @param  string  $method
-     * @param  string  $parameters
+     * @param string $method
+     * @param string $parameters
      * @return $this
      */
     public function dynamicWhere($method, $parameters)
@@ -792,7 +793,7 @@ trait BuildsQueries
     /**
      * Add a "group by" clause to the query.
      *
-     * @param  array  ...$groups
+     * @param array ...$groups
      * @return $this
      */
     public function groupBy()
@@ -805,10 +806,10 @@ trait BuildsQueries
     /**
      * Add a "having" clause to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  string  $value
-     * @param  string  $boolean
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * @param string $boolean
      * @return $this
      */
     public function having($column, $operator = null, $value = null, $boolean = 'and')
@@ -821,9 +822,9 @@ trait BuildsQueries
     /**
      * Add a "or having" clause to the query.
      *
-     * @param  string  $column
-     * @param  string  $operator
-     * @param  string  $value
+     * @param string $column
+     * @param string $operator
+     * @param string $value
      * @return $this
      */
     public function orHaving($column, $operator = null, $value = null)
@@ -836,9 +837,9 @@ trait BuildsQueries
     /**
      * Add a raw having clause to the query.
      *
-     * @param  string  $sql
-     * @param  array   $bindings
-     * @param  string  $boolean
+     * @param string $sql
+     * @param array $bindings
+     * @param string $boolean
      * @return $this
      */
     public function havingRaw($sql, array $bindings = [], $boolean = 'and')
@@ -851,8 +852,8 @@ trait BuildsQueries
     /**
      * Add a raw or having clause to the query.
      *
-     * @param  string  $sql
-     * @param  array   $bindings
+     * @param string $sql
+     * @param array $bindings
      * @return $this
      */
     public function orHavingRaw($sql, array $bindings = [])
@@ -865,8 +866,8 @@ trait BuildsQueries
     /**
      * Add an "order by" clause to the query.
      *
-     * @param  string  $column
-     * @param  string  $direction
+     * @param string $column
+     * @param string $direction
      * @return $this
      */
     public function orderBy($column, $direction = 'asc')
@@ -879,7 +880,7 @@ trait BuildsQueries
     /**
      * Add a descending "order by" clause to the query.
      *
-     * @param  string  $column
+     * @param string $column
      * @return $this
      */
     public function orderByDesc($column)
@@ -892,7 +893,7 @@ trait BuildsQueries
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string  $column
+     * @param string $column
      * @return $this
      */
     public function latest($column = 'created_at')
@@ -905,7 +906,7 @@ trait BuildsQueries
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string  $column
+     * @param string $column
      * @return $this
      */
     public function oldest($column = 'created_at')
@@ -918,7 +919,7 @@ trait BuildsQueries
     /**
      * Put the query's results in random order.
      *
-     * @param  string  $seed
+     * @param string $seed
      * @return $this
      */
     public function inRandomOrder($seed = '')
@@ -931,8 +932,8 @@ trait BuildsQueries
     /**
      * Add a raw "order by" clause to the query.
      *
-     * @param  string  $sql
-     * @param  array  $bindings
+     * @param string $sql
+     * @param array $bindings
      * @return $this
      */
     public function orderByRaw($sql, $bindings = [])
@@ -945,7 +946,7 @@ trait BuildsQueries
     /**
      * Alias to set the "offset" value of the query.
      *
-     * @param  int  $value
+     * @param int $value
      * @return $this
      */
     public function skip($value)
@@ -958,7 +959,7 @@ trait BuildsQueries
     /**
      * Set the "offset" value of the query.
      *
-     * @param  int  $value
+     * @param int $value
      * @return $this
      */
     public function offset($value)
@@ -971,7 +972,7 @@ trait BuildsQueries
     /**
      * Alias to set the "limit" value of the query.
      *
-     * @param  int  $value
+     * @param int $value
      * @return $this
      */
     public function take($value)
@@ -984,7 +985,7 @@ trait BuildsQueries
     /**
      * Set the "limit" value of the query.
      *
-     * @param  int  $value
+     * @param int $value
      * @return $this
      */
     public function limit($value)
@@ -997,8 +998,8 @@ trait BuildsQueries
     /**
      * Set the limit and offset for a given page.
      *
-     * @param  int  $page
-     * @param  int  $perPage
+     * @param int $page
+     * @param int $perPage
      * @return $this
      */
     public function forPage($page, $perPage = 15)
@@ -1011,9 +1012,9 @@ trait BuildsQueries
     /**
      * Constrain the query to the next "page" of results after a given ID.
      *
-     * @param  int  $perPage
-     * @param  int  $lastId
-     * @param  string  $column
+     * @param int $perPage
+     * @param int $lastId
+     * @param string $column
      * @return $this
      */
     public function forPageAfterId($perPage = 15, $lastId = 0, $column = 'id')
@@ -1026,8 +1027,8 @@ trait BuildsQueries
     /**
      * Add a union statement to the query.
      *
-     * @param  \Illuminate\Database\Query\Builder|\Closure  $query
-     * @param  bool  $all
+     * @param Builder|Closure $query
+     * @param bool $all
      * @return $this
      */
     public function union($query, $all = false)
@@ -1040,7 +1041,7 @@ trait BuildsQueries
     /**
      * Add a union all statement to the query.
      *
-     * @param  \Illuminate\Database\Query\Builder|\Closure  $query
+     * @param Builder|Closure $query
      * @return $this
      */
     public function unionAll($query)
@@ -1053,7 +1054,7 @@ trait BuildsQueries
     /**
      * Lock the selected rows in the table.
      *
-     * @param  string|bool  $value
+     * @param string|bool $value
      * @return $this
      */
     public function lock($value = true)
@@ -1090,9 +1091,9 @@ trait BuildsQueries
     /**
      * Apply the callback's query changes if the given "value" is true.
      *
-     * @param  mixed  $value
-     * @param  callable  $callback
-     * @param  callable  $default
+     * @param mixed $value
+     * @param callable $callback
+     * @param callable $default
      * @return $this
      */
     public function when($value, $callback, $default = null)
@@ -1105,9 +1106,9 @@ trait BuildsQueries
     /**
      * Apply the callback's query changes if the given "value" is false.
      *
-     * @param  mixed  $value
-     * @param  callable  $callback
-     * @param  callable  $default
+     * @param mixed $value
+     * @param callable $callback
+     * @param callable $default
      * @return $this
      */
     public function unless($value, $callback, $default = null)

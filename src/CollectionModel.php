@@ -9,14 +9,14 @@ abstract class CollectionModel extends FileModel
     /**
      * items.
      *
-     * @var array
+     * @var array|Collection
      */
     protected $items = [];
 
     /**
      * loadFromResource.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function loadFromResource()
     {

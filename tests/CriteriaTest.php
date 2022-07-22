@@ -4,47 +4,40 @@ namespace Recca0120\Repository\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
+use Recca0120\Repository\Expression;
 
 class CriteriaTest extends TestCase
 {
     public function test_instance()
     {
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', new Criteria);
+        $this->assertInstanceOf(Criteria::class, new Criteria);
     }
 
     public function test_create()
     {
         $criteria = Criteria::create();
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_expr()
     {
         $expression = Criteria::expr('foo = bar');
-        $this->assertInstanceOf('Recca0120\Repository\Expression', $expression);
-        $this->assertSame((string) $expression, 'foo = bar');
+        $this->assertInstanceOf(Expression::class, $expression);
+        $this->assertEquals('foo = bar', (string) $expression);
     }
 
     public function test_dynamic_where()
     {
-        $criteria = Criteria::create()
-            ->whereUrl('http://foo.com')
-            ->whereName('foo');
+        $criteria = Criteria::create()->whereUrl('https://foo.com')->whereName('foo');
 
         $this->assertEquals([
             [
                 'method' => 'dynamicWhere',
-                'parameters' => [
-                    'whereUrl',
-                    ['http://foo.com'],
-                ],
+                'parameters' => ['whereUrl', ['https://foo.com']],
             ],
             [
                 'method' => 'dynamicWhere',
-                'parameters' => [
-                    'whereName',
-                    ['foo'],
-                ],
+                'parameters' => ['whereName', ['foo']],
             ],
         ], $criteria->toArray());
     }

@@ -4,6 +4,7 @@ namespace Recca0120\Repository\Tests;
 
 use Faker\Factory as FakerFactory;
 use Faker\Generator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,9 +23,7 @@ class EloquentRepositoryTest extends TestCase
         $faker = FakerFactory::create();
         $factory = new Factory($faker);
         $factory->define(FakeModel::class, function (Generator $faker) {
-            return [
-                'foo' => $faker->name,
-            ];
+            return ['foo' => $faker->name];
         });
 
         $factory->of(FakeModel::class)->times(50)->create();
@@ -86,7 +85,7 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->firstOrNew(['id' => 10000], ['foo' => 'bar']);
         $this->assertInstanceOf(FakeModel::class, $instance);
-        $this->assertSame('bar', $instance->foo);
+        $this->assertEquals('bar', $instance->foo);
         $this->assertFalse($instance->exists);
     }
 
@@ -97,7 +96,7 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->firstOrCreate(['id' => 10000], ['foo' => 'bar']);
         $this->assertInstanceOf(FakeModel::class, $instance);
-        $this->assertSame('bar', $instance->foo);
+        $this->assertEquals('bar', $instance->foo);
         $this->assertTrue($instance->exists);
     }
 
@@ -108,7 +107,7 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->updateOrCreate(['id' => 1], ['foo' => 'bar']);
         $this->assertInstanceOf(FakeModel::class, $instance);
-        $this->assertSame('bar', $instance->foo);
+        $this->assertEquals('bar', $instance->foo);
         $this->assertTrue($instance->exists);
     }
 
@@ -128,8 +127,8 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->create(['foo' => 'bar']);
 
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
-        $this->assertSame('bar', $instance->foo);
+        $this->assertInstanceOf(Model::class, $instance);
+        $this->assertEquals('bar', $instance->foo);
         $this->assertTrue($instance->exists);
     }
 
@@ -140,8 +139,8 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->forceCreate(['foo' => 'bar']);
 
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
-        $this->assertSame('bar', $instance->foo);
+        $this->assertInstanceOf(Model::class, $instance);
+        $this->assertEquals('bar', $instance->foo);
         $this->assertTrue($instance->exists);
     }
 
@@ -152,9 +151,9 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->update(1, ['id' => 50000, 'foo' => 'bar']);
 
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
-        $this->assertSame('bar', $instance->foo);
-        $this->assertSame(1, $instance->id);
+        $this->assertInstanceOf(Model::class, $instance);
+        $this->assertEquals('bar', $instance->foo);
+        $this->assertEquals(1, $instance->id);
         $this->assertTrue($instance->exists);
     }
 
@@ -164,9 +163,9 @@ class EloquentRepositoryTest extends TestCase
         $fakeRepository = new FakeRepository($fakeModel);
         $instance = $fakeRepository->forceUpdate(1, ['id' => 50000, 'foo' => 'bar']);
 
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $instance);
-        $this->assertSame('bar', $instance->foo);
-        $this->assertSame(50000, $instance->id);
+        $this->assertInstanceOf(Model::class, $instance);
+        $this->assertEquals('bar', $instance->foo);
+        $this->assertEquals(50000, $instance->id);
         $this->assertTrue($instance->exists);
     }
 
@@ -186,9 +185,9 @@ class EloquentRepositoryTest extends TestCase
         $fakeRepository->delete(1);
         $this->assertNull($fakeRepository->find(1));
 
-        $this->assertSame(1, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2]))->count());
-        $this->assertSame(2, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2])->withTrashed())->count());
-        $this->assertSame(1, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2])->onlyTrashed())->count());
+        $this->assertEquals(1, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2]))->count());
+        $this->assertEquals(2, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2])->withTrashed())->count());
+        $this->assertEquals(1, $fakeRepository->get(Criteria::create()->whereIn('id', [1, 2])->onlyTrashed())->count());
 
         $fakeRepository->restore(1);
         $this->assertNotNull($fakeRepository->find(1));
@@ -208,7 +207,7 @@ class EloquentRepositoryTest extends TestCase
 
         $instance = $fakeRepository->newInstance(['foo' => 'bar']);
         $this->assertInstanceOf(FakeModel::class, $instance);
-        $this->assertSame('bar', $instance->foo);
+        $this->assertEquals('bar', $instance->foo);
         $this->assertFalse($instance->exists);
     }
 
@@ -217,15 +216,14 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame(
-            $fakeRepository->matching([
-                Criteria::create()->whereIn('id', [5, 9]),
-                Criteria::create()->orWhereIn('id', [1, 3]),
-                Criteria::create()->orderBy('id'),
-            ])
-                ->get()
-                ->toArray(),
-            FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
+        $criteria = [
+            Criteria::create()->whereIn('id', [5, 9]),
+            Criteria::create()->orWhereIn('id', [1, 3]),
+            Criteria::create()->orderBy('id'),
+        ];
+        $this->assertEquals(
+            FakeModel::query()->whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray(),
+            $fakeRepository->matching($criteria)->get()->toArray()
         );
     }
 
@@ -234,16 +232,15 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame(
-            $fakeRepository->get([
-                Criteria::create()->where(function ($query) {
-                    $query->whereIn('id', [1, 3])
-                        ->orWhereIn('id', [5, 9]);
-                }),
-                Criteria::create()->orderBy('id'),
-            ])
-                ->toArray(),
-            FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray()
+        $criteria = [
+            Criteria::create()->where(function ($query) {
+                $query->whereIn('id', [1, 3])->orWhereIn('id', [5, 9]);
+            }),
+            Criteria::create()->orderBy('id'),
+        ];
+        $this->assertEquals(
+            FakeModel::query()->whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->get()->toArray(),
+            $fakeRepository->get($criteria)->toArray()
         );
     }
 
@@ -253,7 +250,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeRepository = new FakeRepository($fakeModel);
 
         $fakeRepository->chunk(Criteria::create()->where('id', '>', Criteria::expr(0)), 10, function ($collection) {
-            $this->assertSame(10, $collection->count());
+            $this->assertEquals(10, $collection->count());
         });
     }
 
@@ -263,7 +260,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeRepository = new FakeRepository($fakeModel);
 
         $fakeRepository->each(Criteria::create()->where('id', '>', Criteria::raw(0)), function ($model) {
-            $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
+            $this->assertInstanceOf(Model::class, $model);
         });
     }
 
@@ -273,7 +270,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeRepository = new FakeRepository($fakeModel);
 
         $model = $fakeRepository->first(Criteria::create()->where('id', '>', 0));
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $model);
+        $this->assertInstanceOf(Model::class, $model);
     }
 
     public function test_paginate()
@@ -283,7 +280,7 @@ class EloquentRepositoryTest extends TestCase
 
         $paginate = $fakeRepository->paginate(Criteria::create()->where('id', '>', 0));
 
-        $this->assertSame(1, $paginate->currentPage());
+        $this->assertEquals(1, $paginate->currentPage());
     }
 
     public function test_simple_paginate()
@@ -293,7 +290,7 @@ class EloquentRepositoryTest extends TestCase
 
         $paginate = $fakeRepository->simplePaginate(Criteria::create()->where('id', '>', 0));
 
-        $this->assertSame(1, $paginate->currentPage());
+        $this->assertEquals(1, $paginate->currentPage());
     }
 
     public function test_count()
@@ -301,7 +298,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->count(Criteria::create()->where('id', '>', 0)), 50);
+        $this->assertEquals(50, $fakeRepository->count(Criteria::create()->where('id', '>', 0)));
     }
 
     public function test_min()
@@ -309,7 +306,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->min(Criteria::create()->where('id', '>=', 10), 'id'), '10');
+        $this->assertEquals(10, $fakeRepository->min(Criteria::create()->where('id', '>=', 10), 'id'));
     }
 
     public function test_max()
@@ -317,7 +314,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->max(Criteria::create()->where('id', '<=', 10), 'id'), '10');
+        $this->assertEquals(10, $fakeRepository->max(Criteria::create()->where('id', '<=', 10), 'id'));
     }
 
     public function test_sum()
@@ -325,7 +322,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->sum(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '55');
+        $this->assertEquals(55, $fakeRepository->sum(Criteria::create()->whereBetween('id', [1, 10]), 'id'));
     }
 
     public function test_average()
@@ -333,7 +330,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository($fakeModel);
 
-        $this->assertSame($fakeRepository->average(Criteria::create()->whereBetween('id', [1, 10]), 'id'), '5.5');
+        $this->assertEquals(5.5, $fakeRepository->average(Criteria::create()->whereBetween('id', [1, 10]), 'id'));
     }
 
     public function test_model_is_query()
@@ -341,7 +338,7 @@ class EloquentRepositoryTest extends TestCase
         $fakeModel = new FakeModel;
         $fakeRepository = new FakeRepository2($fakeModel);
 
-        $this->assertSame($fakeRepository->average([], 'id'), '5.5');
+        $this->assertEquals(5.5, $fakeRepository->average([], 'id'));
     }
 
     public function test_get_query()
@@ -352,16 +349,24 @@ class EloquentRepositoryTest extends TestCase
         $this->assertEquals(
             $fakeRepository->getQuery([
                 Criteria::create()->where(function ($query) {
-                    $query->whereIn('id', [1, 3])
-                        ->orWhereIn('id', [5, 9]);
+                    $query->whereIn('id', [1, 3])->orWhereIn('id', [5, 9]);
                 }),
                 Criteria::create()->orderBy('id'),
             ])->get()->toArray(),
-            FakeModel::whereIn('id', [5, 9])->orWhereIn('id', [1, 3])->orderBY('id')->getQuery()->get()->toArray()
+            FakeModel::query()
+                ->whereIn('id', [5, 9])
+                ->orWhereIn('id', [1, 3])
+                ->orderBY('id')
+                ->getQuery()
+                ->get()
+                ->toArray()
         );
     }
 }
 
+/**
+ * @mixin Builder
+ */
 class FakeModel extends SqliteModel
 {
     use SoftDeletes;
@@ -389,6 +394,7 @@ class FakeRepository2 extends EloquentRepository
 {
     public function __construct(Model $model)
     {
-        $this->model = $model->whereBetween('id', [1, 10]);
+        parent::__construct($model);
+        $this->model = $this->model->whereBetween('id', [1, 10]);
     }
 }

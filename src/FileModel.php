@@ -2,12 +2,14 @@
 
 namespace Recca0120\Repository;
 
+use Illuminate\Support\Collection;
+
 abstract class FileModel extends SqliteModel
 {
     /**
      * loadFromResource.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     abstract protected function loadFromResource();
 

@@ -3,6 +3,7 @@
 namespace Recca0120\Repository;
 
 use Illuminate\Container\Container;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Connectors\ConnectionFactory;
 
@@ -28,18 +29,19 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
      */
     private static $instance;
 
+    /** @var ConnectionFactory */
+    private $factory;
+
     public function __construct(ConnectionFactory $factory = null)
     {
-        $this->factory = $connectionFactory = new ConnectionFactory(
-            Container::getInstance() ?: new Container
-        );
+        $this->factory = $factory ?? new ConnectionFactory(Container::getInstance() ?: new Container);
     }
 
     /**
      * Get a database connection instance.
      *
-     * @param  string  $name
-     * @return \Illuminate\Database\ConnectionInterface
+     * @param string $name
+     * @return ConnectionInterface
      */
     public function connection($name = null)
     {
@@ -70,7 +72,7 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
     /**
      * Set the default connection name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return void
      */
     public function setDefaultConnection($name)

@@ -50,7 +50,7 @@ if (function_exists('env') === false) {
 }
 
 if (class_exists('Route') === false) {
-    class Route
+    class bootstrap
     {
         public static function __callStatic($method, $arguments)
         {

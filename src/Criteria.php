@@ -16,18 +16,18 @@ class Criteria
     /**
      * $methods.
      *
-     * @var \Recca0120\Repository\Method[]
+     * @var Method[]
      */
     protected $methods = [];
 
     /**
      * Handle dynamic method calls into the method.
      *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
+     * @param string $method
+     * @param array $parameters
+     * @return Criteria
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function __call($method, $parameters)
     {
@@ -63,7 +63,7 @@ class Criteria
 
     /**
      * @param mixed $value
-     * @return \Recca0120\Repository\Expression
+     * @return Expression
      */
     public static function raw($value)
     {
@@ -73,7 +73,7 @@ class Criteria
     /**
      * each.
      *
-     * @param  Closure $callback
+     * @param Closure $callback
      * @return void
      */
     public function each(Closure $callback)
@@ -90,7 +90,7 @@ class Criteria
      */
     public function toArray()
     {
-        return array_map(function ($method) {
+        return array_map(static function ($method) {
             return [
                 'method' => $method->name,
                 'parameters' => $method->parameters,

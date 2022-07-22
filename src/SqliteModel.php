@@ -2,6 +2,7 @@
 
 namespace Recca0120\Repository;
 
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Recca0120\Repository\SqliteConnectionResolver as ConnectionResolver;
@@ -29,7 +30,7 @@ abstract class SqliteModel extends Model
      * Resolve a connection instance.
      *
      * @param  string|null  $connection
-     * @return \Illuminate\Database\Connection
+     * @return ConnectionInterface
      */
     public static function resolveConnection($connection = null)
     {
@@ -37,7 +38,7 @@ abstract class SqliteModel extends Model
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @param string $table
      * @return string

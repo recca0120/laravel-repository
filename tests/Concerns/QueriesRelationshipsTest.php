@@ -2,6 +2,7 @@
 
 namespace Recca0120\Repository\Tests\Concerns;
 
+use Illuminate\Database\Eloquent\Builder;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
@@ -21,17 +22,11 @@ class QueriesRelationshipsTest extends TestCase
             $callback = function () {
             }
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'has',
-            'parameters' => [
-                $relation,
-                $operator,
-                $count,
-                $boolean,
-                $callback,
-            ],
+            'parameters' => [$relation, $operator, $count, $boolean, $callback],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_or_has()
@@ -41,15 +36,11 @@ class QueriesRelationshipsTest extends TestCase
             $operator = '<=',
             $count = 2
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'orHas',
-            'parameters' => [
-                $relation,
-                $operator,
-                $count,
-            ],
+            'parameters' => [$relation, $operator, $count],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_doesnt_have()
@@ -60,15 +51,11 @@ class QueriesRelationshipsTest extends TestCase
             $callback = function () {
             }
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'doesntHave',
-            'parameters' => [
-                $relation,
-                $boolean,
-                $callback,
-            ],
+            'parameters' => [$relation, $boolean, $callback],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_where_has()
@@ -80,16 +67,11 @@ class QueriesRelationshipsTest extends TestCase
             $operator = '<=',
             $count = 2
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'whereHas',
-            'parameters' => [
-                $relation,
-                $callback,
-                $operator,
-                $count,
-            ],
+            'parameters' => [$relation, $callback, $operator, $count],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_or_where_has()
@@ -101,16 +83,11 @@ class QueriesRelationshipsTest extends TestCase
             $operator = '<=',
             $count = 2
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'orWhereHas',
-            'parameters' => [
-                $relation,
-                $callback,
-                $operator,
-                $count,
-            ],
+            'parameters' => [$relation, $callback, $operator, $count],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_where_doesnt_have()
@@ -120,14 +97,11 @@ class QueriesRelationshipsTest extends TestCase
             $callback = function () {
             }
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'whereDoesntHave',
-            'parameters' => [
-                $relation,
-                $callback,
-            ],
+            'parameters' => [$relation, $callback],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_with_count()
@@ -135,68 +109,61 @@ class QueriesRelationshipsTest extends TestCase
         $criteria = Criteria::create()->withCount(
             $relation = 'foo'
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'withCount',
-            'parameters' => [
-                $relation,
-            ],
+            'parameters' => [$relation],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_with_max()
     {
         $criteria = Criteria::create()->withMax(
-            $relation = 'foo', $column = 'bar'
+            $relation = 'foo',
+            $column = 'bar'
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'withMax',
-            'parameters' => [
-                $relation, $column,
-            ],
+            'parameters' => [$relation, $column],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_with_min()
     {
         $criteria = Criteria::create()->withMin(
-            $relation = 'foo', $column = 'bar'
+            $relation = 'foo',
+            $column = 'bar'
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'withMin',
-            'parameters' => [
-                $relation, $column,
-            ],
+            'parameters' => [$relation, $column],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_with_sum()
     {
         $criteria = Criteria::create()->withSum(
-            $relation = 'foo', $column = 'bar'
+            $relation = 'foo',
+            $column = 'bar'
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'withSum',
-            'parameters' => [
-                $relation, $column,
-            ],
+            'parameters' => [$relation, $column],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
     public function test_merge_constraints_from()
     {
         $criteria = Criteria::create()->mergeConstraintsFrom(
-            $from = m::mock('Illuminate\Database\Eloquent\Builder')
+            $from = m::mock(Builder::class)
         );
-        $this->assertSame($criteria->toArray(), [[
+        $this->assertEquals($criteria->toArray(), [[
             'method' => 'mergeConstraintsFrom',
-            'parameters' => [
-                $from,
-            ],
+            'parameters' => [$from],
         ]]);
-        $this->assertInstanceOf('Recca0120\Repository\Criteria', $criteria);
+        $this->assertInstanceOf(Criteria::class, $criteria);
     }
 }
