@@ -19,16 +19,16 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * $model.
      *
-     * @var Model
+     * @var Model|Builder
      */
     protected $model;
 
     /**
      * __construct.
      *
-     * @param Model $model
+     * @param Model|Builder $model
      */
-    public function __construct(Model $model)
+    public function __construct($model)
     {
         $this->model = $model;
     }
@@ -122,8 +122,8 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Execute the query and get the first result or throw an exception.
      *
-     * @param array $columns
      * @param Criteria[] $criteria
+     * @param array $columns
      * @return Model
      *
      * @throws ModelNotFoundException
@@ -279,7 +279,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @param Criteria[]|Criteria $criteria
      * @param array $columns
-     * @return Model|static|null
+     * @return Model|null
      */
     public function first($criteria = [], $columns = ['*'])
     {
@@ -335,7 +335,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @param Criteria[]|Criteria $criteria
      * @param string $column
-     * @return mixed
+     * @return float|int
      */
     public function min($criteria, $column)
     {
@@ -347,7 +347,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @param Criteria[]|Criteria $criteria
      * @param string $column
-     * @return mixed
+     * @return float|int
      */
     public function max($criteria, $column)
     {
@@ -359,7 +359,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @param Criteria[]|Criteria $criteria
      * @param string $column
-     * @return mixed
+     * @return float|int
      */
     public function sum($criteria, $column)
     {
@@ -373,7 +373,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @param Criteria[]|Criteria $criteria
      * @param string $column
-     * @return mixed
+     * @return float|int
      */
     public function avg($criteria, $column)
     {
@@ -384,7 +384,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Alias for the "avg" method.
      *
      * @param string $column
-     * @return mixed
+     * @return float|int
      */
     public function average($criteria, $column)
     {
@@ -402,7 +402,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
         $criteria = is_array($criteria) === false ? [$criteria] : $criteria;
 
         return array_reduce($criteria, static function ($query, $criteria) {
-            $criteria->each(function ($method) use ($query) {
+            $criteria->each(static function ($method) use ($query) {
                 call_user_func_array([$query, $method->name], $method->parameters);
             });
 
@@ -428,9 +428,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function getModel()
     {
-        return $this->model instanceof Model
-            ? clone $this->model
-            : $this->model->getModel();
+        return $this->model instanceof Model ? clone $this->model : $this->model->getModel();
     }
 
     /**
@@ -440,8 +438,6 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function newQuery()
     {
-        return $this->model instanceof Model
-            ? $this->model->newQuery()
-            : clone $this->model;
+        return $this->model instanceof Model ? $this->model->newQuery() : clone $this->model;
     }
 }
