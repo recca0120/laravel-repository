@@ -209,7 +209,7 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      */
     public function restore($id)
     {
-        return $this->newQuery()->restore($id);
+        return $this->newQuery()->where($this->getModel()->getKeyName(), $id)->restore();
     }
 
     /**
