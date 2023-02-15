@@ -16,7 +16,7 @@ abstract class FileModel extends SqliteModel
     /**
      * initializeTable.
      *
-     * @param string $table
+     * @param  string  $table
      * @return void
      */
     protected function initializeTable($table)

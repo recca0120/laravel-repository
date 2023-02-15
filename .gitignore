@@ -7,6 +7,7 @@ composer.phar
 composer.lock
 .php_cs.cache
 .DS_Store
+/.phpunit.cache
 .phpunit.result.cache
 .php-cs-fixer.cache
 Thumbs.db

@@ -18,8 +18,8 @@ interface EloquentRepository
     /**
      * Find a model by its primary key.
      *
-     * @param mixed $id
-     * @param array $columns
+     * @param  mixed  $id
+     * @param  array  $columns
      * @return Model|Collection|static[]|static|null
      */
     public function find($id, $columns = ['*']);
@@ -27,8 +27,8 @@ interface EloquentRepository
     /**
      * Find multiple models by their primary keys.
      *
-     * @param Arrayable|array $ids
-     * @param array $columns
+     * @param  Arrayable|array  $ids
+     * @param  array  $columns
      * @return Collection
      */
     public function findMany($ids, $columns = ['*']);
@@ -36,8 +36,8 @@ interface EloquentRepository
     /**
      * Find a model by its primary key or throw an exception.
      *
-     * @param mixed $id
-     * @param array $columns
+     * @param  mixed  $id
+     * @param  array  $columns
      * @return Model|Collection
      *
      * @throws ModelNotFoundException
@@ -47,8 +47,8 @@ interface EloquentRepository
     /**
      * Find a model by its primary key or return fresh model instance.
      *
-     * @param mixed $id
-     * @param array $columns
+     * @param  mixed  $id
+     * @param  array  $columns
      * @return Model
      */
     public function findOrNew($id, $columns = ['*']);
@@ -56,8 +56,8 @@ interface EloquentRepository
     /**
      * Get the first record matching the attributes or instantiate it.
      *
-     * @param array $attributes
-     * @param array $values
+     * @param  array  $attributes
+     * @param  array  $values
      * @return Model
      */
     public function firstOrNew(array $attributes, array $values = []);
@@ -65,8 +65,8 @@ interface EloquentRepository
     /**
      * Get the first record matching the attributes or create it.
      *
-     * @param array $attributes
-     * @param array $values
+     * @param  array  $attributes
+     * @param  array  $values
      * @return Model
      */
     public function firstOrCreate(array $attributes, array $values = []);
@@ -74,8 +74,8 @@ interface EloquentRepository
     /**
      * Create or update a record matching the attributes, and fill it with values.
      *
-     * @param array $attributes
-     * @param array $values
+     * @param  array  $attributes
+     * @param  array  $values
      * @return Model
      */
     public function updateOrCreate(array $attributes, array $values = []);
@@ -83,8 +83,8 @@ interface EloquentRepository
     /**
      * Execute the query and get the first result or throw an exception.
      *
-     * @param array $columns
-     * @param Criteria[]|Criteria $criteria
+     * @param  array  $columns
+     * @param  Criteria[]|Criteria  $criteria
      * @return Model|static
      *
      * @throws ModelNotFoundException
@@ -94,7 +94,7 @@ interface EloquentRepository
     /**
      * create.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      * @return Model
      *
      * @throws Throwable
@@ -104,7 +104,7 @@ interface EloquentRepository
     /**
      * Save a new model and return the instance.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      * @return Model
      *
      * @throws Throwable
@@ -114,8 +114,8 @@ interface EloquentRepository
     /**
      * update.
      *
-     * @param array $attributes
-     * @param mixed $id
+     * @param  array  $attributes
+     * @param  mixed  $id
      * @return Model
      *
      * @throws Throwable
@@ -125,8 +125,8 @@ interface EloquentRepository
     /**
      * forceCreate.
      *
-     * @param array $attributes
-     * @param mixed $id
+     * @param  array  $attributes
+     * @param  mixed  $id
      * @return Model
      *
      * @throws Throwable
@@ -136,7 +136,7 @@ interface EloquentRepository
     /**
      * delete.
      *
-     * @param mixed $id
+     * @param  mixed  $id
      */
     public function delete($id);
 
@@ -145,7 +145,7 @@ interface EloquentRepository
      *
      * This method protects developers from running forceDelete when trait is missing.
      *
-     * @param mixed $id
+     * @param  mixed  $id
      * @return bool|null
      */
     public function forceDelete($id);
@@ -153,7 +153,7 @@ interface EloquentRepository
     /**
      * Create a new model instance that is existing.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      * @return Model
      */
     public function newInstance($attributes = [], $exists = false);
@@ -161,8 +161,8 @@ interface EloquentRepository
     /**
      * Execute the query as a "select" statement.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param array $columns
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  array  $columns
      * @return \Illuminate\Support\Collection
      */
     public function get($criteria = [], $columns = ['*']);
@@ -170,9 +170,9 @@ interface EloquentRepository
     /**
      * Chunk the results of the query.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param int $count
-     * @param callable $callback
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  int  $count
+     * @param  callable  $callback
      * @return bool
      */
     public function chunk($criteria, $count, callable $callback);
@@ -180,9 +180,9 @@ interface EloquentRepository
     /**
      * Execute a callback over each item while chunking.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param callable $callback
-     * @param int $count
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  callable  $callback
+     * @param  int  $count
      * @return bool
      */
     public function each($criteria, callable $callback, $count = 1000);
@@ -190,8 +190,8 @@ interface EloquentRepository
     /**
      * Execute the query and get the first result.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param array $columns
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  array  $columns
      * @return Model|static|null
      */
     public function first($criteria = [], $columns = ['*']);
@@ -199,11 +199,11 @@ interface EloquentRepository
     /**
      * Paginate the given query.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param int $perPage
-     * @param array $columns
-     * @param string $pageName
-     * @param int|null $page
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
      * @return LengthAwarePaginator
      *
      * @throws InvalidArgumentException
@@ -213,11 +213,11 @@ interface EloquentRepository
     /**
      * Paginate the given query into a simple paginator.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param int $perPage
-     * @param array $columns
-     * @param string $pageName
-     * @param int|null $page
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  int  $perPage
+     * @param  array  $columns
+     * @param  string  $pageName
+     * @param  int|null  $page
      * @return Paginator
      */
     public function simplePaginate($criteria = [], $perPage = null, $columns = ['*'], $pageName = 'page', $page = null);
@@ -225,8 +225,8 @@ interface EloquentRepository
     /**
      * Retrieve the "count" result of the query.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param string $columns
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  string  $columns
      * @return int
      */
     public function count($criteria = [], $columns = '*');
@@ -234,8 +234,8 @@ interface EloquentRepository
     /**
      * Retrieve the minimum value of a given column.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param string $column
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  string  $column
      * @return mixed
      */
     public function min($criteria, $column);
@@ -243,8 +243,8 @@ interface EloquentRepository
     /**
      * Retrieve the maximum value of a given column.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param string $column
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  string  $column
      * @return mixed
      */
     public function max($criteria, $column);
@@ -252,8 +252,8 @@ interface EloquentRepository
     /**
      * Retrieve the sum of the values of a given column.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param string $column
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  string  $column
      * @return mixed
      */
     public function sum($criteria, $column);
@@ -261,8 +261,8 @@ interface EloquentRepository
     /**
      * Retrieve the average of the values of a given column.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param string $column
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  string  $column
      * @return mixed
      */
     public function avg($criteria, $column);
@@ -270,8 +270,8 @@ interface EloquentRepository
     /**
      * Alias for the "avg" method.
      *
-     * @param Criteria[]|Criteria $criteria
-     * @param string $column
+     * @param  Criteria[]|Criteria  $criteria
+     * @param  string  $column
      * @return mixed
      */
     public function average($criteria, $column);
@@ -279,7 +279,7 @@ interface EloquentRepository
     /**
      * matching.
      *
-     * @param Criteria[]|Criteria $criteria
+     * @param  Criteria[]|Criteria  $criteria
      * @return Builder
      */
     public function matching($criteria);
@@ -287,7 +287,7 @@ interface EloquentRepository
     /**
      * getQuery.
      *
-     * @param Criteria[]|Criteria $criteria
+     * @param  Criteria[]|Criteria  $criteria
      * @return Builder
      */
     public function getQuery($criteria = []);

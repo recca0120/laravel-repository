@@ -38,9 +38,9 @@ abstract class SqliteModel extends Model
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
-     * @param string $table
+     * @param  string  $table
      * @return string
      */
     protected function createTable($table)
@@ -66,7 +66,7 @@ abstract class SqliteModel extends Model
     /**
      * createSchema.
      *
-     * @param  Blueprint $table
+     * @param  Blueprint  $table
      * @return void
      */
     abstract protected function createSchema(Blueprint $table);

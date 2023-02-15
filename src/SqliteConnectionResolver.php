@@ -22,6 +22,7 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
      * @var string
      */
     protected $default = 'default';
+
     /**
      * The current globally available container (if any).
      *
@@ -40,7 +41,7 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
     /**
      * Get a database connection instance.
      *
-     * @param string $name
+     * @param  string  $name
      * @return ConnectionInterface
      */
     public function connection($name = null)
@@ -72,7 +73,7 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
     /**
      * Set the default connection name.
      *
-     * @param string $name
+     * @param  string  $name
      * @return void
      */
     public function setDefaultConnection($name)

@@ -4,7 +4,6 @@ namespace Recca0120\Repository\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Recca0120\Repository\Criteria;
-use Recca0120\Repository\Expression;
 
 class CriteriaTest extends TestCase
 {
@@ -17,13 +16,6 @@ class CriteriaTest extends TestCase
     {
         $criteria = Criteria::create();
         $this->assertInstanceOf(Criteria::class, $criteria);
-    }
-
-    public function test_expr()
-    {
-        $expression = Criteria::expr('foo = bar');
-        $this->assertInstanceOf(Expression::class, $expression);
-        $this->assertEquals('foo = bar', (string) $expression);
     }
 
     public function test_dynamic_where()

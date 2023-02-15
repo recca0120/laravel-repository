@@ -23,6 +23,7 @@ class Criteria
         EloquentBuilder::class,
         QueryBuilder::class,
     ];
+
     /**
      * $methods.
      *
@@ -35,8 +36,8 @@ class Criteria
     /**
      * Handle dynamic method calls into the method.
      *
-     * @param string $method
-     * @param array $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      * @return Criteria
      *
      * @throws BadMethodCallException
@@ -73,7 +74,7 @@ class Criteria
     /**
      * alias raw.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return Expression
      */
     public static function expr($value)
@@ -82,7 +83,7 @@ class Criteria
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed  $value
      * @return Expression
      */
     public static function raw($value)
@@ -93,7 +94,7 @@ class Criteria
     /**
      * each.
      *
-     * @param Closure $callback
+     * @param  Closure  $callback
      * @return void
      */
     public function each(Closure $callback)
@@ -129,8 +130,9 @@ class Criteria
     }
 
     /**
-     * @param string $class
+     * @param  string  $class
      * @return string[]
+     *
      * @throws ReflectionException
      */
     private function findMethods($class)
@@ -147,8 +149,9 @@ class Criteria
     }
 
     /**
-     * @param string $method
+     * @param  string  $method
      * @return bool
+     *
      * @throws ReflectionException
      */
     private function hasMethod(string $method)

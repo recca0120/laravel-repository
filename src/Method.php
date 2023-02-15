@@ -19,8 +19,8 @@ class Method
     public $parameters;
 
     /**
-     * @param string $name
-     * @param mixed  $parameters
+     * @param  string  $name
+     * @param  mixed  $parameters
      */
     public function __construct($name, $parameters = [])
     {
