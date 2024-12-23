@@ -33,7 +33,7 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
     /** @var ConnectionFactory */
     private $factory;
 
-    public function __construct(ConnectionFactory $factory = null)
+    public function __construct(?ConnectionFactory $factory = null)
     {
         $this->factory = $factory ?? new ConnectionFactory(Container::getInstance() ?: new Container);
     }
@@ -86,7 +86,7 @@ class SqliteConnectionResolver implements ConnectionResolverInterface
      *
      * @return static
      */
-    public static function getInstance(ConnectionFactory $factory = null)
+    public static function getInstance(?ConnectionFactory $factory = null)
     {
         if (is_null(static::$instance)) {
             static::$instance = new static($factory);

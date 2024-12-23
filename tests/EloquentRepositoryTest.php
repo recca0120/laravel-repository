@@ -32,7 +32,7 @@ class EloquentRepositoryTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $fakeModel = new FakeModel();
+        $fakeModel = new FakeModel;
         $fakeModel->truncate();
     }
 
@@ -386,9 +386,7 @@ class FakeModel extends SqliteModel
     }
 }
 
-class FakeRepository extends EloquentRepository
-{
-}
+class FakeRepository extends EloquentRepository {}
 
 class FakeRepository2 extends EloquentRepository
 {

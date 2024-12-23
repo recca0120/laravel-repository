@@ -68,7 +68,7 @@ class Criteria
      */
     public static function create()
     {
-        return new static();
+        return new static;
     }
 
     /**
@@ -94,7 +94,6 @@ class Criteria
     /**
      * each.
      *
-     * @param  Closure  $callback
      * @return void
      */
     public function each(Closure $callback)
@@ -149,7 +148,6 @@ class Criteria
     }
 
     /**
-     * @param  string  $method
      * @return bool
      *
      * @throws ReflectionException

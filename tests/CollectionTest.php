@@ -38,6 +38,4 @@ class FakeCollectionModel extends CollectionModel
     }
 }
 
-class FakeCollectionRepository extends EloquentRepository
-{
-}
+class FakeCollectionRepository extends EloquentRepository {}

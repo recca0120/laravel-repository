@@ -66,7 +66,6 @@ abstract class SqliteModel extends Model
     /**
      * createSchema.
      *
-     * @param  Blueprint  $table
      * @return void
      */
     abstract protected function createSchema(Blueprint $table);

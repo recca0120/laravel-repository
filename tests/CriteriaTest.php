@@ -24,7 +24,7 @@ class CriteriaTest extends TestCase
     {
         $expression = Criteria::expr('foo = bar');
         $this->assertInstanceOf(Expression::class, $expression);
-        $this->assertEquals('foo = bar', $expression->getValue(new MySqlGrammar()));
+        $this->assertEquals('foo = bar', $expression->getValue(new MySqlGrammar));
     }
 
     public function test_dynamic_where()

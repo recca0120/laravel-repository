@@ -56,8 +56,6 @@ interface EloquentRepository
     /**
      * Get the first record matching the attributes or instantiate it.
      *
-     * @param  array  $attributes
-     * @param  array  $values
      * @return Model
      */
     public function firstOrNew(array $attributes, array $values = []);
@@ -65,8 +63,6 @@ interface EloquentRepository
     /**
      * Get the first record matching the attributes or create it.
      *
-     * @param  array  $attributes
-     * @param  array  $values
      * @return Model
      */
     public function firstOrCreate(array $attributes, array $values = []);
@@ -74,8 +70,6 @@ interface EloquentRepository
     /**
      * Create or update a record matching the attributes, and fill it with values.
      *
-     * @param  array  $attributes
-     * @param  array  $values
      * @return Model
      */
     public function updateOrCreate(array $attributes, array $values = []);
@@ -172,7 +166,6 @@ interface EloquentRepository
      *
      * @param  Criteria[]|Criteria  $criteria
      * @param  int  $count
-     * @param  callable  $callback
      * @return bool
      */
     public function chunk($criteria, $count, callable $callback);
@@ -181,7 +174,6 @@ interface EloquentRepository
      * Execute a callback over each item while chunking.
      *
      * @param  Criteria[]|Criteria  $criteria
-     * @param  callable  $callback
      * @param  int  $count
      * @return bool
      */

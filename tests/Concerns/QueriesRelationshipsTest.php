@@ -19,8 +19,7 @@ class QueriesRelationshipsTest extends TestCase
             $operator = '<=',
             $count = 2,
             $boolean = 'or',
-            $callback = function () {
-            }
+            $callback = function () {}
         );
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'has',
@@ -48,8 +47,7 @@ class QueriesRelationshipsTest extends TestCase
         $criteria = Criteria::create()->doesntHave(
             $relation = 'foo',
             $boolean = 'or',
-            $callback = function () {
-            }
+            $callback = function () {}
         );
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'doesntHave',
@@ -62,8 +60,7 @@ class QueriesRelationshipsTest extends TestCase
     {
         $criteria = Criteria::create()->whereHas(
             $relation = 'foo',
-            $callback = function () {
-            },
+            $callback = function () {},
             $operator = '<=',
             $count = 2
         );
@@ -78,8 +75,7 @@ class QueriesRelationshipsTest extends TestCase
     {
         $criteria = Criteria::create()->orWhereHas(
             $relation = 'foo',
-            $callback = function () {
-            },
+            $callback = function () {},
             $operator = '<=',
             $count = 2
         );
@@ -94,8 +90,7 @@ class QueriesRelationshipsTest extends TestCase
     {
         $criteria = Criteria::create()->whereDoesntHave(
             $relation = 'foo',
-            $callback = function () {
-            }
+            $callback = function () {}
         );
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'whereDoesntHave',

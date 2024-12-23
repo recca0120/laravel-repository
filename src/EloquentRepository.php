@@ -86,8 +86,6 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Get the first record matching the attributes or instantiate it.
      *
-     * @param  array  $attributes
-     * @param  array  $values
      * @return Model
      */
     public function firstOrNew(array $attributes, array $values = [])
@@ -98,8 +96,6 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Get the first record matching the attributes or create it.
      *
-     * @param  array  $attributes
-     * @param  array  $values
      * @return Model
      */
     public function firstOrCreate(array $attributes, array $values = [])
@@ -110,8 +106,6 @@ abstract class EloquentRepository implements EloquentRepositoryContract
     /**
      * Create or update a record matching the attributes, and fill it with values.
      *
-     * @param  array  $attributes
-     * @param  array  $values
      * @return Model
      */
     public function updateOrCreate(array $attributes, array $values = [])
@@ -253,7 +247,6 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      *
      * @param  Criteria[]|Criteria  $criteria
      * @param  int  $count
-     * @param  callable  $callback
      * @return bool
      */
     public function chunk($criteria, $count, callable $callback)
@@ -265,7 +258,6 @@ abstract class EloquentRepository implements EloquentRepositoryContract
      * Execute a callback over each item while chunking.
      *
      * @param  Criteria[]|Criteria  $criteria
-     * @param  callable  $callback
      * @param  int  $count
      * @return bool
      */

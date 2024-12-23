@@ -1,4 +1,5 @@
 <?php
+
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader
@@ -57,8 +58,6 @@ if (class_exists('Route') === false) {
             return new static;
         }
 
-        public function __call($method, $arguments)
-        {
-        }
+        public function __call($method, $arguments) {}
     }
 }

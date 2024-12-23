@@ -192,8 +192,7 @@ class BuildsQueriesTest extends TestCase
 
     public function test_tap()
     {
-        $criteria = Criteria::create()->tap($callback = function () {
-        });
+        $criteria = Criteria::create()->tap($callback = function () {});
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'tap',
             'parameters' => [$callback],
@@ -553,8 +552,7 @@ class BuildsQueriesTest extends TestCase
     public function test_where_nested()
     {
         $criteria = Criteria::create()->whereNested(
-            $callback = function () {
-            },
+            $callback = function () {},
             $boolean = 'or'
         );
         $this->assertEquals($criteria->toArray(), [[
@@ -580,8 +578,7 @@ class BuildsQueriesTest extends TestCase
     public function test_where_exists()
     {
         $criteria = Criteria::create()->whereExists(
-            $callback = function () {
-            },
+            $callback = function () {},
             $boolean = 'or',
             $not = true
         );
@@ -595,8 +592,7 @@ class BuildsQueriesTest extends TestCase
     public function test_or_where_exists()
     {
         $criteria = Criteria::create()->orWhereExists(
-            $callback = function () {
-            },
+            $callback = function () {},
             $not = true
         );
         $this->assertEquals($criteria->toArray(), [[
@@ -609,8 +605,7 @@ class BuildsQueriesTest extends TestCase
     public function test_where_not_exists()
     {
         $criteria = Criteria::create()->whereNotExists(
-            $callback = function () {
-            },
+            $callback = function () {},
             $boolean = 'or'
         );
         $this->assertEquals($criteria->toArray(), [[
@@ -623,8 +618,7 @@ class BuildsQueriesTest extends TestCase
     public function test_or_where_not_exists()
     {
         $criteria = Criteria::create()->orWhereNotExists(
-            $callback = function () {
-            }
+            $callback = function () {}
         );
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'orWhereNotExists',
@@ -904,7 +898,7 @@ class BuildsQueriesTest extends TestCase
         $this->assertInstanceOf(Criteria::class, $criteria);
     }
 
-    public function testLock()
+    public function test_lock()
     {
         $criteria = Criteria::create()->lock(
             $value = false
@@ -940,10 +934,8 @@ class BuildsQueriesTest extends TestCase
     {
         $criteria = Criteria::create()->when(
             $value = true,
-            $callback = function () {
-            },
-            $default = function () {
-            }
+            $callback = function () {},
+            $default = function () {}
         );
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'when',
@@ -956,10 +948,8 @@ class BuildsQueriesTest extends TestCase
     {
         $criteria = Criteria::create()->unless(
             $value = true,
-            $callback = function () {
-            },
-            $default = function () {
-            }
+            $callback = function () {},
+            $default = function () {}
         );
         $this->assertEquals($criteria->toArray(), [[
             'method' => 'unless',
